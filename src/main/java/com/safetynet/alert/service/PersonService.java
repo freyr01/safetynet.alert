@@ -28,4 +28,18 @@ public class PersonService {
 		return filteredPersons;
 	}
 	
+	public List<String> getPersonEmailByCity(String city) {
+		ArrayList<String> emails = new ArrayList<String>();
+		for(Person p : personDao.findAll()) {
+			if(p.getCity().equals(city)) {
+				String email = p.getEmail();
+				if( ! emails.contains(email)) {
+					emails.add(p.getEmail());
+				}
+			}
+		}
+		
+		return emails;
+	}
+	
 }

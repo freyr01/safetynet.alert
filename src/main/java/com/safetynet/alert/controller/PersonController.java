@@ -18,8 +18,13 @@ public class PersonController {
 	
 	
 	@GetMapping(value="/personInfo")
-	public List<Person> getPersonByFullName(@RequestParam String firstName, @RequestParam String lastname) {
-		return personService.getPersonByFullName(firstName, lastname);
+	public List<Person> getPersonByFullName(@RequestParam String firstName, @RequestParam String lastName) {
+		return personService.getPersonByFullName(firstName, lastName);
+	}
+	
+	@GetMapping(value="/communityEmail")
+	public List<String> getPersonEmailByCity(@RequestParam String city){
+		return personService.getPersonEmailByCity(city);
 	}
  	
 }
