@@ -22,7 +22,7 @@ public class DatabaseDAO {
 		ObjectMapper objectMapper = new ObjectMapper();
 		
 		ResourceLoader resourceLoader = new DefaultResourceLoader();
-		Resource res = resourceLoader.getResource("classpath:static/data.json");
+		Resource res = resourceLoader.getResource("classpath:data.json");
 		InputStream is = null;
 		try {
 			is = res.getInputStream();
@@ -30,7 +30,9 @@ public class DatabaseDAO {
 		} catch (IOException e) {
 			log.error("Error while reading resource", e);
 		} finally {
-			closeIs(is);
+			if(is != null) {
+				closeIs(is);
+			}
 		}
 		
 	}
