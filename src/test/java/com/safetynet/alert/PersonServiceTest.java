@@ -13,9 +13,9 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.safetynet.alert.dao.PersonDAO;
+import com.safetynet.alert.dao.PersonDAOImpl;
 import com.safetynet.alert.model.Person;
-import com.safetynet.alert.service.PersonService;
+import com.safetynet.alert.service.PersonServiceImpl;
 
 @SpringBootTest
 public class PersonServiceTest {
@@ -34,10 +34,10 @@ public class PersonServiceTest {
 	}
 	
 	@Mock
-	PersonDAO personDao;
+	PersonDAOImpl personDao;
 	
 	@InjectMocks
-	PersonService personService;
+	PersonServiceImpl personService;
 	
 	@Test
 	public void getPersonByFullNameTest_shouldReturnWantedPerson() {

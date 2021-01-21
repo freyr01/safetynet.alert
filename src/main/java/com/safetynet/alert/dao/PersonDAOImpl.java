@@ -8,7 +8,7 @@ import com.safetynet.alert.model.Person;
 import java.util.List;
 
 @Repository
-public class PersonDAO {
+public class PersonDAOImpl implements IPersonDAO {
 	
 	@Autowired
 	DatabaseDAO db;
