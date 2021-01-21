@@ -25,9 +25,13 @@ public class PersonServiceTest {
 		Person p1 = new Person();
 		p1.setFirstName("Eric");
 		p1.setLastName("Jori");
+		p1.setCity("Antibes");
+		p1.setEmail("eric.jori@gmail.com");
 		Person p2 = new Person();
 		p2.setFirstName("Samantha");
 		p2.setLastName("Carson");
+		p2.setCity("Paris");
+		p2.setEmail("samantha.carson@gmail.com");
 		
 		persons.add(p1);
 		persons.add(p2);
@@ -43,10 +47,21 @@ public class PersonServiceTest {
 	public void getPersonByFullNameTest_shouldReturnWantedPerson() {
 
 		when(personDao.findAll()).thenReturn(persons);
+		
 		List<Person> filteredPersons = personService.getPersonByFullName("Samantha", "Carson");
 		
 		verify(personDao, Mockito.times(1)).findAll();
 		assertEquals("Samantha", filteredPersons.get(0).getFirstName());
+	}
+	
+	@Test
+	public void getPersonEmailByCity_shouldReturnEmail() {
+		when(personDao.findAll()).thenReturn(persons);
+		
+		List<String> mails = personService.getPersonEmailByCity("Antibes");
+		
+		verify(personDao, Mockito.times(1)).findAll();
+		assertEquals("eric.jori@gmail.com", mails.get(0));
 	}
 
 }
