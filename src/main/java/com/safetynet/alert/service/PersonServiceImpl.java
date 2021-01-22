@@ -1,19 +1,30 @@
 package com.safetynet.alert.service;
 
+import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.safetynet.alert.dao.IPersonDAO;
 import com.safetynet.alert.dao.PersonDAOImpl;
 import com.safetynet.alert.model.Person;
+
+import lombok.Data;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class PersonServiceImpl implements IPersonService{
+	
+	Logger log = LoggerFactory.getLogger(PersonServiceImpl.class);
 
 	@Autowired
-	private PersonDAOImpl personDao;
+	private IPersonDAO personDao;
+	
+	@Autowired
+	private IMedicalRecordService medicalRecordService;
 	
 	/**
 	 * Get persons informations by their full name
@@ -57,24 +68,48 @@ public class PersonServiceImpl implements IPersonService{
 	}
 	
 	public List<Object> getChildByAddress(String address) {
+		if(address == null) {
+			log.error("null arg not allowed");
+			return null;
+		}
 		List<Person> persons = personDao.findAll();
 		List<Person> personsAtAddress = new ArrayList<Person>();
-		
-		Person foundChild;
+		List<Object> childs = new ArrayList<Object>();
+
 		for(Person p : persons) {
 			if(p.getAddress().equals(address)) {
-				//TODO Check if this person is a child, do particular process if it is
 				personsAtAddress.add(p);
 			}
 		}
-		List<Object> childs = new ArrayList<Object>();
-		Object child = new Object() {
-			String firstName;
-			String lastName;
-			String age;
-			List<Person> otherMember;
-		};
-		childs.add(child);
+		
+		for(Person p : personsAtAddress) {
+			int personAge = medicalRecordService.getAgeOf(p.getFirstName(), p.getLastName());
+			if(personAge <= 18) {
+				List<Person> notherMember = new ArrayList<Person>(personsAtAddress);
+				notherMember.remove(p);
+
+				Object child = new Object() {
+					String firstName = p.getFirstName();
+					String lastName = p.getLastName();
+					int age = personAge;
+					List<Person> otherMember = notherMember;
+					public String getFirstName() {
+						return firstName;
+					}
+					public String getLastName() {
+						return lastName;
+					}
+					public int getAge() {
+						return age;
+					}
+					public List<Person> getOtherMember() {
+						return otherMember;
+					}
+				};
+				childs.add(child);
+			}
+		}
+		
 		return childs;
 	}
 	

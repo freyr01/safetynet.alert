@@ -8,10 +8,12 @@ import java.time.format.DateTimeParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.safetynet.alert.dao.IMedicalRecordDAO;
 import com.safetynet.alert.model.MedicalRecord;
 
+@Service
 public class MedicalRecordServiceImpl implements IMedicalRecordService {
 
 	Logger log = LoggerFactory.getLogger(MedicalRecordServiceImpl.class);
