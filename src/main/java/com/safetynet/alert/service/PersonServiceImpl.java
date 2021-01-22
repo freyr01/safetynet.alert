@@ -56,4 +56,26 @@ public class PersonServiceImpl implements IPersonService{
 		return emails;
 	}
 	
+	public List<Object> getChildByAddress(String address) {
+		List<Person> persons = personDao.findAll();
+		List<Person> personsAtAddress = new ArrayList<Person>();
+		
+		Person foundChild;
+		for(Person p : persons) {
+			if(p.getAddress().equals(address)) {
+				//TODO Check if this person is a child, do particular process if it is
+				personsAtAddress.add(p);
+			}
+		}
+		List<Object> childs = new ArrayList<Object>();
+		Object child = new Object() {
+			String firstName;
+			String lastName;
+			String age;
+			List<Person> otherMember;
+		};
+		childs.add(child);
+		return childs;
+	}
+	
 }
