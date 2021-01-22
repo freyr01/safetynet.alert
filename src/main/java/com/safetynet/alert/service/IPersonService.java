@@ -8,5 +8,6 @@ public interface IPersonService {
 	
 	public List<Person> getPersonByFullName(String firstName, String lastname);
 	public List<String> getPersonEmailByCity(String city);
+	public List<Object> getChildByAddress(String address);
 
 }
