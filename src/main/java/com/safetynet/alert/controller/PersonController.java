@@ -31,5 +31,10 @@ public class PersonController {
 	public List<String> getPersonEmailByCity(@RequestParam String city){
 		return personService.getPersonEmailByCity(city);
 	}
+	
+	@GetMapping(value = "/childAlert")
+	public List<Object> getChildByAddress(@RequestParam String address){
+		return personService.getChildByAddress(address);
+	}
  	
 }
