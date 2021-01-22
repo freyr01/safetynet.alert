@@ -22,8 +22,18 @@ public class PersonControllerTest {
 	PersonServiceImpl personService;
 	
 	@Test
-	public void testGetPersonEmail() throws Exception {
-		mockMvc.perform(get("/communityEmail?city=test")).andExpect(status().isOk());
+	public void testEndpointCommunityEmail() throws Exception {
+		mockMvc.perform(get("/communityEmail?city=?")).andExpect(status().isOk());
+	}
+	
+	@Test
+	public void testEndpointPersonInfo() throws Exception {
+		mockMvc.perform(get("/personInfo?firstName=?&lastName=?")).andExpect(status().isOk());
 	}
 
+	@Test
+	public void testEndpointChildAlert() throws Exception {
+		mockMvc.perform(get("/childAlert?address=?")).andExpect(status().isOk());
+	}
+	
 }

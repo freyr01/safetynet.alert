@@ -63,7 +63,7 @@ public class PersonServiceTest {
 	}
 	
 	@Test
-	public void getPersonEmailByCity_shouldReturnEmail() {
+	public void getPersonEmailByCityTest_shouldReturnAtLeastOneEmail() {
 		when(personDao.findAll()).thenReturn(persons);
 		
 		List<String> mails = personService.getPersonEmailByCity("Antibes");
@@ -73,7 +73,7 @@ public class PersonServiceTest {
 	}
 	
 	@Test
-	public void getAgeOfTest() {
+	public void getChildByAddressTest_shouldReturnAtLeastOneObject() {
 		when(medicalRecordService.getAgeOf("Samantha", "Carson")).thenReturn(12);
 		when(personDao.findAll()).thenReturn(persons);
 		List<Object> child = personService.getChildByAddress("123 Gare st Lazare");
