@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.anyString;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -78,6 +79,8 @@ public class PersonServiceTest {
 		when(personDao.findAll()).thenReturn(persons);
 		List<Object> child = personService.getChildByAddress("123 Gare st Lazare");
 		
+		verify(medicalRecordService, Mockito.times(1)).getAgeOf(anyString(), anyString());
+		verify(personDao, Mockito.times(1)).findAll();
 		assertNotNull(child.get(0));
 	}
 
