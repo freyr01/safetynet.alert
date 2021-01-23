@@ -89,7 +89,7 @@ public class PersonServiceImpl implements IPersonService{
 		return childs;
 	}
 
-	public void add(String firstName, String lastName, String address, String city, String zip, String phone,
+	public Person add(String firstName, String lastName, String address, String city, String zip, String phone,
 			String email) {
 		Person newPerson = new Person();
 		newPerson.setFirstName(firstName);
@@ -101,6 +101,8 @@ public class PersonServiceImpl implements IPersonService{
 		newPerson.setEmail(email);
 		
 		personDao.save(newPerson);
+		
+		return newPerson;
 	}
 	
 }

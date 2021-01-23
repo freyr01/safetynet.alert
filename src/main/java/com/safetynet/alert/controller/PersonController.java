@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -39,15 +40,16 @@ public class PersonController {
 	}
 	
 	@PostMapping(value = "/person")
-	public void addPerson(@RequestParam String firstName,
-							@RequestParam String lastName,
-							@RequestParam String address,
-							@RequestParam String city,
-							@RequestParam String zip,
-							@RequestParam String phone, 
-							@RequestParam String email) {
+	public Person addPerson(@RequestBody String firstName,
+							@RequestBody String lastName,
+							@RequestBody String address,
+							@RequestBody String city,
+							@RequestBody String zip,
+							@RequestBody String phone, 
+							@RequestBody String email) {
 		
-		//personService.addPerson(firstName, lastName, address, city, zip, phone, email);
+		return personService.add(firstName, lastName, address, city, zip, phone, email);
 	}
- 	
+	
+
 }

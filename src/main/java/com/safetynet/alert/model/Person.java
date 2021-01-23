@@ -13,6 +13,20 @@ public class Person {
 	private String phone;
 	private String email;
 	
+	public Person(String p_firstName, String p_lastName, String p_address, String p_city, String p_zip, String p_phone, String p_email) {
+		setFirstName(p_firstName);
+		setLastName(p_lastName);
+		setAddress(p_address);
+		setCity(p_city);
+		setZip(p_zip);
+		setPhone(p_phone);
+		setEmail(p_email);
+	}
+	
+	public Person() {
+		
+	}
+	
 	public String getFirstName() {
 		return firstName;
 	}
