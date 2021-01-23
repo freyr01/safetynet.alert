@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.any;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,23 +25,29 @@ import com.safetynet.alert.service.PersonServiceImpl;
 @SpringBootTest
 public class PersonServiceTest {
 	
-	static ArrayList<Person> persons = new ArrayList<Person>();
+	static List<Person> personByFullName = new ArrayList<Person>();
+	static List<Person> personByCity = new ArrayList<Person>();
+	static List<Person> persons = new ArrayList<Person>();
 	static {
-		Person p1 = new Person();
-		p1.setFirstName("Eric");
-		p1.setLastName("Jori");
-		p1.setCity("Antibes");
-		p1.setAddress("5 Ch de Vaugrenier");
-		p1.setEmail("eric.jori@gmail.com");
-		Person p2 = new Person();
-		p2.setFirstName("Samantha");
-		p2.setLastName("Carson");
-		p2.setCity("Paris");
-		p2.setAddress("123 Gare st Lazare");
-		p2.setEmail("samantha.carson@gmail.com");
+		Person person1 = new Person();
+		person1.setFirstName("Eric");
+		person1.setLastName("Jori");
+		person1.setCity("Antibes");
+		person1.setAddress("5 Ch de Vaugrenier");
+		person1.setEmail("eric.jori@gmail.com");
 		
-		persons.add(p1);
-		persons.add(p2);
+		Person person2 = new Person();
+		person2.setFirstName("Samantha");
+		person2.setLastName("Carson");
+		person2.setCity("Paris");
+		person2.setAddress("123 Gare st Lazare");
+		person2.setEmail("samantha.carson@gmail.com");
+		
+		personByFullName.add(person2);
+		personByCity.add(person1);
+		persons.add(person1);
+		persons.add(person2);
+
 	}
 	
 	@Mock
@@ -55,38 +62,41 @@ public class PersonServiceTest {
 	@Test
 	public void getPersonByFullNameTest_shouldReturnWantedPerson() {
 
-		when(personDao.findAll()).thenReturn(persons);
+		when(personDao.findByFullName(anyString(), anyString())).thenReturn(personByFullName);
 		
 		List<Person> filteredPersons = personService.getPersonByFullName("Samantha", "Carson");
 		
-		verify(personDao, Mockito.times(1)).findAll();
+		verify(personDao, Mockito.times(1)).findByFullName(anyString(), anyString());
 		assertEquals("Samantha", filteredPersons.get(0).getFirstName());
 	}
 	
 	@Test
 	public void getPersonEmailByCityTest_shouldReturnAtLeastOneEmail() {
-		when(personDao.findAll()).thenReturn(persons);
+		when(personDao.findByCity(anyString())).thenReturn(personByCity);
 		
 		List<String> mails = personService.getPersonEmailByCity("Antibes");
 		
-		verify(personDao, Mockito.times(1)).findAll();
+		verify(personDao, Mockito.times(1)).findByCity(anyString());
 		assertEquals("eric.jori@gmail.com", mails.get(0));
 	}
 	
 	@Test
 	public void getChildByAddressTest_shouldReturnAtLeastOneObject() {
 		when(medicalRecordService.getAgeOf("Samantha", "Carson")).thenReturn(12);
-		when(personDao.findAll()).thenReturn(persons);
+		when(personDao.findByAddress(anyString())).thenReturn(personByCity);
 		List<Object> child = personService.getChildByAddress("123 Gare st Lazare");
 		
 		verify(medicalRecordService, Mockito.times(1)).getAgeOf(anyString(), anyString());
-		verify(personDao, Mockito.times(1)).findAll();
+		verify(personDao, Mockito.times(1)).findByAddress(anyString());
 		assertNotNull(child.get(0));
 	}
 	
 	@Test
-	public void addPersonTest_shouldReturnPersonAdded() {
+	public void addPersonTest_shouldCallTheMockWithPersonObject() {
+		personService.add("Geofrey", "Versat", "123 Gare st Lazare", "Paris", "92000", "0101010101", "geofrey.versat@gmail.com");
 		
+		
+		verify(personDao, Mockito.times(1)).save(any(Person.class));
 	}
 
 }
