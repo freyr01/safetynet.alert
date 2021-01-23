@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -35,6 +36,18 @@ public class PersonController {
 	@GetMapping(value = "/childAlert")
 	public List<Object> getChildByAddress(@RequestParam String address){
 		return personService.getChildByAddress(address);
+	}
+	
+	@PostMapping(value = "/person")
+	public void addPerson(@RequestParam String firstName,
+							@RequestParam String lastName,
+							@RequestParam String address,
+							@RequestParam String city,
+							@RequestParam String zip,
+							@RequestParam String phone, 
+							@RequestParam String email) {
+		
+		//personService.addPerson(firstName, lastName, address, city, zip, phone, email);
 	}
  	
 }

@@ -30,16 +30,8 @@ public class PersonServiceImpl implements IPersonService{
 	 * @author Mathias Lauer
 	 * 21 janv. 2021
 	 */
-	public List<Person> getPersonByFullName(String firstName, String lastname) {
-		List<Person> filteredPersons = new ArrayList<Person>();
-		
-		for(Person p : personDao.findAll()) {
-			if(p.getFirstName().equals(firstName) && p.getLastName().equals(lastname)) {
-				filteredPersons.add(p);
-			}
-		}
-		
-		return filteredPersons;
+	public List<Person> getPersonByFullName(String firstName, String lastName) {
+		return personDao.findByFullName(firstName, lastName);
 	}
 	
 	/**
@@ -50,17 +42,15 @@ public class PersonServiceImpl implements IPersonService{
 	 * 21 janv. 2021
 	 */
 	public List<String> getPersonEmailByCity(String city) {
-		ArrayList<String> emails = new ArrayList<String>();
-		for(Person p : personDao.findAll()) {	//Browse list
-			if(p.getCity().equals(city)) {		//Check city
-				String email = p.getEmail();
-				if( ! emails.contains(email)) {	//Check email not already added
-					emails.add(p.getEmail());	//Add email
-				}
+		ArrayList<String> mails = new ArrayList<String>();
+		for(Person p : personDao.findByCity(city)) {
+			String mail = p.getEmail();
+			if( ! mails.contains(mail)) {	//Check email not already added
+				mails.add(p.getEmail());	//Add email
 			}
 		}
 		
-		return emails;
+		return mails;
 	}
 	
 	public List<Object> getChildByAddress(String address) {
@@ -68,20 +58,14 @@ public class PersonServiceImpl implements IPersonService{
 			log.error("null arg not allowed");
 			return null;
 		}
-		List<Person> persons = personDao.findAll();
-		List<Person> personsAtAddress = new ArrayList<Person>();
+		
+		List<Person> personsByAddress = personDao.findByAddress(address);
 		List<Object> childs = new ArrayList<Object>();
 
-		for(Person p : persons) {
-			if(p.getAddress().equals(address)) {
-				personsAtAddress.add(p);
-			}
-		}
-		
-		for(Person p : personsAtAddress) {
+		for(Person p : personsByAddress) {
 			int personAge = medicalRecordService.getAgeOf(p.getFirstName(), p.getLastName());
 			if(personAge > -1 && personAge <= 18) {
-				List<Person> famillyMember = new ArrayList<Person>(personsAtAddress);
+				List<Person> famillyMember = new ArrayList<Person>(personsByAddress);
 				famillyMember.remove(p);
 
 				Object child = new Object() {

@@ -83,5 +83,10 @@ public class PersonServiceTest {
 		verify(personDao, Mockito.times(1)).findAll();
 		assertNotNull(child.get(0));
 	}
+	
+	@Test
+	public void addPersonTest_shouldReturnPersonAdded() {
+		
+	}
 
 }
