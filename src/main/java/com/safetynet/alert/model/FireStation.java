@@ -1,12 +1,20 @@
 package com.safetynet.alert.model;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 
 @EntityScan
 public class FireStation {
 	
+	@NotNull @Min(5)
 	private String address;
+	
+	@NotNull @Min(1)
 	private int station;
+	
+	
 	public String getAddress() {
 		return address;
 	}

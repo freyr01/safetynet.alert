@@ -1,16 +1,33 @@
 package com.safetynet.alert.model;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 
 @EntityScan
 public class Person {
 	
+	@NotNull @Min(3)
 	private String firstName;
+	
+	@NotNull @Min(3)
 	private String lastName;
+	
+	@NotNull @Min(7)
 	private String address;
+	
+	@NotNull @Min(1)
 	private String city;
+	
+	@NotNull @Min(3)
 	private String zip;
+	
+	@NotNull @Min(4)
 	private String phone;
+	
+	@NotNull @Email
 	private String email;
 	
 	public Person(String p_firstName, String p_lastName, String p_address, String p_city, String p_zip, String p_phone, String p_email) {

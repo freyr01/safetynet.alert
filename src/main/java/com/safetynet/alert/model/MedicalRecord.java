@@ -1,14 +1,28 @@
 package com.safetynet.alert.model;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
+
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 
 @EntityScan
 public class MedicalRecord {
+	
+	@NotNull @Min(3)
 	private String firstName;
+	
+	@NotNull @Min(3)
 	private String lastName;
+	
+	@NotNull @Past
 	private String birthdate;
+	
 	private String[] medications;
+	
 	private String[] allergies;
+	
+	
 	public String getLastName() {
 		return lastName;
 	}
