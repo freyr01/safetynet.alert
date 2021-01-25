@@ -65,18 +65,24 @@ public class PersonServiceImpl implements IPersonService{
 		for(Person p : personsByAddress) {
 			int personAge = medicalRecordService.getAgeOf(p.getFirstName(), p.getLastName());
 			if(personAge > -1 && personAge <= 18) {
-				List<Person> famillyMember = new ArrayList<Person>(personsByAddress);
-				famillyMember.remove(p);
+				List<Person> newFamillyMember = new ArrayList<Person>(personsByAddress);
+				newFamillyMember.remove(p);
 
 				Object child = new Object() {
+					
+					String firstName = p.getFirstName();
+					String lastName = p.getLastName();
+					int age = personAge;
+					List<Person> famillyMember = newFamillyMember;
+					
 					public String getFirstName() {
-						return p.getFirstName();
+						return firstName;
 					}
 					public String getLastName() {
-						return p.getLastName();
+						return lastName;
 					}
 					public int getAge() {
-						return personAge;
+						return age;
 					}
 					public List<Person> getFamillyMember() {
 						return famillyMember;
