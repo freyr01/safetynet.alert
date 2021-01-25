@@ -10,13 +10,13 @@ import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Repository;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.safetynet.alert.model.Database;
+import com.safetynet.alert.model.JsonDb;
 
 @Repository
 public class DatabaseDAO {
 	
 	private static final Logger log = org.slf4j.LoggerFactory.getLogger(DatabaseDAO.class);
-	private Database db; 
+	private JsonDb db; 
 	
 	public DatabaseDAO() {
 		ObjectMapper objectMapper = new ObjectMapper();
@@ -26,7 +26,7 @@ public class DatabaseDAO {
 		InputStream is = null;
 		try {
 			is = res.getInputStream();
-			db = objectMapper.readValue(is, Database.class);
+			db = objectMapper.readValue(is, JsonDb.class);
 		} catch (IOException e) {
 			log.error("Error while reading resource", e);
 		} finally {
@@ -46,7 +46,7 @@ public class DatabaseDAO {
 		}
 	}
 	
-	public Database getDb() {
+	public JsonDb getDb() {
 		return db;
 	}
 

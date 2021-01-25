@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
 
-public class Database {
+public class JsonDb {
 	
 	@JsonAlias("firestations")
 	private List<FireStation> fireStations;
