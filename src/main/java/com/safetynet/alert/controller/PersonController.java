@@ -26,23 +26,33 @@ public class PersonController {
 	@GetMapping(value="/personInfo")
 	public List<Person> getPersonByFullName(@RequestParam String firstName, @RequestParam String lastName) {
 		log.info("GET request /personInfo with param: firstName:{} lastName:{}", firstName, lastName);
-		return personService.getPersonByFullName(firstName, lastName);
+		List<Person> personsByFullName = personService.getPersonByFullName(firstName, lastName);
+		log.info("Return person list by fullname: {}", personsByFullName);
+		return  personsByFullName;
 	}
 	
 	@GetMapping(value="/communityEmail")
-	public List<String> getPersonEmailByCity(@RequestParam String city){
-		return personService.getPersonEmailByCity(city);
+	public List<String> getPersonsEmailByCity(@RequestParam String city){
+		log.info("GET request /communityEmail with param: city: {}", city);
+		List<String> personsEmailByCity = personService.getPersonEmailByCity(city);
+		log.info("Return email list of person by city: {}", personsEmailByCity);
+		return personsEmailByCity;
 	}
 	
 	@GetMapping(value = "/childAlert")
 	public List<Object> getChildByAddress(@RequestParam String address){
-		return personService.getChildByAddress(address);
+		log.info("GET request /childAlert with param: address: {}", address);
+		List<Object> childByAddress = personService.getChildByAddress(address);
+		log.info("Return child list by address: {}", childByAddress);
+		return childByAddress; 
 	}
 	
 	@PostMapping(value = "/person")
 	public Person addPerson(@RequestBody Person person) {
-		
-		return personService.add(person);
+		log.info("POST request /person with param: {}", person);
+		Person personAdded = personService.add(person);
+		log.info("Return the person was added: {}", personAdded);
+		return personAdded;
 	}
 	
 
