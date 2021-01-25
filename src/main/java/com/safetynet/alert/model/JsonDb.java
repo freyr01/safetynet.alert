@@ -6,9 +6,7 @@ import com.fasterxml.jackson.annotation.JsonAlias;
 
 public class JsonDb {
 	
-	@JsonAlias("firestations")
 	private List<FireStation> fireStations;
-	@JsonAlias("medicalrecords")
 	private List<MedicalRecord> medicalRecords;
 	private List<Person> persons;
 	

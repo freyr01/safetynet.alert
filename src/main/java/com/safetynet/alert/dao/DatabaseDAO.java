@@ -4,8 +4,6 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import org.slf4j.Logger;
-import org.springframework.boot.CommandLineRunner;
-import org.springframework.context.annotation.Bean;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
@@ -13,7 +11,6 @@ import org.springframework.stereotype.Repository;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.safetynet.alert.model.JsonDb;
-import com.safetynet.alert.model.Person;
 
 @Repository
 public class DatabaseDAO {
@@ -52,16 +49,5 @@ public class DatabaseDAO {
 	public JsonDb getDb() {
 		return db;
 	}
-	
-	//TODO Maybe better way is the use bean to populate each entities
-	/*
-	@Bean
-	  CommandLineRunner initDatabase(Person PersonRepository) {
-
-	    return args -> { 
-	    	personRepository.
-	    };
-	 }
-	 */
 
 }
