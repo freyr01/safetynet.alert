@@ -45,7 +45,6 @@ public class PersonControllerTest {
 	public void testEndpointPostPerson() throws Exception {
 		mockMvc.perform(MockMvcRequestBuilders
 				.post("/person")
-				//TODO This not working cause controller w8 for map of string or something
 				.content(asJsonString(new Person("Amanda", "Lir", "951 LoneTree Rd", "Culver", "97451", "0101010101", "amanada.lir@gmail.com")))
 				.contentType(MediaType.APPLICATION_JSON)
 				.accept(MediaType.APPLICATION_JSON)

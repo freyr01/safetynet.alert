@@ -40,15 +40,9 @@ public class PersonController {
 	}
 	
 	@PostMapping(value = "/person")
-	public Person addPerson(@RequestBody String firstName,
-							@RequestBody String lastName,
-							@RequestBody String address,
-							@RequestBody String city,
-							@RequestBody String zip,
-							@RequestBody String phone, 
-							@RequestBody String email) {
+	public Person addPerson(@RequestBody Person person) {
 		
-		return personService.add(firstName, lastName, address, city, zip, phone, email);
+		return personService.add(person);
 	}
 	
 

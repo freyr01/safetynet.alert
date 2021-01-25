@@ -89,20 +89,11 @@ public class PersonServiceImpl implements IPersonService{
 		return childs;
 	}
 
-	public Person add(String firstName, String lastName, String address, String city, String zip, String phone,
-			String email) {
-		Person newPerson = new Person();
-		newPerson.setFirstName(firstName);
-		newPerson.setLastName(lastName);
-		newPerson.setAddress(address);
-		newPerson.setCity(city);
-		newPerson.setZip(zip);
-		newPerson.setPhone(phone);
-		newPerson.setEmail(email);
+	public Person add(Person person) {
 		
-		personDao.save(newPerson);
+		personDao.save(person);
 		
-		return newPerson;
+		return person;
 	}
 	
 }

@@ -93,8 +93,8 @@ public class PersonServiceTest {
 	
 	@Test
 	public void addPersonTest_shouldCallTheMockWithPersonObject() {
-		personService.add("Geofrey", "Versat", "123 Gare st Lazare", "Paris", "92000", "0101010101", "geofrey.versat@gmail.com");
-		
+		Person p1 = new Person("Geofrey", "Versat", "123 Gare st Lazare", "Paris", "92000", "0101010101", "geofrey.versat@gmail.com");
+		personService.add(p1);
 		
 		verify(personDao, Mockito.times(1)).save(any(Person.class));
 	}
