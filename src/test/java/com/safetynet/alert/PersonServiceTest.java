@@ -10,18 +10,20 @@ import static org.mockito.Mockito.when;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.safetynet.alert.dao.IPersonDAO;
 import com.safetynet.alert.model.Person;
 import com.safetynet.alert.service.IMedicalRecordService;
+import com.safetynet.alert.service.IPersonService;
 import com.safetynet.alert.service.PersonServiceImpl;
 
-@SpringBootTest
+@ExtendWith(MockitoExtension.class)
 public class PersonServiceTest {
 	
 	static List<Person> personByFullName = new ArrayList<Person>();
@@ -57,8 +59,12 @@ public class PersonServiceTest {
 	@Mock
 	private IMedicalRecordService medicalRecordService;
 	
-	@InjectMocks
-	private PersonServiceImpl personService;
+	private IPersonService personService;
+	
+	@BeforeEach
+	public void setUpPerTest() {
+		personService = new PersonServiceImpl(personDao, medicalRecordService);
+	}
 	
 	@Test
 	public void getPersonByFullNameTest_shouldReturnWantedPerson() {
@@ -83,7 +89,7 @@ public class PersonServiceTest {
 	
 	@Test
 	public void getChildByAddressTest_shouldReturnAtLeastOneObject() {
-		when(medicalRecordService.getAgeOf("Samantha", "Carson")).thenReturn(12);
+		when(medicalRecordService.getAgeOf(anyString(), anyString())).thenReturn(12);
 		when(personDao.findByAddress(anyString())).thenReturn(personByCity);
 		List<Object> child = personService.getChildByAddress("123 Gare st Lazare");
 		
@@ -101,7 +107,7 @@ public class PersonServiceTest {
 	}
 	
 	@Test
-	public void editPersonTest_shouldCallTheMockWithSomeArgs() {
+	public void updatePersonTest_shouldCallTheMockWithSomeArgs() {
 		personService.update(person1.getLastName(), person1.getFirstName(), person1);
 		verify(personDao, Mockito.times(1)).update(anyString(), anyString(), any(Person.class));
 	}

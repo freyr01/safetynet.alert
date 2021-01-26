@@ -10,18 +10,19 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.safetynet.alert.dao.MedicalRecordDAOImpl;
 import com.safetynet.alert.model.MedicalRecord;
+import com.safetynet.alert.service.IMedicalRecordService;
 import com.safetynet.alert.service.MedicalRecordServiceImpl;
 
-
-@SpringBootTest
+@ExtendWith(MockitoExtension.class)
 public class MedicalRecordServiceTest {
 	
 	static List<MedicalRecord> medicalRecords = new ArrayList<MedicalRecord>();
@@ -39,10 +40,14 @@ public class MedicalRecordServiceTest {
 	}
 	
 	@Mock
-	MedicalRecordDAOImpl medicalRecordDAO;
+	private static MedicalRecordDAOImpl medicalRecordDAO;
 	
-	@InjectMocks
-	MedicalRecordServiceImpl medicalRecordService;
+	private IMedicalRecordService medicalRecordService;
+	
+	@BeforeEach
+	public void setUpPerTest() {
+		medicalRecordService = new MedicalRecordServiceImpl(medicalRecordDAO);
+	}
 	
 	@Test
 	public void getAgeTest_shouldReturnAgeInInteger() {

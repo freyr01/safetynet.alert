@@ -18,8 +18,11 @@ public class MedicalRecordServiceImpl implements IMedicalRecordService {
 
 	Logger log = LoggerFactory.getLogger(MedicalRecordServiceImpl.class);
 	
-	@Autowired
 	IMedicalRecordDAO medicalRecordDAO;
+	
+	public MedicalRecordServiceImpl(@Autowired IMedicalRecordDAO p_medicalRecordDAO) {
+		medicalRecordDAO = p_medicalRecordDAO;
+	}
 	
 	@Override
 	public int getAgeOf(String firstName, String lastName) {

@@ -16,31 +16,19 @@ public class PersonServiceImpl implements IPersonService{
 	
 	Logger log = LoggerFactory.getLogger(PersonServiceImpl.class);
 
-	@Autowired
-	private IPersonDAO personDao;
 	
-	@Autowired
+	private IPersonDAO personDao;
 	private IMedicalRecordService medicalRecordService;
 	
-	/**
-	 * Get persons informations by their full name
-	 * @param firstName
-	 * @param lastName
-	 * @return List<Person>
-	 * @author Mathias Lauer
-	 * 21 janv. 2021
-	 */
+	public PersonServiceImpl(@Autowired IPersonDAO p_personDao, @Autowired IMedicalRecordService p_medicalRecordService) {
+		personDao = p_personDao;
+		medicalRecordService = p_medicalRecordService;
+	}
+	
 	public List<Person> getPersonByFullName(String firstName, String lastName) {
 		return personDao.findByFullName(firstName, lastName);
 	}
 	
-	/**
-	 * Get emails for given city
-	 * @param city
-	 * @return List<String> email list
-	 * @author Mathias Lauer
-	 * 21 janv. 2021
-	 */
 	public List<String> getPersonEmailByCity(String city) {
 		ArrayList<String> mails = new ArrayList<String>();
 		for(Person p : personDao.findByCity(city)) {
