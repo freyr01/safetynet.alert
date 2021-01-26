@@ -1,18 +1,22 @@
 package com.safetynet.alert.controller;
 
+import java.net.URI;
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.safetynet.alert.model.Person;
-import com.safetynet.alert.service.PersonServiceImpl;
+import com.safetynet.alert.service.IPersonService;
 
 @RestController
 public class PersonController {
@@ -20,7 +24,7 @@ public class PersonController {
 	private static Logger log = LoggerFactory.getLogger(PersonController.class);
 
 	@Autowired
-	private PersonServiceImpl personService;
+	private IPersonService personService;
 	
 	
 	@GetMapping(value="/personInfo")
@@ -48,11 +52,21 @@ public class PersonController {
 	}
 	
 	@PostMapping(value = "/person")
-	public Person addPerson(@RequestBody Person person) {
+	public ResponseEntity<Void> addPerson(@RequestBody Person person) {
 		log.info("POST request /person with param: {}", person);
 		Person personAdded = personService.add(person);
-		log.info("Return the person was added: {}", personAdded);
-		return personAdded;
+		if(personAdded == null) {
+			log.error("Error while adding person: {}", person);
+			return ResponseEntity.noContent().build();
+		}
+		
+		URI location = ServletUriComponentsBuilder
+				.fromCurrentRequest()
+				.path("/{lastName}/{firstName}")
+				.buildAndExpand(new Object[] {person.getLastName(), person.getFirstName()}).toUri();
+		
+		log.info("Return response code created at location: {}", location);
+		return ResponseEntity.created(location).build();
 	}
 	
 

@@ -27,28 +27,28 @@ public class PersonControllerIT {
 	PersonServiceImpl personService;
 	
 	@Test
-	public void testEndpointGetCommunityEmail() throws Exception {
+	public void testEndpointGetCommunityEmail_shouldReturnStatusIsOk() throws Exception {
 		mockMvc.perform(get("/communityEmail?city=?")).andExpect(status().isOk());
 	}
 	
 	@Test
-	public void testEndpointGetPersonInfo() throws Exception {
+	public void testEndpointGetPersonInfo_shouldReturnStatusIsOk() throws Exception {
 		mockMvc.perform(get("/personInfo?firstName=?&lastName=?")).andExpect(status().isOk());
 	}
 
 	@Test
-	public void testEndpointGetChildAlert() throws Exception {
+	public void testEndpointGetChildAlert_shouldReturnStatusIsOk() throws Exception {
 		mockMvc.perform(get("/childAlert?address=?")).andExpect(status().isOk());
 	}
 	
 	@Test
-	public void testEndpointPostPerson() throws Exception {
+	public void testEndpointPostPerson_shouldReturnStatusIsCreated() throws Exception {
 		mockMvc.perform(MockMvcRequestBuilders
 				.post("/person")
 				.content(asJsonString(new Person("Amanda", "Lir", "951 LoneTree Rd", "Culver", "97451", "0101010101", "amanada.lir@gmail.com")))
 				.contentType(MediaType.APPLICATION_JSON)
 				.accept(MediaType.APPLICATION_JSON)
-				).andExpect(status().isOk());
+				).andExpect(status().isCreated());
 	}
 	
 	private static String asJsonString(final Object obj) {
