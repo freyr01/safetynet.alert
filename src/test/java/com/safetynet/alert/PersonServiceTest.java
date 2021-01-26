@@ -2,24 +2,23 @@ package com.safetynet.alert;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.ArgumentMatchers.any;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.safetynet.alert.dao.PersonDAOImpl;
+import com.safetynet.alert.dao.IPersonDAO;
 import com.safetynet.alert.model.Person;
-import com.safetynet.alert.service.MedicalRecordServiceImpl;
+import com.safetynet.alert.service.IMedicalRecordService;
 import com.safetynet.alert.service.PersonServiceImpl;
 
 @SpringBootTest
@@ -28,15 +27,17 @@ public class PersonServiceTest {
 	static List<Person> personByFullName = new ArrayList<Person>();
 	static List<Person> personByCity = new ArrayList<Person>();
 	static List<Person> persons = new ArrayList<Person>();
+	static Person person1 = new Person();
+	static Person person2 = new Person();
 	static {
-		Person person1 = new Person();
+		
 		person1.setFirstName("Eric");
 		person1.setLastName("Jori");
 		person1.setCity("Antibes");
 		person1.setAddress("5 Ch de Vaugrenier");
 		person1.setEmail("eric.jori@gmail.com");
 		
-		Person person2 = new Person();
+		
 		person2.setFirstName("Samantha");
 		person2.setLastName("Carson");
 		person2.setCity("Paris");
@@ -51,13 +52,13 @@ public class PersonServiceTest {
 	}
 	
 	@Mock
-	PersonDAOImpl personDao;
+	private IPersonDAO personDao;
 	
 	@Mock
-	MedicalRecordServiceImpl medicalRecordService;
+	private IMedicalRecordService medicalRecordService;
 	
 	@InjectMocks
-	PersonServiceImpl personService;
+	private PersonServiceImpl personService;
 	
 	@Test
 	public void getPersonByFullNameTest_shouldReturnWantedPerson() {
@@ -97,6 +98,12 @@ public class PersonServiceTest {
 		personService.add(p1);
 		
 		verify(personDao, Mockito.times(1)).save(any(Person.class));
+	}
+	
+	@Test
+	public void editPersonTest_shouldCallTheMockWithSomeArgs() {
+		personService.update(person1.getLastName(), person1.getFirstName(), person1);
+		verify(personDao, Mockito.times(1)).update(anyString(), anyString(), any(Person.class));
 	}
 
 }

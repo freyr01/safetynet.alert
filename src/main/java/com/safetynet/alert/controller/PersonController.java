@@ -9,7 +9,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -67,6 +69,22 @@ public class PersonController {
 		
 		log.info("Return response code created at location: {}", location);
 		return ResponseEntity.created(location).build();
+	}
+	
+	@PutMapping(value="/person/{lastName}/{firstName}")
+	public ResponseEntity<Person> editPerson(@PathVariable(value = "lastName") String lastName,
+											@PathVariable(value = "firstName") String firstName,
+											@RequestBody Person person) {
+		
+		Person editedPerson = personService.update(lastName, firstName, person);
+		if(editedPerson == null) {
+			log.error("No person found for full name: {} {}", firstName, lastName);
+			return ResponseEntity.notFound().build();	
+		}
+		
+		log.info("Return response code OK");
+		
+		return ResponseEntity.ok().build();
 	}
 	
 

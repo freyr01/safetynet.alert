@@ -101,5 +101,10 @@ public class PersonServiceImpl implements IPersonService{
 		
 		return person;
 	}
+
+	@Override
+	public Person update(String lastName, String firstName, Person newPersonDatas) {
+		return personDao.update(lastName, firstName, newPersonDatas);
+	}
 	
 }
