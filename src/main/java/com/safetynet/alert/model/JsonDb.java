@@ -3,11 +3,16 @@ package com.safetynet.alert.model;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
+import com.fasterxml.jackson.annotation.JsonRootName;
 
 public class JsonDb {
 	
+	@JsonAlias("firestations")
 	private List<FireStation> fireStations;
+	
+	@JsonAlias("medicalrecords")
 	private List<MedicalRecord> medicalRecords;
+	
 	private List<Person> persons;
 	
 	public List<FireStation> getFireStations() {

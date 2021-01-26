@@ -1,16 +1,12 @@
 package com.safetynet.alert;
 
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -22,18 +18,17 @@ import com.safetynet.alert.service.PersonServiceImpl;
 @SpringBootTest
 //@WebMvcTest(controllers = PersonController.class)
 @AutoConfigureMockMvc
-public class PersonControllerTest {
+public class PersonControllerIT {
 	
 	@Autowired
 	private MockMvc mockMvc;
 	
-	@MockBean
+	@Autowired
 	PersonServiceImpl personService;
 	
 	@Test
 	public void testEndpointGetCommunityEmail() throws Exception {
 		mockMvc.perform(get("/communityEmail?city=?")).andExpect(status().isOk());
-		verify(personService, Mockito.times(1)).getPersonEmailByCity(anyString());
 	}
 	
 	@Test
