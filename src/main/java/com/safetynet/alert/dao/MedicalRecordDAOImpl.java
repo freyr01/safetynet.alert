@@ -10,8 +10,11 @@ import com.safetynet.alert.model.MedicalRecord;
 @Repository
 public class MedicalRecordDAOImpl implements IMedicalRecordDAO {
 
-	@Autowired
-	DatabaseDAO db;
+	private DatabaseDAO db;
+	
+	public MedicalRecordDAOImpl(@Autowired DatabaseDAO p_db) {
+		db = p_db;
+	}
 	
 	@Override
 	public List<MedicalRecord> findAll() {

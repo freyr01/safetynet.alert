@@ -15,8 +15,11 @@ public class PersonDAOImpl implements IPersonDAO {
 	
 	static Logger log = LoggerFactory.getLogger(PersonDAOImpl.class);
 	
-	@Autowired
 	DatabaseDAO db;
+	
+	public PersonDAOImpl(@Autowired DatabaseDAO p_db) {
+		db = p_db;
+	}
 	
 	public List<Person> findAll(){
 		return db.getDb().getPersons();

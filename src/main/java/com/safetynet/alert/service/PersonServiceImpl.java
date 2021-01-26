@@ -30,6 +30,10 @@ public class PersonServiceImpl implements IPersonService{
 	}
 	
 	public List<String> getPersonEmailByCity(String city) {
+		if(city == null) {
+			log.error("null arg not allowed");
+			return null;
+		}
 		ArrayList<String> mails = new ArrayList<String>();
 		for(Person p : personDao.findByCity(city)) {
 			String mail = p.getEmail();
@@ -55,7 +59,7 @@ public class PersonServiceImpl implements IPersonService{
 			if(personAge > -1 && personAge <= 18) {
 				List<Person> newFamillyMember = new ArrayList<Person>(personsByAddress);
 				newFamillyMember.remove(p);
-
+				//TODO Make DTO to do this
 				Object child = new Object() {
 					
 					String firstName = p.getFirstName();
