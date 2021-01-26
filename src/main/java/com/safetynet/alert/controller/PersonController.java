@@ -24,10 +24,12 @@ import com.safetynet.alert.service.IPersonService;
 public class PersonController {
 	
 	private static Logger log = LoggerFactory.getLogger(PersonController.class);
-
-	@Autowired
-	private IPersonService personService;
 	
+	IPersonService personService;
+	
+	public PersonController(@Autowired IPersonService p_personService) {
+		personService = p_personService;
+	}
 	
 	@GetMapping(value="/personInfo")
 	public List<Person> getPersonByFullName(@RequestParam String firstName, @RequestParam String lastName) {
@@ -72,7 +74,7 @@ public class PersonController {
 	}
 	
 	@PutMapping(value="/person/{lastName}/{firstName}")
-	public ResponseEntity<Person> editPerson(@PathVariable(value = "lastName") String lastName,
+	public ResponseEntity<Person> updatePerson(@PathVariable(value = "lastName") String lastName,
 											@PathVariable(value = "firstName") String firstName,
 											@RequestBody Person person) {
 		
@@ -84,7 +86,7 @@ public class PersonController {
 		
 		log.info("Return response code OK");
 		
-		return ResponseEntity.ok().build();
+		return ResponseEntity.ok().body(editedPerson);
 	}
 	
 
