@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.safetynet.alert.dto.ChildInfo;
 import com.safetynet.alert.model.Person;
 import com.safetynet.alert.service.IPersonService;
 
@@ -48,9 +49,9 @@ public class PersonController {
 	}
 	
 	@GetMapping(value = "/childAlert")
-	public List<Object> getChildByAddress(@RequestParam String address){
+	public List<ChildInfo> getChildByAddress(@RequestParam String address){
 		log.info("GET request /childAlert with param: address: {}", address);
-		List<Object> childByAddress = personService.getChildByAddress(address);
+		List<ChildInfo> childByAddress = personService.getChildByAddress(address);
 		log.info("Return child list by address: {}", childByAddress);
 		return childByAddress; 
 	}

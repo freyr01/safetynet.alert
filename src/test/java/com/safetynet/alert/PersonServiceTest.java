@@ -18,6 +18,7 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.safetynet.alert.dao.IPersonDAO;
+import com.safetynet.alert.dto.ChildInfo;
 import com.safetynet.alert.model.Person;
 import com.safetynet.alert.service.IMedicalRecordService;
 import com.safetynet.alert.service.IPersonService;
@@ -81,11 +82,11 @@ public class PersonServiceTest {
 		when(medicalRecordService.getAgeOf(anyString(), anyString())).thenReturn(12);
 		
 		
-		List<Object> child = personService.getChildByAddress("123 Gare st Lazare");
+		List<ChildInfo> childsInfo = personService.getChildByAddress("123 Gare st Lazare");
 		
 		verify(medicalRecordService, Mockito.times(2)).getAgeOf(anyString(), anyString());
 		verify(personDao, Mockito.times(1)).findByAddress(anyString());
-		assertNotNull(child.get(0));
+		assertEquals(2, childsInfo.size());
 	}
 	
 	@Test

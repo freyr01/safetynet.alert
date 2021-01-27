@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.safetynet.alert.dao.IPersonDAO;
+import com.safetynet.alert.dto.ChildInfo;
 import com.safetynet.alert.model.Person;
 
 @Service
@@ -45,46 +46,27 @@ public class PersonServiceImpl implements IPersonService{
 		return mails;
 	}
 	
-	public List<Object> getChildByAddress(String address) {
+	public List<ChildInfo> getChildByAddress(String address) {
 		if(address == null) {
 			log.error("null arg not allowed");
 			return null;
 		}
 		
 		List<Person> personsByAddress = personDao.findByAddress(address);
-		List<Object> childs = new ArrayList<Object>();
+		List<ChildInfo> childsInfo = new ArrayList<ChildInfo>();
 
 		for(Person p : personsByAddress) {
 			int personAge = medicalRecordService.getAgeOf(p.getFirstName(), p.getLastName());
 			if(personAge > -1 && personAge <= 18) {
-				List<Person> newFamillyMember = new ArrayList<Person>(personsByAddress);
-				newFamillyMember.remove(p);
-				//TODO Make DTO to do this
-				Object child = new Object() {
-					
-					String firstName = p.getFirstName();
-					String lastName = p.getLastName();
-					int age = personAge;
-					List<Person> famillyMember = newFamillyMember;
-					
-					public String getFirstName() {
-						return firstName;
-					}
-					public String getLastName() {
-						return lastName;
-					}
-					public int getAge() {
-						return age;
-					}
-					public List<Person> getFamillyMember() {
-						return famillyMember;
-					}
-				};
-				childs.add(child);
+				List<Person> famillyMember = new ArrayList<Person>(personsByAddress);
+				famillyMember.remove(p);
+				
+				ChildInfo childInfo = new ChildInfo(p.getFirstName(), p.getLastName(), personAge, famillyMember);
+				childsInfo.add(childInfo);
 			}
 		}
 		
-		return childs;
+		return childsInfo;
 	}
 
 	public Person add(Person person) {
