@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 
 import com.safetynet.alert.dao.IPersonDAO;
 import com.safetynet.alert.dto.ChildInfo;
+import com.safetynet.alert.dto.PersonInfo;
+import com.safetynet.alert.model.MedicalRecord;
 import com.safetynet.alert.model.Person;
 
 @Service
@@ -26,8 +28,25 @@ public class PersonServiceImpl implements IPersonService{
 		medicalRecordService = p_medicalRecordService;
 	}
 	
-	public List<Person> getPersonByFullName(String firstName, String lastName) {
-		return personDao.findByFullName(firstName, lastName);
+	public List<PersonInfo> getPersonInfo(String firstName, String lastName) {
+		List<PersonInfo> personInfoList = new ArrayList<PersonInfo>();
+		List<Person> persons = personDao.findByFullName(firstName, lastName);
+		
+		for(Person p : persons) {
+			PersonInfo personInfo = new PersonInfo();
+			MedicalRecord medicalRecord = medicalRecordService.getMedicalRecordOf(p.getFirstName(), p.getLastName());
+			int age = medicalRecordService.getAgeOf(medicalRecord);
+			
+			personInfo.setFirstName(p.getFirstName());
+			personInfo.setLastName(p.getLastName());
+			personInfo.setAge(age);
+			personInfo.setAllergies(medicalRecord.getAllergies());
+			personInfo.setMedications(medicalRecord.getMedications());
+			
+			personInfoList.add(personInfo);
+		}
+		
+		return personInfoList;
 	}
 	
 	public List<String> getPersonEmailByCity(String city) {

@@ -1,5 +1,7 @@
 package com.safetynet.alert.model;
 
+import java.util.List;
+
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
@@ -18,9 +20,9 @@ public class MedicalRecord {
 	@NotNull @Past
 	private String birthdate;
 	
-	private String[] medications;
+	private List<String> medications;
 	
-	private String[] allergies;
+	private List<String> allergies;
 	
 	
 	public String getLastName() {
@@ -41,16 +43,16 @@ public class MedicalRecord {
 	public void setBirthdate(String birthdate) {
 		this.birthdate = birthdate;
 	}
-	public String[] getMedications() {
+	public List<String> getMedications() {
 		return medications;
 	}
-	public void setMedications(String[] medications) {
+	public void setMedications(List<String> medications) {
 		this.medications = medications;
 	}
-	public String[] getAllergies() {
+	public List<String> getAllergies() {
 		return allergies;
 	}
-	public void setAllergies(String[] allergies) {
+	public void setAllergies(List<String> allergies) {
 		this.allergies = allergies;
 	}
 }

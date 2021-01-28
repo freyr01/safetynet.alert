@@ -68,7 +68,7 @@ public class PersonControllerIT {
 				.accept(MediaType.APPLICATION_JSON)
 				).andExpect(status().isOk());
 		
-		mockMvc.perform(get("/personInfo?firstName=Amanda&lastName=Lir")).andExpect(status().isOk()).andExpect(jsonPath("$[0].city", is("Antibes")));
+		mockMvc.perform(get("/personInfo?firstName=Amanda&lastName=Lir")).andExpect(status().isOk()).andExpect(jsonPath("$[0].address", is("5 Ch de Vaugrenier")));
 		
 		mockMvc.perform(delete("/person?firstName=Amanda&lastName=Lir")).andExpect(status().isOk());
 	}

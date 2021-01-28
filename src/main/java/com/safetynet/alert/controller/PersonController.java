@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.safetynet.alert.dto.ChildInfo;
+import com.safetynet.alert.dto.PersonInfo;
 import com.safetynet.alert.model.Person;
 import com.safetynet.alert.service.IPersonService;
 
@@ -34,9 +35,9 @@ public class PersonController {
 	}
 	
 	@GetMapping(value="/personInfo")
-	public List<Person> getPersonByFullName(@RequestParam String firstName, @RequestParam String lastName) {
+	public List<PersonInfo> getPersonByFullName(@RequestParam String firstName, @RequestParam String lastName) {
 		log.info("GET request /personInfo with param: firstName:{} lastName:{}", firstName, lastName);
-		List<Person> personsByFullName = personService.getPersonByFullName(firstName, lastName);
+		List<PersonInfo> personsByFullName = personService.getPersonInfo(firstName, lastName);
 		if(personsByFullName == null || personsByFullName.size() < 1) {
 			log.error("Error getting person: {} {}", firstName, lastName);
 		}

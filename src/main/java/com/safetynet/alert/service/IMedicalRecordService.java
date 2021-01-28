@@ -1,5 +1,7 @@
 package com.safetynet.alert.service;
 
+import com.safetynet.alert.model.MedicalRecord;
+
 public interface IMedicalRecordService {
 	
 	/**
@@ -11,5 +13,17 @@ public interface IMedicalRecordService {
 	 * 22 janv. 2021
 	 */
 	public int getAgeOf(String firstName, String lastName);
+	
+	public int getAgeOf(MedicalRecord medicalRecord);
+	
+	/**
+	 * Should return a medical record of a person
+	 * @param firstName
+	 * @param lastName
+	 * @return MedicalRecord
+	 * @author Mathias Lauer
+	 * 28 janv. 2021
+	 */
+	public MedicalRecord getMedicalRecordOf(String firstName, String lastName);
 
 }

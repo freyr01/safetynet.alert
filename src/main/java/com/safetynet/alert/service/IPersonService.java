@@ -5,12 +5,14 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.safetynet.alert.dto.ChildInfo;
+import com.safetynet.alert.dto.PersonInfo;
 import com.safetynet.alert.model.Person;
 
 @Service
 public interface IPersonService {
 	
-	public List<Person> getPersonByFullName(String firstName, String lastname);
+	//public List<Person> getPersonByFullName(String firstName, String lastname);
+	public List<PersonInfo> getPersonInfo(String firstName, String fullName);
 	public List<String> getPersonEmailByCity(String city);
 	public List<ChildInfo> getChildByAddress(String address);
 	public Person add(Person person);

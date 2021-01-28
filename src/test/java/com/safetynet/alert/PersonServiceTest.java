@@ -59,8 +59,8 @@ public class PersonServiceTest {
 	}
 	
 	@Test
-	public void testGetPersonByFullName_shouldCallDao() {
-		personService.getPersonByFullName(anyString(), anyString());
+	public void testGetPersonInfo_shouldCallDao() {
+		personService.getPersonInfo(anyString(), anyString());
 		
 		verify(personDao, Mockito.times(1)).findByFullName(anyString(), anyString());
 	}

@@ -26,24 +26,31 @@ public class MedicalRecordServiceImpl implements IMedicalRecordService {
 	
 	@Override
 	public int getAgeOf(String firstName, String lastName) {
-		for(MedicalRecord mr : medicalRecordDAO.findAll()) {
-			if(mr.getFirstName().equals(firstName) && mr.getLastName().equals(lastName)) {
-				LocalDate birthDate = null;
-				
-				try {
-					birthDate = LocalDate.parse(mr.getBirthdate(), DateTimeFormatter.ofPattern("MM/dd/yyyy"));
-				} catch (DateTimeParseException e) {
-					log.error("Cannot parse date: {}", mr.getBirthdate() );
-					e.printStackTrace();
-					return -1;
-				}
-				Period agePeriod = Period.between(birthDate, LocalDate.now());	
-		 
-				return agePeriod.getYears();
-			}
+		MedicalRecord medicalRecord = getMedicalRecordOf(firstName, lastName);
+		if(medicalRecord == null) {
+			return -1;
 		}
-		log.info("No medical record found for person: {} {}", firstName, lastName);
-		return -1;
+		return getAgeOf(medicalRecord);
+	}
+
+	@Override
+	public MedicalRecord getMedicalRecordOf(String firstName, String lastName) {
+		return medicalRecordDAO.findByFullName(firstName, lastName);
+	}
+	
+	public int getAgeOf(MedicalRecord medicalRecord) {
+		LocalDate birthDate = null;
+		
+		try {
+			birthDate = LocalDate.parse(medicalRecord.getBirthdate(), DateTimeFormatter.ofPattern("MM/dd/yyyy"));
+		} catch (DateTimeParseException e) {
+			log.error("Cannot parse date: {}", medicalRecord.getBirthdate() );
+			e.printStackTrace();
+			return -1;
+		}
+		Period agePeriod = Period.between(birthDate, LocalDate.now());	
+ 
+		return agePeriod.getYears();
 	}
 
 }
