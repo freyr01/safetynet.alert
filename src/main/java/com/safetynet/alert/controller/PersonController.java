@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -36,6 +37,9 @@ public class PersonController {
 	public List<Person> getPersonByFullName(@RequestParam String firstName, @RequestParam String lastName) {
 		log.info("GET request /personInfo with param: firstName:{} lastName:{}", firstName, lastName);
 		List<Person> personsByFullName = personService.getPersonByFullName(firstName, lastName);
+		if(personsByFullName == null || personsByFullName.size() < 1) {
+			log.error("Error getting person: {} {}", firstName, lastName);
+		}
 		log.info("Return person list by fullname: {}", personsByFullName);
 		return  personsByFullName;
 	}
@@ -74,11 +78,11 @@ public class PersonController {
 		return ResponseEntity.created(location).build();
 	}
 	
-	@PutMapping(value="/person/{lastName}/{firstName}")
-	public ResponseEntity<Person> updatePerson(@PathVariable(value = "lastName") String lastName,
-											@PathVariable(value = "firstName") String firstName,
+	@PutMapping(value="/person")
+	public ResponseEntity<Person> updatePerson(@RequestParam(value = "lastName") String lastName,
+											@RequestParam(value = "firstName") String firstName,
 											@RequestBody Person person) {
-		
+		log.info("PUT request /person with param: lastName: {}, firstName: {}, Object: {}", lastName, firstName, person);
 		Person editedPerson = personService.update(lastName, firstName, person);
 		if(editedPerson == null) {
 			log.error("No person found for full name: {} {}", firstName, lastName);
@@ -88,6 +92,21 @@ public class PersonController {
 		log.info("Return response code OK");
 		
 		return ResponseEntity.ok().body(editedPerson);
+	}
+	
+	@DeleteMapping(value="/person")
+	public ResponseEntity<Person> deletePerson(@RequestParam(value = "lastName") String lastName,
+												@RequestParam(value = "firstName") String firstName) { 
+		log.info("DELETE request /person with param: lastName: {}, firstName: {}", lastName, firstName);
+		Person deletedPerson = personService.delete(lastName, firstName);
+		if(deletedPerson == null) {
+			log.error("No person found for full name: {} {}", firstName, lastName);
+			return ResponseEntity.notFound().build();
+		}
+		
+		log.info("Return response code OK");
+		return ResponseEntity.ok().body(deletedPerson);
+		
 	}
 	
 

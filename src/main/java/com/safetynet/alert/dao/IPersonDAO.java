@@ -61,5 +61,14 @@ public interface IPersonDAO {
 	 * 26 janv. 2021
 	 */
 	public Person update(String lastName, String firstName, Person newPersonDatas);
-
+	
+	/**
+	 * Delete a person in database
+	 * @param lastName
+	 * @param firstName
+	 * @return Should return the person object was deleted, null otherwise
+	 * @author Mathias Lauer
+	 * 28 janv. 2021
+	 */
+	public Person delete(String lastName, String firstName);
 }

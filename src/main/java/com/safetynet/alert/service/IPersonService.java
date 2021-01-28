@@ -25,5 +25,7 @@ public interface IPersonService {
 	 * 26 janv. 2021
 	 */
 	public Person update(String lastName, String firstName, Person person);
+	
+	public Person delete(String lastName, String firstName);
 
 }

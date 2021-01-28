@@ -3,11 +3,10 @@ package com.safetynet.alert.model;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
-import com.fasterxml.jackson.annotation.JsonRootName;
 
-public class JsonDb {
+public class JsonDatabase {
 	
-	@JsonAlias("firestations")
+	@JsonAlias("firestations") //Used to specify the var name in json file when not the same as follow
 	private List<FireStation> fireStations;
 	
 	@JsonAlias("medicalrecords")

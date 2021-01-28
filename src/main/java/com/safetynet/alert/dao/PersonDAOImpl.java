@@ -95,4 +95,15 @@ public class PersonDAOImpl implements IPersonDAO {
 		return personToEdit;
 	}
 
+	@Override
+	public Person delete(String lastName, String firstName) {
+		for(Person p : findAll()) {
+			if(p.getFirstName().equals(firstName) && p.getLastName().equals(lastName)) {	
+				findAll().remove(p);
+				return p;
+			}
+		}
+		return null;
+	}
+
 }

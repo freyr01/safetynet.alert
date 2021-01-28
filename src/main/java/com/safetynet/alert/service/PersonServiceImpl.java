@@ -80,5 +80,10 @@ public class PersonServiceImpl implements IPersonService{
 	public Person update(String lastName, String firstName, Person newPersonDatas) {
 		return personDao.update(lastName, firstName, newPersonDatas);
 	}
+
+	@Override
+	public Person delete(String lastName, String firstName) {
+		return personDao.delete(lastName, firstName);
+	}
 	
 }
