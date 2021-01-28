@@ -48,29 +48,33 @@ public class PersonControllerIT {
 				.contentType(MediaType.APPLICATION_JSON)
 				.accept(MediaType.APPLICATION_JSON)
 				).andExpect(status().isCreated());
+	}
+	
+	@Test
+	public void testGetPersonInfo_shouldReturnPersonInfo() throws Exception {
+		mockMvc.perform(get("/personInfo?firstName=John&lastName=Boyd"))
+		.andExpect(status().isOk())
+		.andExpect(jsonPath("$[0].address", is("1509 Culver St")))
+		.andExpect(jsonPath("$[0].age", is(36)));
 		
-		mockMvc.perform(get("/personInfo?firstName=Amanda&lastName=Lir")).andExpect(status().isOk()).andExpect(jsonPath("$[0].firstName", is("Amanda")));
 	}
 	
 	@Test
 	public void testUpdatingPerson_shouldReturnStatusOk() throws Exception {
+
+		Person newData = new Person();
+		newData.setPhone("0102030405");
 		mockMvc.perform(MockMvcRequestBuilders
-				.post("/person")
-				.content(asJsonString(new Person("Amanda", "Lir", "951 LoneTree Rd", "Culver", "97451", "0101010101", "amanada.lir@gmail.com")))
+				.put("/person").param("firstName", "John").param("lastName", "Boyd")
+				.content(asJsonString(newData))
 				.contentType(MediaType.APPLICATION_JSON)
 				.accept(MediaType.APPLICATION_JSON)
-				).andExpect(status().isCreated());
-		
-		mockMvc.perform(MockMvcRequestBuilders
-				.put("/person?firstName=Amanda&lastName=Lir")
-				.content(asJsonString(new Person("Amanda", "Lir", "5 Ch de Vaugrenier", "Antibes", "06600", "0101010101", "amanada.lir@gmail.com")))
-				.contentType(MediaType.APPLICATION_JSON)
-				.accept(MediaType.APPLICATION_JSON)
-				).andExpect(status().isOk());
-		
-		mockMvc.perform(get("/personInfo?firstName=Amanda&lastName=Lir")).andExpect(status().isOk()).andExpect(jsonPath("$[0].address", is("5 Ch de Vaugrenier")));
-		
-		mockMvc.perform(delete("/person?firstName=Amanda&lastName=Lir")).andExpect(status().isOk());
+				).andExpect(status().isOk());	
+	}
+	
+	@Test
+	public void testDeletingPerson_shouldReturnStatusOk() throws Exception {
+		mockMvc.perform(delete("/person?firstName=Jacob&lastName=Boyd")).andExpect(status().isOk());
 	}
 	
 	

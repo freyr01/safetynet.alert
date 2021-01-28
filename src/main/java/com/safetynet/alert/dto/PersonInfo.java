@@ -8,18 +8,9 @@ public class PersonInfo {
 	private String lastName;
 	private int age;
 	private String address;
+	private String email;
 	private List<String> medications;
 	private List<String> allergies;
-	
-	public PersonInfo(String firstName, String lastName, int age, String address, List<String> medications,
-			List<String> allergies) {
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.age = age;
-		this.address = address;
-		this.medications = medications;
-		this.allergies = allergies;
-	}
 	
 	public PersonInfo() {
 		
@@ -60,6 +51,14 @@ public class PersonInfo {
 	}
 	public void setAllergies(List<String> allergies) {
 		this.allergies = allergies;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 }

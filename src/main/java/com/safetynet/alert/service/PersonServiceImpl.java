@@ -40,6 +40,8 @@ public class PersonServiceImpl implements IPersonService{
 			personInfo.setFirstName(p.getFirstName());
 			personInfo.setLastName(p.getLastName());
 			personInfo.setAge(age);
+			personInfo.setAddress(p.getAddress());
+			personInfo.setEmail(p.getEmail());
 			personInfo.setAllergies(medicalRecord.getAllergies());
 			personInfo.setMedications(medicalRecord.getMedications());
 			
@@ -96,13 +98,13 @@ public class PersonServiceImpl implements IPersonService{
 	}
 
 	@Override
-	public Person update(String lastName, String firstName, Person newPersonDatas) {
-		return personDao.update(lastName, firstName, newPersonDatas);
+	public Person update(String firstName, String lastName, Person newPersonDatas) {
+		return personDao.update(firstName, lastName, newPersonDatas);
 	}
 
 	@Override
-	public Person delete(String lastName, String firstName) {
-		return personDao.delete(lastName, firstName);
+	public Person delete(String firstName, String lastName) {
+		return personDao.delete(firstName, lastName);
 	}
 	
 }

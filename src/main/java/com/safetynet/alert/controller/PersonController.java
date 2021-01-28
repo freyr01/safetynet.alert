@@ -62,7 +62,7 @@ public class PersonController {
 	}
 	
 	@PostMapping(value = "/person")
-	public ResponseEntity<Void> addPerson(@RequestBody Person person) {
+	public ResponseEntity<Person> addPerson(@RequestBody Person person) {
 		log.info("POST request /person with param: {}", person);
 		Person personAdded = personService.add(person);
 		if(personAdded == null) {
@@ -72,19 +72,21 @@ public class PersonController {
 		
 		URI location = ServletUriComponentsBuilder
 				.fromCurrentRequest()
-				.path("/{lastName}/{firstName}")
-				.buildAndExpand(new Object[] {person.getLastName(), person.getFirstName()}).toUri();
+				.path("/personInfo")
+				.queryParam("firstName", person.getFirstName())
+				.queryParam("lastName", person.getLastName())
+				.build().toUri();
 		
 		log.info("Return response code created at location: {}", location);
 		return ResponseEntity.created(location).build();
 	}
 	
 	@PutMapping(value="/person")
-	public ResponseEntity<Person> updatePerson(@RequestParam(value = "lastName") String lastName,
-											@RequestParam(value = "firstName") String firstName,
+	public ResponseEntity<Person> updatePerson(@RequestParam(value = "firstName") String firstName,
+											@RequestParam(value = "lastName") String lastName,
 											@RequestBody Person person) {
-		log.info("PUT request /person with param: lastName: {}, firstName: {}, Object: {}", lastName, firstName, person);
-		Person editedPerson = personService.update(lastName, firstName, person);
+		log.info("PUT request /person with param: firstName: {}, lastName: {}, Object: {}", firstName, lastName, person);
+		Person editedPerson = personService.update(firstName, lastName, person);
 		if(editedPerson == null) {
 			log.error("No person found for full name: {} {}", firstName, lastName);
 			return ResponseEntity.notFound().build();	
@@ -96,10 +98,10 @@ public class PersonController {
 	}
 	
 	@DeleteMapping(value="/person")
-	public ResponseEntity<Person> deletePerson(@RequestParam(value = "lastName") String lastName,
-												@RequestParam(value = "firstName") String firstName) { 
-		log.info("DELETE request /person with param: lastName: {}, firstName: {}", lastName, firstName);
-		Person deletedPerson = personService.delete(lastName, firstName);
+	public ResponseEntity<Person> deletePerson(@RequestParam(value = "firstName") String firstName,
+												@RequestParam(value = "lastName") String lastName) { 
+		log.info("DELETE request /person with param: firstName: {}, lastName: {}", firstName, lastName);
+		Person deletedPerson = personService.delete(firstName, lastName);
 		if(deletedPerson == null) {
 			log.error("No person found for full name: {} {}", firstName, lastName);
 			return ResponseEntity.notFound().build();

@@ -63,7 +63,7 @@ public class PersonDAOImpl implements IPersonDAO {
 		return person;
 	}
 	
-	public Person update(String lastName, String firstName, Person newPersonDatas) {
+	public Person update(String firstName, String lastName, Person newPersonDatas) {
 		List<Person> persons = findByFullName(firstName, lastName);
 		if(persons.size() < 1) {
 			log.error("Cannot found anybody named: {} {}", firstName, lastName);
@@ -96,13 +96,15 @@ public class PersonDAOImpl implements IPersonDAO {
 	}
 
 	@Override
-	public Person delete(String lastName, String firstName) {
+	public Person delete(String firstName, String lastName) {
 		for(Person p : findAll()) {
 			if(p.getFirstName().equals(firstName) && p.getLastName().equals(lastName)) {	
 				findAll().remove(p);
 				return p;
 			}
 		}
+		
+		log.error("Not found person: {} {}", firstName, lastName);
 		return null;
 	}
 
