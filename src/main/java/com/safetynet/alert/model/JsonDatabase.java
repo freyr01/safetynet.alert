@@ -7,17 +7,17 @@ import com.fasterxml.jackson.annotation.JsonAlias;
 public class JsonDatabase {
 	
 	@JsonAlias("firestations") //Used to specify the var name in json file when not the same as follow
-	private List<FireStation> fireStations;
+	private List<FireStationMapping> fireStations;
 	
 	@JsonAlias("medicalrecords")
 	private List<MedicalRecord> medicalRecords;
 	
 	private List<Person> persons;
 	
-	public List<FireStation> getFireStations() {
+	public List<FireStationMapping> getFireStations() {
 		return fireStations;
 	}
-	public void setFireStations(List<FireStation> fireStations) {
+	public void setFireStations(List<FireStationMapping> fireStations) {
 		this.fireStations = fireStations;
 	}
 	public List<MedicalRecord> getMedicalRecords() {

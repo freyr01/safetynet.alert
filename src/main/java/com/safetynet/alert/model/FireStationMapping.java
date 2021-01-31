@@ -6,7 +6,7 @@ import javax.validation.constraints.NotNull;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 
 @EntityScan
-public class FireStation {
+public class FireStationMapping {
 	
 	@NotNull @Min(5)
 	private String address;

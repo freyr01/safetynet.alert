@@ -4,13 +4,17 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.safetynet.alert.controller.FireStationController;
 import com.safetynet.alert.service.IFireStationService;
+import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class FireStationServiceTest {
+public class FireStationControllerTest {
 	
 	@Mock
 	IFireStationService fireStationService;
@@ -24,6 +28,10 @@ public class FireStationServiceTest {
 	
 	@Test
 	public void testControllerUseCorrectService() {
+		when(fireStationService.getCoveredFolkOf(anyInt())).thenReturn(null);
+		fireStationController.getCoveredFolkOf(1);
+		
+		verify(fireStationService, Mockito.times(1)).getCoveredFolkOf(anyInt());
 		
 	}
 
