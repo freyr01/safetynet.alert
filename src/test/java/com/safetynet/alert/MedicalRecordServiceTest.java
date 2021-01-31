@@ -1,6 +1,8 @@
 package com.safetynet.alert;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -28,6 +30,7 @@ public class MedicalRecordServiceTest {
 	
 	private static MedicalRecord mr1 = new MedicalRecord();
 	private static MedicalRecord mr2 = new MedicalRecord();
+	private static MedicalRecord mr3 = new MedicalRecord();
 	static {
 		
 		mr1.setFirstName("Samantha");
@@ -37,6 +40,10 @@ public class MedicalRecordServiceTest {
 		mr2.setFirstName("Billy");
 		mr2.setLastName("Kid");
 		mr2.setBirthdate("01/21/2011");
+		
+		mr3.setFirstName("John");
+		mr3.setLastName("Watson");
+		mr3.setBirthdate("01/21/2002");
 	}
 	
 	@Mock
@@ -60,5 +67,23 @@ public class MedicalRecordServiceTest {
 		verify(medicalRecordDAO, Mockito.times(1)).findByFullName(anyString(), anyString());
 		assertEquals(expectedAgeMr1.getYears(), ageMr1);
 		
+	}
+	
+	@Test
+	public void testIsChild() {
+		when(medicalRecordDAO.findByFullName(anyString(), anyString())).thenReturn(mr1);
+		
+		assertTrue(medicalRecordService.isChild(mr1.getFirstName(), mr1.getLastName()));
+
+		verify(medicalRecordDAO, Mockito.times(1)).findByFullName(anyString(), anyString());
+	}
+	
+	@Test
+	public void testIsNotChild() {
+		when(medicalRecordDAO.findByFullName(anyString(), anyString())).thenReturn(mr3);
+		
+		assertFalse(medicalRecordService.isChild(mr3.getFirstName(), mr3.getLastName()));
+
+		verify(medicalRecordDAO, Mockito.times(1)).findByFullName(anyString(), anyString());
 	}
 }

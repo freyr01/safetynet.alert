@@ -25,5 +25,15 @@ public interface IMedicalRecordService {
 	 * 28 janv. 2021
 	 */
 	public MedicalRecord getMedicalRecordOf(String firstName, String lastName);
+	
+	/**
+	 * Should return true if the person given is 18 years or under
+	 * @param firstName
+	 * @param lastName
+	 * @return boolean
+	 * @author Mathias Lauer
+	 * 31 janv. 2021
+	 */
+	public boolean isChild(String firstName, String lastName);
 
 }

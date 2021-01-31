@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.safetynet.alert.dto.FireStationJurisdiction;
+import com.safetynet.alert.dto.FireStationCoverage;
 import com.safetynet.alert.service.IFireStationService;
 @RestController
 public class FireStationController {
@@ -21,9 +21,9 @@ public class FireStationController {
 	}
 	
 	@GetMapping(value="/firestation")
-	public FireStationJurisdiction getCoveredFolkOf(@RequestParam int stationNumber) {
+	public FireStationCoverage getCoveredFolkOf(@RequestParam int stationNumber) {
 		log.info("GET request /firestation with param: stationNumber: {}", stationNumber);
-		FireStationJurisdiction fireStationJurisdiction = fireStationService.getCoveredFolkOf(stationNumber);
+		FireStationCoverage fireStationJurisdiction = fireStationService.getCoveredFolkOf(stationNumber);
 		log.info("Return object FireStationJurisdicton: {}", fireStationJurisdiction);
 		
 		return fireStationJurisdiction;

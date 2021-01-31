@@ -53,4 +53,13 @@ public class MedicalRecordServiceImpl implements IMedicalRecordService {
 		return agePeriod.getYears();
 	}
 
+	@Override
+	public boolean isChild(String firstName, String lastName) {
+		int age = getAgeOf(firstName, lastName);
+		
+		if(age <= 18) return true;
+		
+		return false;
+	}
+
 }

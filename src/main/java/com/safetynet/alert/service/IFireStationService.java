@@ -1,9 +1,9 @@
 package com.safetynet.alert.service;
 
-import com.safetynet.alert.dto.FireStationJurisdiction;
+import com.safetynet.alert.dto.FireStationCoverage;
 
 public interface IFireStationService {
 
-	FireStationJurisdiction getCoveredFolkOf(int stationNumber);
+	public FireStationCoverage getCoveredFolkOf(int stationNumber);
 
 }
