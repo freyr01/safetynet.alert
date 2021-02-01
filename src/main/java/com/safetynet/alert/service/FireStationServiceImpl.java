@@ -32,7 +32,7 @@ public class FireStationServiceImpl implements IFireStationService {
 
 	@Override
 	public FireStationCoverage getCoveredFolkOf(int stationNumber) {
-		FireStationCoverage fireStationJurisdiction = new FireStationCoverage();
+		FireStationCoverage fireStationCoverage = new FireStationCoverage();
 		List<Person> personsUnderJurisdiction = new ArrayList<Person>();
 		List<FireStationMapping> fireStationMappingList = fireStationDAO.findByStationNumber(stationNumber);
 		int adultCount = 0;
@@ -51,11 +51,11 @@ public class FireStationServiceImpl implements IFireStationService {
 			}
 		}
 		
-		fireStationJurisdiction.setPersons(personsUnderJurisdiction);
-		fireStationJurisdiction.setChildCount(childCount);
-		fireStationJurisdiction.setAdultCount(adultCount);
+		fireStationCoverage.setPersons(personsUnderJurisdiction);
+		fireStationCoverage.setChildCount(childCount);
+		fireStationCoverage.setAdultCount(adultCount);
 
-		return fireStationJurisdiction;
+		return fireStationCoverage;
 	}
 
 }

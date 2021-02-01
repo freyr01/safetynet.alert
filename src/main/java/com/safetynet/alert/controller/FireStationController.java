@@ -3,10 +3,14 @@ package com.safetynet.alert.controller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.converter.json.MappingJacksonValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.databind.ser.FilterProvider;
+import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
+import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
 import com.safetynet.alert.dto.FireStationCoverage;
 import com.safetynet.alert.service.IFireStationService;
 @RestController
@@ -21,12 +25,19 @@ public class FireStationController {
 	}
 	
 	@GetMapping(value="/firestation")
-	public FireStationCoverage getCoveredFolkOf(@RequestParam int stationNumber) {
+	public MappingJacksonValue getCoveredFolkOf(@RequestParam int stationNumber) {
 		log.info("GET request /firestation with param: stationNumber: {}", stationNumber);
-		FireStationCoverage fireStationJurisdiction = fireStationService.getCoveredFolkOf(stationNumber);
-		log.info("Return object FireStationJurisdicton: {}", fireStationJurisdiction);
+		FireStationCoverage fireStationCoverage = fireStationService.getCoveredFolkOf(stationNumber);
 		
-		return fireStationJurisdiction;
+		SimpleBeanPropertyFilter fieldFilter = SimpleBeanPropertyFilter.serializeAllExcept("city", "zip", "email");
+	    FilterProvider filters = new SimpleFilterProvider().addFilter("stationCoverageFilter", fieldFilter);
+
+	    MappingJacksonValue fireStationCoverageFiltered = new MappingJacksonValue(fireStationCoverage);
+	    fireStationCoverageFiltered.setFilters(filters);
+
+		log.info("Return object: {}", fireStationCoverageFiltered);
+		
+		return fireStationCoverageFiltered;
 	}
 
 }
