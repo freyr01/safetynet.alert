@@ -69,7 +69,7 @@ public class FireStationServiceTest {
 		when(personDAO.findAll()).thenReturn(persons);
 		when(medicalRecordService.isChild(anyString(), anyString())).thenReturn(false);
 		
-		FireStationCoverage fireStationCoverage = fireStationService.getCoveredFolkOf(1);
+		FireStationCoverage fireStationCoverage = fireStationService.getFireStationCoverageFor(1);
 		
 		assertEquals(1, fireStationCoverage.getAdultCount());
 		assertEquals(0, fireStationCoverage.getChildCount());

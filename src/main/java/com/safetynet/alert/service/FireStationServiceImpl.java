@@ -29,33 +29,42 @@ public class FireStationServiceImpl implements IFireStationService {
 		this.personDAO = p_personDAO;
 		this.medicalRecordService = p_medicalRecordService;
 	}
-
+	
 	@Override
-	public FireStationCoverage getCoveredFolkOf(int stationNumber) {
+	public FireStationCoverage getFireStationCoverageFor(int stationNumber) {
 		FireStationCoverage fireStationCoverage = new FireStationCoverage();
-		List<Person> personsUnderJurisdiction = new ArrayList<Person>();
-		List<FireStationMapping> fireStationMappingList = fireStationDAO.findByStationNumber(stationNumber);
+		List<Person> personsCovered = getCoveredPersonOf(stationNumber);
 		int adultCount = 0;
 		int childCount = 0;
 		
+		for(Person person : personsCovered) {
+			if(medicalRecordService.isChild(person.getFirstName(), person.getLastName())) {
+				childCount++;
+			} else {
+				adultCount++;
+			}
+		}
+		
+		fireStationCoverage.setPersons(personsCovered);
+		fireStationCoverage.setChildCount(childCount);
+		fireStationCoverage.setAdultCount(adultCount);
+		
+		return fireStationCoverage;
+	}
+
+	@Override
+	public List<Person> getCoveredPersonOf(int stationNumber) {
+		List<Person> personsCovered = new ArrayList<Person>();
+		List<FireStationMapping> fireStationMappingList = fireStationDAO.findByStationNumber(stationNumber);
 		for(Person person : personDAO.findAll()) {
 			for(FireStationMapping fsMap : fireStationMappingList) {
 				if(person.getAddress().equals(fsMap.getAddress())) {
-					personsUnderJurisdiction.add(person);
-					if(medicalRecordService.isChild(person.getFirstName(), person.getLastName())) {
-						childCount++;
-					} else {
-						adultCount++;
-					}
+					personsCovered.add(person);
 				}
 			}
 		}
 		
-		fireStationCoverage.setPersons(personsUnderJurisdiction);
-		fireStationCoverage.setChildCount(childCount);
-		fireStationCoverage.setAdultCount(adultCount);
-
-		return fireStationCoverage;
+		return personsCovered;
 	}
 
 }

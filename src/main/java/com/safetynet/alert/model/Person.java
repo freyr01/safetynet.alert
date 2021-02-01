@@ -4,9 +4,6 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
-import com.fasterxml.jackson.annotation.JsonFilter;
-
-@JsonFilter("stationCoverageFilter")
 public class Person {
 	
 	@NotNull @Min(3)

@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.annotation.JsonFilter;
 import com.fasterxml.jackson.databind.ser.FilterProvider;
 import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
 import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
@@ -25,11 +26,12 @@ public class FireStationController {
 	}
 	
 	@GetMapping(value="/firestation")
-	public MappingJacksonValue getCoveredFolkOf(@RequestParam int stationNumber) {
+	public MappingJacksonValue getCoveredPersonOf(@RequestParam int stationNumber) {
 		log.info("GET request /firestation with param: stationNumber: {}", stationNumber);
-		FireStationCoverage fireStationCoverage = fireStationService.getCoveredFolkOf(stationNumber);
 		
-		SimpleBeanPropertyFilter fieldFilter = SimpleBeanPropertyFilter.serializeAllExcept("city", "zip", "email");
+		FireStationCoverage fireStationCoverage = fireStationService.getFireStationCoverageFor(stationNumber);
+		
+		SimpleBeanPropertyFilter fieldFilter = SimpleBeanPropertyFilter.serializeAllExcept("Person.city", "zip", "email");
 	    FilterProvider filters = new SimpleFilterProvider().addFilter("stationCoverageFilter", fieldFilter);
 
 	    MappingJacksonValue fireStationCoverageFiltered = new MappingJacksonValue(fireStationCoverage);

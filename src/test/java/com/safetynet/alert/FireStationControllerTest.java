@@ -27,12 +27,13 @@ public class FireStationControllerTest {
 	}
 	
 	@Test
-	public void testControllerUseCorrectService() {
-		when(fireStationService.getCoveredFolkOf(anyInt())).thenReturn(null);
-		fireStationController.getCoveredFolkOf(1);
+	public void testEndpointFirestation_shouldCallServiceAndLog() {
+		when(fireStationService.getFireStationCoverageFor(anyInt())).thenReturn(null);
+		fireStationController.getCoveredPersonOf(1);
 		
-		verify(fireStationService, Mockito.times(1)).getCoveredFolkOf(anyInt());
+		verify(fireStationService, Mockito.times(1)).getFireStationCoverageFor(1);
 		
 	}
+	
 
 }
