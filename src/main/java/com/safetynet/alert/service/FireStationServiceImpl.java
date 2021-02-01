@@ -67,4 +67,17 @@ public class FireStationServiceImpl implements IFireStationService {
 		return personsCovered;
 	}
 
+	@Override
+	public List<String> getPhoneOfAllPersonCoveredBy(int stationNumber) {
+		List<String> phoneList = new ArrayList<String>();
+		List<Person> personsCovered = getCoveredPersonOf(stationNumber);
+		for(Person person : personsCovered) {
+			if( ! phoneList.contains(person.getPhone())) {
+				phoneList.add(person.getPhone());
+			}
+		}
+		
+		return phoneList;
+	}
+
 }

@@ -2,8 +2,10 @@ package com.safetynet.alert.dto;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonFilter;
 import com.safetynet.alert.model.Person;
 
+@JsonFilter("stationCoverageFilter")
 public class FireStationCoverage {
 	
 	private int adultCount;

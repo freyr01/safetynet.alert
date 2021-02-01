@@ -64,7 +64,7 @@ public class FireStationServiceTest {
 	}
 	
 	@Test
-	public void testStationJurisdictionLogic() {
+	public void testStationCoverageLogicLogic() {
 		when(fireStationDAO.findByStationNumber(1)).thenReturn(fireStationMapping);
 		when(personDAO.findAll()).thenReturn(persons);
 		when(medicalRecordService.isChild(anyString(), anyString())).thenReturn(false);
@@ -74,6 +74,16 @@ public class FireStationServiceTest {
 		assertEquals(1, fireStationCoverage.getAdultCount());
 		assertEquals(0, fireStationCoverage.getChildCount());
 		assertEquals("Eric", fireStationCoverage.getPersons().get(0).getFirstName());
+	}
+	
+	@Test
+	public void testPhoneListOfCoveragePerson() {
+		when(fireStationDAO.findByStationNumber(1)).thenReturn(fireStationMapping);
+		when(personDAO.findAll()).thenReturn(persons);
+		
+		List<String> phoneList = fireStationService.getPhoneOfAllPersonCoveredBy(1);
+		
+		assertEquals("0401010101", phoneList.get(0));
 	}
 
 }

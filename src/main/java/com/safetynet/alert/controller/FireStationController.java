@@ -1,5 +1,7 @@
 package com.safetynet.alert.controller;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,7 +10,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fasterxml.jackson.annotation.JsonFilter;
 import com.fasterxml.jackson.databind.ser.FilterProvider;
 import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
 import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
@@ -36,10 +37,19 @@ public class FireStationController {
 
 	    MappingJacksonValue fireStationCoverageFiltered = new MappingJacksonValue(fireStationCoverage);
 	    fireStationCoverageFiltered.setFilters(filters);
+	    //TODO This filter doesn't work
 
 		log.info("Return object: {}", fireStationCoverageFiltered);
 		
 		return fireStationCoverageFiltered;
+	}
+	
+	@GetMapping(value="/phoneAlert")
+	public List<String> getPhoneOfCoveredPersonBy(@RequestParam int firestation) {
+		log.info("GET request /phoneAlert with param: firestation: {}", firestation);
+		List<String> phoneList = fireStationService.getPhoneOfAllPersonCoveredBy(firestation);
+		log.info("Return List<String>: {}", phoneList);
+		return phoneList;
 	}
 
 }

@@ -24,5 +24,14 @@ public interface IFireStationService {
 	 * 1 févr. 2021
 	 */
 	public FireStationCoverage getFireStationCoverageFor(int stationNumber);
+	
+	/**
+	 * Should return a list of phone number of persons covered by station given in param
+	 * @param stationNumber
+	 * @return List<String>
+	 * @author Mathias Lauer
+	 * 1 févr. 2021
+	 */
+	public List<String> getPhoneOfAllPersonCoveredBy(int stationNumber);
 
 }

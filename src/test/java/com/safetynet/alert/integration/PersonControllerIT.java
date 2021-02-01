@@ -19,7 +19,6 @@ import com.safetynet.alert.model.Person;
 import com.safetynet.alert.service.IPersonService;
 
 @SpringBootTest
-//@WebMvcTest(controllers = PersonController.class)
 @AutoConfigureMockMvc
 public class PersonControllerIT {
 	
