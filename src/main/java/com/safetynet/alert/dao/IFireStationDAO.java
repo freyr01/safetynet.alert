@@ -7,7 +7,7 @@ import com.safetynet.alert.model.FireStationMapping;
 public interface IFireStationDAO {
 	
 	/**
-	 * Return all station mapping
+	 * Should return all station mapping
 	 * @return List<FireStation>
 	 * @author Mathias Lauer
 	 * 31 janv. 2021
@@ -15,12 +15,21 @@ public interface IFireStationDAO {
 	public List<FireStationMapping> findAll();
 	
 	/**
-	 * Return all mapping linked to station number arg
+	 * Should return all mapping linked to station number given
 	 * @param stationNumber 
 	 * @return List<FireStation>
 	 * @author Mathias Lauer
 	 * 31 janv. 2021
 	 */
 	public List<FireStationMapping> findByStationNumber(int stationNumber);
+	
+	/**
+	 * Should return the FireStationMapping of the station covering address given
+	 * @param address
+	 * @return FireStationMapping found, null if not found
+	 * @author Mathias Lauer
+	 * 2 févr. 2021
+	 */
+	public FireStationMapping findByAddress(String address);
 
 }

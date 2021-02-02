@@ -39,6 +39,11 @@ public class PersonControllerIT {
 	}
 	
 	@Test
+	public void testEndpointGetAddressReport_shouldReturnStatusIsOk() throws Exception {
+		mockMvc.perform(get("/fire?address=?")).andExpect(status().isOk());
+	}
+	
+	@Test
 	public void testAddingNewPerson_shouldReturnStatusIsCreated() throws Exception {
 		mockMvc.perform(MockMvcRequestBuilders
 				.post("/person")

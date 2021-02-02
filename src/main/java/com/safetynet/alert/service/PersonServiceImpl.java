@@ -8,7 +8,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.safetynet.alert.dao.IFireStationDAO;
 import com.safetynet.alert.dao.IPersonDAO;
+import com.safetynet.alert.dto.AddressReport;
 import com.safetynet.alert.dto.ChildInfo;
 import com.safetynet.alert.dto.PersonInfo;
 import com.safetynet.alert.model.MedicalRecord;
@@ -22,10 +24,12 @@ public class PersonServiceImpl implements IPersonService{
 	
 	private IPersonDAO personDao;
 	private IMedicalRecordService medicalRecordService;
+	private IFireStationDAO fireStationDAO;
 	
-	public PersonServiceImpl(@Autowired IPersonDAO p_personDao, @Autowired IMedicalRecordService p_medicalRecordService) {
+	public PersonServiceImpl(@Autowired IPersonDAO p_personDao, @Autowired IMedicalRecordService p_medicalRecordService, @Autowired IFireStationDAO p_fireStationDAO) {
 		personDao = p_personDao;
 		medicalRecordService = p_medicalRecordService;
+		fireStationDAO = p_fireStationDAO;
 	}
 	
 	public List<PersonInfo> getPersonInfo(String firstName, String lastName) {
@@ -105,6 +109,14 @@ public class PersonServiceImpl implements IPersonService{
 	@Override
 	public Person delete(String firstName, String lastName) {
 		return personDao.delete(firstName, lastName);
+	}
+
+	@Override
+	public AddressReport getAddressReport(String address) {
+		List<Person> personsByAddress = personDao.findByAddress(address);
+		int station = fireStationDAO.findByAddress(address).getStation();
+		//TODO
+		return null;
 	}
 	
 }

@@ -36,4 +36,15 @@ public class FireStationDAOImpl implements IFireStationDAO {
 		return fireStationFiltered;
 	}
 
+	@Override
+	public FireStationMapping findByAddress(String address) {
+		
+		for(FireStationMapping fireStationMapping : findAll()) {
+			if(fireStationMapping.getAddress().equals(address)) {
+				return fireStationMapping;
+			}
+		}
+		return null;
+	}
+
 }
