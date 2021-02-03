@@ -28,24 +28,6 @@ import com.safetynet.alert.service.MedicalRecordServiceImpl;
 @ExtendWith(MockitoExtension.class)
 public class MedicalRecordServiceTest {
 	
-	private static MedicalRecord mr1 = new MedicalRecord();
-	private static MedicalRecord mr2 = new MedicalRecord();
-	private static MedicalRecord mr3 = new MedicalRecord();
-	static {
-		
-		mr1.setFirstName("Samantha");
-		mr1.setLastName("Carson");
-		mr1.setBirthdate("02/18/2012");
-		
-		mr2.setFirstName("Billy");
-		mr2.setLastName("Kid");
-		mr2.setBirthdate("01/21/2011");
-		
-		mr3.setFirstName("John");
-		mr3.setLastName("Watson");
-		mr3.setBirthdate("01/21/2002");
-	}
-	
 	@Mock
 	private static MedicalRecordDAOImpl medicalRecordDAO;
 	

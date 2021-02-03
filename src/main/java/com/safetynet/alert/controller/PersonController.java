@@ -112,9 +112,9 @@ public class PersonController {
 	}
 	
 	@GetMapping(value="fire")
-	public AddressReportDTO getFireReport(@RequestParam String address) {
+	public AddressReportDTO getAddressReport(@RequestParam String address) {
 		log.info("GET request /fire with param: address: {}", address);
-		AddressReportDTO addressReport = new AddressReportDTO();
+		AddressReportDTO addressReport = personService.getAddressReport(address);
 		
 		log.info("Return AddressReport object: {}", addressReport);
 		return addressReport;

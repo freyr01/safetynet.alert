@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.safetynet.alert.dao.IFireStationDAO;
 import com.safetynet.alert.dao.IPersonDAO;
 import com.safetynet.alert.dto.AddressReportDTO;
+import com.safetynet.alert.dto.AddressReportPersonDTO;
 import com.safetynet.alert.dto.ChildInfoDTO;
 import com.safetynet.alert.dto.PersonInfoDTO;
 import com.safetynet.alert.model.MedicalRecord;
@@ -113,10 +114,31 @@ public class PersonServiceImpl implements IPersonService{
 
 	@Override
 	public AddressReportDTO getAddressReport(String address) {
+		AddressReportDTO addressReportDTO = new AddressReportDTO();
+		List<AddressReportPersonDTO> listAddressReportPersonDTO = new ArrayList<AddressReportPersonDTO>();
+		
+
+		int stationNumber = fireStationDAO.findByAddress(address).getStation();
+		addressReportDTO.setStationNumber(stationNumber);
+		
 		List<Person> personsByAddress = personDao.findByAddress(address);
-		int station = fireStationDAO.findByAddress(address).getStation();
-		//TODO
-		return null;
+		for(Person person : personsByAddress) {
+			AddressReportPersonDTO addressReportPersonDTO = new AddressReportPersonDTO();
+			MedicalRecord medicalRecord = medicalRecordService.getMedicalRecordOf(person.getFirstName(), person.getLastName());
+			
+			addressReportPersonDTO.setFirstName(person.getFirstName());
+			addressReportPersonDTO.setLastName(person.getLastName());
+			addressReportPersonDTO.setAge(medicalRecordService.getAgeOf(medicalRecord));
+			addressReportPersonDTO.setPhone(person.getPhone());
+			addressReportPersonDTO.setAllergies(medicalRecord.getAllergies());
+			addressReportPersonDTO.setMedications(medicalRecord.getMedications());
+			
+			listAddressReportPersonDTO.add(addressReportPersonDTO);
+		}
+		
+		addressReportDTO.setPerson(listAddressReportPersonDTO);
+		
+		return addressReportDTO;
 	}
 	
 }

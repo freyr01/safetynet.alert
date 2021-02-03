@@ -31,27 +31,7 @@ import com.safetynet.alert.service.PersonServiceImpl;
 @ExtendWith(MockitoExtension.class)
 public class PersonServiceTest {
 	
-	static List<Person> personByFullName = new ArrayList<Person>();
-	static List<Person> personByCity = new ArrayList<Person>();
-	static List<Person> persons = new ArrayList<Person>();
-	static List<Person> personsByAddress = new ArrayList<Person>();
-	static Person person1 = new Person("Eric", "Jori", "5 Ch de Vaugrenier", "Antibes", "06600" , "0401010101", "eric.jori@gmail.com");
-	static Person person2 = new Person("Samantha", "Carson", "123 Gare st Lazare", "Paris", "92000", "0102030405", "samantha.carson@gmail.com");
-	static Person person3 = new Person("John", "Watson", "5 Blv de la Mer", "Antibes", "06600", "0403232311", "ejohn.watson@gmail.com");
-	static Person person4 = new Person("Geofrey", "Versat", "123 Gare st Lazare", "Paris", "92000", "0101010101", "geofrey.versat@gmail.com");
-	static FireStationMapping fireStationMapping = new FireStationMapping();
-	static {
-		personByFullName.add(person2);
-		personByCity.add(person1);
-		personByCity.add(person3);
-		persons.add(person1);
-		persons.add(person2);
-		persons.add(person4);
-		personsByAddress.add(person2);
-		personsByAddress.add(person4);
-		fireStationMapping.setAddress("123 Gare st Lazare");
-		fireStationMapping.setStation(1);
-	}
+
 	
 	@Mock
 	private IPersonDAO personDao;
@@ -70,15 +50,8 @@ public class PersonServiceTest {
 	}
 	
 	@Test
-	public void testGetPersonInfo_shouldCallDao() {
-		personService.getPersonInfo(anyString(), anyString());
-		
-		verify(personDao, Mockito.times(1)).findByFullName(anyString(), anyString());
-	}
-	
-	@Test
-	public void testGetPersonEmailByCity_shouldReturnListOfTwoString() {
-		when(personDao.findByCity(anyString())).thenReturn(persons);
+	public void testGetPersonEmailByCity_shouldReturnListOfThreeMails() {
+		when(personDao.findByCity(anyString())).thenReturn(TestData.TestPerson.getBySameCity());
 		
 		List<String> mails = personService.getPersonEmailByCity(anyString());
 		
@@ -88,44 +61,38 @@ public class PersonServiceTest {
 	
 	@Test
 	public void testGetChildByAddress_shouldReturnAtLeastOneObject() {
-		when(personDao.findByAddress(anyString())).thenReturn(personByCity);
+		when(personDao.findByAddress(anyString())).thenReturn(TestData.TestPerson.getBySameCity());
 		when(medicalRecordService.getAgeOf(anyString(), anyString())).thenReturn(12);
 		
 		
 		List<ChildInfoDTO> childsInfo = personService.getChildByAddress("123 Gare st Lazare");
 		
-		verify(medicalRecordService, Mockito.times(2)).getAgeOf(anyString(), anyString());
+		verify(medicalRecordService, Mockito.times(3)).getAgeOf(anyString(), anyString());
 		verify(personDao, Mockito.times(1)).findByAddress(anyString());
-		assertEquals(2, childsInfo.size());
+		assertEquals(3, childsInfo.size());
 	}
 	
 	@Test
-	public void testAddPerson_shouldCallTheMockWithPersonObject() {
-		
-		personService.add(new Person());
-		
-		verify(personDao, Mockito.times(1)).save(any(Person.class));
-	}
-	
-	@Test
-	public void testUpdatePerson_shouldCallTheMockWithSomeArgs() {
-		personService.update(person1.getLastName(), person1.getFirstName(), person1);
-		verify(personDao, Mockito.times(1)).update(anyString(), anyString(), any(Person.class));
-	}
-	
-	@Test
-	@Disabled
 	public void testGetAddressReport_shouldReturnAddressReportCorrectlyFilled() {
-		when(personDao.findByAddress(anyString())).thenReturn(personsByAddress);
-		when(fireStationDAO.findByAddress(anyString())).thenReturn(fireStationMapping);
+		List<Person> personsWithSameAddress = new ArrayList<Person>();
+		Person eric = TestData.TestPerson.ERIC.getPerson();
+		Person billy = TestData.TestPerson.BILLY.getPerson();
+		eric.setAddress("123 Gare st Lazare");
+		billy.setAddress("123 Gare st Lazare");
+		personsWithSameAddress.add(eric);
+		personsWithSameAddress.add(billy);
+		
+		when(personDao.findByAddress(anyString())).thenReturn(personsWithSameAddress);
+		when(fireStationDAO.findByAddress(anyString())).thenReturn(TestData.getTestFireStationMapping());
+		when(medicalRecordService.getMedicalRecordOf(eric.getFirstName(), eric.getLastName())).thenReturn(TestData.TestPerson.ERIC.getMedicalRecord());
+		when(medicalRecordService.getMedicalRecordOf(billy.getFirstName(), billy.getLastName())).thenReturn(TestData.TestPerson.BILLY.getMedicalRecord());
+		when(medicalRecordService.getAgeOf(TestData.TestPerson.ERIC.getMedicalRecord())).thenReturn(12);
+		when(medicalRecordService.getAgeOf(TestData.TestPerson.BILLY.getMedicalRecord())).thenReturn(21);
 		
 		AddressReportDTO addressReport = personService.getAddressReport("123 Gare st Lazare");
 		
 		assertEquals(1, addressReport.getStationNumber());
 		assertEquals(2, addressReport.getPerson().size());
 	}
-	/*
-	List<Person> personsByAddress = personDao.findByAddress(address);
-	int station = fireStationDAO.findByAddress(address).getStation(); */
 
 }

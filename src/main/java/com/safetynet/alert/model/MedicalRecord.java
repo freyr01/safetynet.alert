@@ -24,7 +24,20 @@ public class MedicalRecord {
 	
 	private List<String> allergies;
 	
+
 	
+	public MedicalRecord(@NotNull @Min(3) String firstName, @NotNull @Min(3) String lastName,
+			@NotNull @Past String birthdate, List<String> medications, List<String> allergies) {
+		setFirstName(firstName);
+		setLastName(lastName);
+		setBirthdate(birthdate);
+		setMedications(medications);
+		setAllergies(allergies);
+	}
+	
+	public MedicalRecord() {
+		
+	}
 	public String getLastName() {
 		return lastName;
 	}

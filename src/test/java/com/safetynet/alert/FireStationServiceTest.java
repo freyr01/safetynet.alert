@@ -25,28 +25,6 @@ import com.safetynet.alert.service.IMedicalRecordService;
 @ExtendWith(MockitoExtension.class)
 public class FireStationServiceTest {
 	
-	
-	static {
-
-	}
-	static List<FireStationMapping> fireStationMapping = new ArrayList<FireStationMapping>();
-	static List<Person> persons = new ArrayList<Person>();
-	static Person person1 = new Person("Eric", "Jori", "5 Ch de Vaugrenier", "Antibes", "06600" , "0401010101", "eric.jori@gmail.com");
-	static Person person2 = new Person("Samantha", "Carson", "123 Gare st Lazare", "Paris", "92000", "0102030405", "samantha.carson@gmail.com");
-	static Person person3 = new Person("John", "Watson", "5 Blv de la Mer", "Antibes", "06600", "0403232311", "ejohn.watson@gmail.com");
-	static Person person4 = new Person("Geofrey", "Versat", "123 Gare st Lazare", "Paris", "92000", "0101010101", "geofrey.versat@gmail.com");
-	static {
-		persons.add(person1);
-		persons.add(person2);
-		persons.add(person4);
-		
-		FireStationMapping map1 = new FireStationMapping();
-		map1.setAddress("5 Ch de Vaugrenier");
-		map1.setStation(1);
-		fireStationMapping.add(map1);
-
-	}
-	
 	@Mock
 	private IPersonDAO personDAO;
 	
@@ -64,8 +42,8 @@ public class FireStationServiceTest {
 	}
 	
 	@Test
-	public void testStationCoverageLogicLogic() {
-		when(fireStationDAO.findByStationNumber(1)).thenReturn(fireStationMapping);
+	public void testStationCoverage() {
+		when(fireStationDAO.findByStationNumber(1)).thenReturn(TestData.getTestFireStationMapping());
 		when(personDAO.findAll()).thenReturn(persons);
 		when(medicalRecordService.isChild(anyString(), anyString())).thenReturn(false);
 		
