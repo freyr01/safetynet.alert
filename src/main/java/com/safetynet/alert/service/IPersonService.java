@@ -4,9 +4,9 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.safetynet.alert.dto.AddressReport;
-import com.safetynet.alert.dto.ChildInfo;
-import com.safetynet.alert.dto.PersonInfo;
+import com.safetynet.alert.dto.AddressReportDTO;
+import com.safetynet.alert.dto.ChildInfoDTO;
+import com.safetynet.alert.dto.PersonInfoDTO;
 import com.safetynet.alert.model.Person;
 
 @Service
@@ -20,7 +20,7 @@ public interface IPersonService {
 	 * @author Mathias Lauer
 	 * 2 févr. 2021
 	 */
-	public List<PersonInfo> getPersonInfo(String firstName, String lastName);
+	public List<PersonInfoDTO> getPersonInfo(String firstName, String lastName);
 	
 	/**
 	 * Should return a list a mail of all persons from given city
@@ -38,7 +38,7 @@ public interface IPersonService {
 	 * @author Mathias Lauer
 	 * 2 févr. 2021
 	 */
-	public List<ChildInfo> getChildByAddress(String address);
+	public List<ChildInfoDTO> getChildByAddress(String address);
 	
 	/**
 	 * Should add a new Person in the system
@@ -77,6 +77,6 @@ public interface IPersonService {
 	 * @author Mathias Lauer
 	 * 2 févr. 2021
 	 */
-	public AddressReport getAddressReport(String address);
+	public AddressReportDTO getAddressReport(String address);
 
 }

@@ -16,9 +16,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.safetynet.alert.dto.AddressReport;
-import com.safetynet.alert.dto.ChildInfo;
-import com.safetynet.alert.dto.PersonInfo;
+import com.safetynet.alert.dto.AddressReportDTO;
+import com.safetynet.alert.dto.ChildInfoDTO;
+import com.safetynet.alert.dto.PersonInfoDTO;
 import com.safetynet.alert.model.Person;
 import com.safetynet.alert.service.IPersonService;
 
@@ -34,9 +34,9 @@ public class PersonController {
 	}
 	
 	@GetMapping(value="/personInfo")
-	public List<PersonInfo> getPersonByFullName(@RequestParam String firstName, @RequestParam String lastName) {
+	public List<PersonInfoDTO> getPersonByFullName(@RequestParam String firstName, @RequestParam String lastName) {
 		log.info("GET request /personInfo with param: firstName:{} lastName:{}", firstName, lastName);
-		List<PersonInfo> personsByFullName = personService.getPersonInfo(firstName, lastName);
+		List<PersonInfoDTO> personsByFullName = personService.getPersonInfo(firstName, lastName);
 		if(personsByFullName == null || personsByFullName.size() < 1) {
 			log.error("Error getting person: {} {}", firstName, lastName);
 		}
@@ -53,9 +53,9 @@ public class PersonController {
 	}
 	
 	@GetMapping(value = "/childAlert")
-	public List<ChildInfo> getChildByAddress(@RequestParam String address){
+	public List<ChildInfoDTO> getChildByAddress(@RequestParam String address){
 		log.info("GET request /childAlert with param: address: {}", address);
-		List<ChildInfo> childByAddress = personService.getChildByAddress(address);
+		List<ChildInfoDTO> childByAddress = personService.getChildByAddress(address);
 		log.info("Return child list by address: {}", childByAddress);
 		return childByAddress; 
 	}
@@ -112,9 +112,9 @@ public class PersonController {
 	}
 	
 	@GetMapping(value="fire")
-	public AddressReport getFireReport(@RequestParam String address) {
+	public AddressReportDTO getFireReport(@RequestParam String address) {
 		log.info("GET request /fire with param: address: {}", address);
-		AddressReport addressReport = new AddressReport();
+		AddressReportDTO addressReport = new AddressReportDTO();
 		
 		log.info("Return AddressReport object: {}", addressReport);
 		return addressReport;

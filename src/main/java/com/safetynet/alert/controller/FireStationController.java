@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fasterxml.jackson.databind.ser.FilterProvider;
 import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
 import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
-import com.safetynet.alert.dto.FireStationCoverage;
+import com.safetynet.alert.dto.FireStationCoverageDTO;
 import com.safetynet.alert.service.IFireStationService;
 @RestController
 public class FireStationController {
@@ -27,21 +27,14 @@ public class FireStationController {
 	}
 	
 	@GetMapping(value="/firestation")
-	public MappingJacksonValue getCoveredPersonOf(@RequestParam int stationNumber) {
+	public FireStationCoverageDTO getCoveredPersonOf(@RequestParam int stationNumber) {
 		log.info("GET request /firestation with param: stationNumber: {}", stationNumber);
 		
-		FireStationCoverage fireStationCoverage = fireStationService.getFireStationCoverageFor(stationNumber);
-		
-		SimpleBeanPropertyFilter fieldFilter = SimpleBeanPropertyFilter.serializeAllExcept("Person.city", "zip", "email");
-	    FilterProvider filters = new SimpleFilterProvider().addFilter("stationCoverageFilter", fieldFilter);
+		FireStationCoverageDTO fireStationCoverage = fireStationService.getFireStationCoverageFor(stationNumber);
 
-	    MappingJacksonValue fireStationCoverageFiltered = new MappingJacksonValue(fireStationCoverage);
-	    fireStationCoverageFiltered.setFilters(filters);
-	    //TODO This filter doesn't work
-
-		log.info("Return object: {}", fireStationCoverageFiltered);
+		log.info("Return object: {}", fireStationCoverage);
 		
-		return fireStationCoverageFiltered;
+		return fireStationCoverage;
 	}
 	
 	@GetMapping(value="/phoneAlert")

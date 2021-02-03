@@ -4,14 +4,14 @@ import java.util.List;
 
 import com.safetynet.alert.model.Person;
 
-public class ChildInfo {
+public class ChildInfoDTO {
 	
 	private String firstName;
 	private String lastName;
 	private int age;
 	private List<Person> famillyMember;
 	
-	public ChildInfo(String p_firstName, String p_lastName, int p_age, List<Person> p_famillyMember) {
+	public ChildInfoDTO(String p_firstName, String p_lastName, int p_age, List<Person> p_famillyMember) {
 		setFirstName(p_firstName);
 		setLastName(p_lastName);
 		setAge(p_age);

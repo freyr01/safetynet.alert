@@ -2,22 +2,18 @@ package com.safetynet.alert.dto;
 
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonFilter;
-import com.safetynet.alert.model.Person;
-
-@JsonFilter("stationCoverageFilter")
-public class FireStationCoverage {
+public class FireStationCoverageDTO {
 	
 	private int adultCount;
 	private int childCount;
 	
-	private List<Person> persons;
+	private List<FireStationCoveragePersonDTO> persons;
 
-	public List<Person> getPersons() {
+	public List<FireStationCoveragePersonDTO> getPersons() {
 		return persons;
 	}
 
-	public void setPersons(List<Person> persons) {
+	public void setPersons(List<FireStationCoveragePersonDTO> persons) {
 		this.persons = persons;
 	}
 

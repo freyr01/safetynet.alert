@@ -20,8 +20,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.safetynet.alert.dao.IFireStationDAO;
 import com.safetynet.alert.dao.IPersonDAO;
-import com.safetynet.alert.dto.AddressReport;
-import com.safetynet.alert.dto.ChildInfo;
+import com.safetynet.alert.dto.AddressReportDTO;
+import com.safetynet.alert.dto.ChildInfoDTO;
 import com.safetynet.alert.model.FireStationMapping;
 import com.safetynet.alert.model.Person;
 import com.safetynet.alert.service.IMedicalRecordService;
@@ -92,7 +92,7 @@ public class PersonServiceTest {
 		when(medicalRecordService.getAgeOf(anyString(), anyString())).thenReturn(12);
 		
 		
-		List<ChildInfo> childsInfo = personService.getChildByAddress("123 Gare st Lazare");
+		List<ChildInfoDTO> childsInfo = personService.getChildByAddress("123 Gare st Lazare");
 		
 		verify(medicalRecordService, Mockito.times(2)).getAgeOf(anyString(), anyString());
 		verify(personDao, Mockito.times(1)).findByAddress(anyString());
@@ -119,7 +119,7 @@ public class PersonServiceTest {
 		when(personDao.findByAddress(anyString())).thenReturn(personsByAddress);
 		when(fireStationDAO.findByAddress(anyString())).thenReturn(fireStationMapping);
 		
-		AddressReport addressReport = personService.getAddressReport("123 Gare st Lazare");
+		AddressReportDTO addressReport = personService.getAddressReport("123 Gare st Lazare");
 		
 		assertEquals(1, addressReport.getStationNumber());
 		assertEquals(2, addressReport.getPerson().size());

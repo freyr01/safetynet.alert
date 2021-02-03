@@ -1,6 +1,6 @@
 package com.safetynet.alert.service;
 
-import com.safetynet.alert.dto.FireStationCoverage;
+import com.safetynet.alert.dto.FireStationCoverageDTO;
 import com.safetynet.alert.model.Person;
 
 import java.util.List;
@@ -23,7 +23,7 @@ public interface IFireStationService {
 	 * @author Mathias Lauer
 	 * 1 févr. 2021
 	 */
-	public FireStationCoverage getFireStationCoverageFor(int stationNumber);
+	public FireStationCoverageDTO getFireStationCoverageFor(int stationNumber);
 	
 	/**
 	 * Should return a list of phone number of persons covered by station given in param

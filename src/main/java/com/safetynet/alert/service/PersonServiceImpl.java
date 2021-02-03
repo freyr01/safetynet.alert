@@ -10,9 +10,9 @@ import org.springframework.stereotype.Service;
 
 import com.safetynet.alert.dao.IFireStationDAO;
 import com.safetynet.alert.dao.IPersonDAO;
-import com.safetynet.alert.dto.AddressReport;
-import com.safetynet.alert.dto.ChildInfo;
-import com.safetynet.alert.dto.PersonInfo;
+import com.safetynet.alert.dto.AddressReportDTO;
+import com.safetynet.alert.dto.ChildInfoDTO;
+import com.safetynet.alert.dto.PersonInfoDTO;
 import com.safetynet.alert.model.MedicalRecord;
 import com.safetynet.alert.model.Person;
 
@@ -32,12 +32,12 @@ public class PersonServiceImpl implements IPersonService{
 		fireStationDAO = p_fireStationDAO;
 	}
 	
-	public List<PersonInfo> getPersonInfo(String firstName, String lastName) {
-		List<PersonInfo> personInfoList = new ArrayList<PersonInfo>();
+	public List<PersonInfoDTO> getPersonInfo(String firstName, String lastName) {
+		List<PersonInfoDTO> personInfoList = new ArrayList<PersonInfoDTO>();
 		List<Person> persons = personDao.findByFullName(firstName, lastName);
 		
 		for(Person p : persons) {
-			PersonInfo personInfo = new PersonInfo();
+			PersonInfoDTO personInfo = new PersonInfoDTO();
 			MedicalRecord medicalRecord = medicalRecordService.getMedicalRecordOf(p.getFirstName(), p.getLastName());
 			int age = medicalRecordService.getAgeOf(medicalRecord);
 			
@@ -71,14 +71,14 @@ public class PersonServiceImpl implements IPersonService{
 		return mails;
 	}
 	
-	public List<ChildInfo> getChildByAddress(String address) {
+	public List<ChildInfoDTO> getChildByAddress(String address) {
 		if(address == null) {
 			log.error("null arg not allowed");
 			return null;
 		}
 		
 		List<Person> personsByAddress = personDao.findByAddress(address);
-		List<ChildInfo> childsInfo = new ArrayList<ChildInfo>();
+		List<ChildInfoDTO> childsInfo = new ArrayList<ChildInfoDTO>();
 
 		for(Person p : personsByAddress) {
 			int personAge = medicalRecordService.getAgeOf(p.getFirstName(), p.getLastName());
@@ -86,7 +86,7 @@ public class PersonServiceImpl implements IPersonService{
 				List<Person> famillyMember = new ArrayList<Person>(personsByAddress);
 				famillyMember.remove(p);
 				
-				ChildInfo childInfo = new ChildInfo(p.getFirstName(), p.getLastName(), personAge, famillyMember);
+				ChildInfoDTO childInfo = new ChildInfoDTO(p.getFirstName(), p.getLastName(), personAge, famillyMember);
 				childsInfo.add(childInfo);
 			}
 		}
@@ -112,7 +112,7 @@ public class PersonServiceImpl implements IPersonService{
 	}
 
 	@Override
-	public AddressReport getAddressReport(String address) {
+	public AddressReportDTO getAddressReport(String address) {
 		List<Person> personsByAddress = personDao.findByAddress(address);
 		int station = fireStationDAO.findByAddress(address).getStation();
 		//TODO

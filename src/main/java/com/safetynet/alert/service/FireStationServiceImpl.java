@@ -9,7 +9,8 @@ import org.springframework.stereotype.Service;
 
 import com.safetynet.alert.dao.IFireStationDAO;
 import com.safetynet.alert.dao.IPersonDAO;
-import com.safetynet.alert.dto.FireStationCoverage;
+import com.safetynet.alert.dto.FireStationCoverageDTO;
+import com.safetynet.alert.dto.FireStationCoveragePersonDTO;
 import com.safetynet.alert.model.FireStationMapping;
 import com.safetynet.alert.model.Person;
 
@@ -31,13 +32,20 @@ public class FireStationServiceImpl implements IFireStationService {
 	}
 	
 	@Override
-	public FireStationCoverage getFireStationCoverageFor(int stationNumber) {
-		FireStationCoverage fireStationCoverage = new FireStationCoverage();
+	public FireStationCoverageDTO getFireStationCoverageFor(int stationNumber) {
+		FireStationCoverageDTO fireStationCoverage = new FireStationCoverageDTO();
+		List<FireStationCoveragePersonDTO> fireStationCoveredPersonDTO = new ArrayList<FireStationCoveragePersonDTO>();
 		List<Person> personsCovered = getCoveredPersonOf(stationNumber);
 		int adultCount = 0;
 		int childCount = 0;
 		
 		for(Person person : personsCovered) {
+			FireStationCoveragePersonDTO personDTO = new FireStationCoveragePersonDTO();
+			personDTO.setFirstName(person.getFirstName());
+			personDTO.setLastName(person.getLastName());
+			personDTO.setAddress(person.getAddress());
+			personDTO.setPhone(person.getPhone());
+			fireStationCoveredPersonDTO.add(personDTO);
 			if(medicalRecordService.isChild(person.getFirstName(), person.getLastName())) {
 				childCount++;
 			} else {
@@ -45,7 +53,7 @@ public class FireStationServiceImpl implements IFireStationService {
 			}
 		}
 		
-		fireStationCoverage.setPersons(personsCovered);
+		fireStationCoverage.setPersons(fireStationCoveredPersonDTO);
 		fireStationCoverage.setChildCount(childCount);
 		fireStationCoverage.setAdultCount(adultCount);
 		

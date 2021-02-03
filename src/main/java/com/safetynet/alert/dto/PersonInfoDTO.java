@@ -2,7 +2,7 @@ package com.safetynet.alert.dto;
 
 import java.util.List;
 
-public class PersonInfo {
+public class PersonInfoDTO {
 	
 	private String firstName;
 	private String lastName;
@@ -12,7 +12,7 @@ public class PersonInfo {
 	private List<String> medications;
 	private List<String> allergies;
 	
-	public PersonInfo() {
+	public PersonInfoDTO() {
 		
 	}
 	

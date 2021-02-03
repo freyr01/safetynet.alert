@@ -15,7 +15,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.safetynet.alert.dao.IFireStationDAO;
 import com.safetynet.alert.dao.IPersonDAO;
-import com.safetynet.alert.dto.FireStationCoverage;
+import com.safetynet.alert.dto.FireStationCoverageDTO;
 import com.safetynet.alert.model.FireStationMapping;
 import com.safetynet.alert.model.Person;
 import com.safetynet.alert.service.FireStationServiceImpl;
@@ -69,7 +69,7 @@ public class FireStationServiceTest {
 		when(personDAO.findAll()).thenReturn(persons);
 		when(medicalRecordService.isChild(anyString(), anyString())).thenReturn(false);
 		
-		FireStationCoverage fireStationCoverage = fireStationService.getFireStationCoverageFor(1);
+		FireStationCoverageDTO fireStationCoverage = fireStationService.getFireStationCoverageFor(1);
 		
 		assertEquals(1, fireStationCoverage.getAdultCount());
 		assertEquals(0, fireStationCoverage.getChildCount());
