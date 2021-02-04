@@ -11,6 +11,7 @@ import com.safetynet.alert.dao.IFireStationDAO;
 import com.safetynet.alert.dao.IPersonDAO;
 import com.safetynet.alert.dto.FireStationCoverageDTO;
 import com.safetynet.alert.dto.FireStationCoveragePersonDTO;
+import com.safetynet.alert.dto.FloodStationCoverageDTO;
 import com.safetynet.alert.exception.MedicalRecordNotFoundException;
 import com.safetynet.alert.model.FireStationMapping;
 import com.safetynet.alert.model.MedicalRecord;
@@ -96,6 +97,12 @@ public class FireStationServiceImpl implements IFireStationService {
 		}
 		
 		return phoneList;
+	}
+
+	@Override
+	public FloodStationCoverageDTO getFloodStationCoverageFor(int[] stationsNumber) {
+		
+		return null;
 	}
 
 }

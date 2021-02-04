@@ -10,6 +10,7 @@ public class JsonDatabase {
 	private List<FireStationMapping> fireStations;
 	
 	@JsonAlias("medicalrecords")
+
 	private List<MedicalRecord> medicalRecords;
 	
 	private List<Person> persons;

@@ -1,6 +1,7 @@
 package com.safetynet.alert.service;
 
 import com.safetynet.alert.dto.FireStationCoverageDTO;
+import com.safetynet.alert.dto.FloodStationCoverageDTO;
 import com.safetynet.alert.model.Person;
 
 import java.util.List;
@@ -33,5 +34,14 @@ public interface IFireStationService {
 	 * 1 févr. 2021
 	 */
 	public List<String> getPhoneOfAllPersonCoveredBy(int stationNumber);
+
+	/**
+	 * Should return a FloodStationCoverageDTO containing all family covered by given stations number
+	 * @param stationsNumber
+	 * @return FloodStationCoveragDTO 
+	 * @author Mathias Lauer
+	 * 4 févr. 2021
+	 */
+	public FloodStationCoverageDTO getFloodStationCoverageFor(int[] stationsNumber);
 
 }

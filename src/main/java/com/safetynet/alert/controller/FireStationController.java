@@ -5,15 +5,12 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.converter.json.MappingJacksonValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fasterxml.jackson.databind.ser.FilterProvider;
-import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
-import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
 import com.safetynet.alert.dto.FireStationCoverageDTO;
+import com.safetynet.alert.dto.FloodStationCoverageDTO;
 import com.safetynet.alert.service.IFireStationService;
 @RestController
 public class FireStationController {
@@ -43,6 +40,14 @@ public class FireStationController {
 		List<String> phoneList = fireStationService.getPhoneOfAllPersonCoveredBy(firestation);
 		log.info("Return List<String>: {}", phoneList);
 		return phoneList;
+	}
+	
+	@GetMapping(value="/flood/stations")
+	public FloodStationCoverageDTO getFloodStationCoverage(@RequestParam int[] stationsNumber) {
+		log.info("GET request /flood/stations with param: stationsNumber: {}", stationsNumber);
+		FloodStationCoverageDTO floodStationCoverageDTO = fireStationService.getFloodStationCoverageFor(stationsNumber);
+		log.info("Return FloodStationCoverageDTO: {}", floodStationCoverageDTO);
+		return floodStationCoverageDTO;
 	}
 
 }
