@@ -2,6 +2,7 @@ package com.safetynet.alert;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
@@ -16,7 +17,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import com.safetynet.alert.dao.IFireStationDAO;
 import com.safetynet.alert.dao.IPersonDAO;
 import com.safetynet.alert.dto.FireStationCoverageDTO;
+import com.safetynet.alert.exception.MedicalRecordNotFoundException;
 import com.safetynet.alert.model.FireStationMapping;
+import com.safetynet.alert.model.MedicalRecord;
 import com.safetynet.alert.model.Person;
 import com.safetynet.alert.service.FireStationServiceImpl;
 import com.safetynet.alert.service.IFireStationService;
@@ -42,22 +45,29 @@ public class FireStationServiceTest {
 	}
 	
 	@Test
-	public void testStationCoverage() {
-		when(fireStationDAO.findByStationNumber(1)).thenReturn(TestData.getTestFireStationMapping());
+	public void testStationCoverage() throws MedicalRecordNotFoundException {
+		List<Person> persons = new ArrayList<Person>();
+		Person eric = TestData.TestPerson.ERIC.getPerson();
+		Person billy = TestData.TestPerson.BILLY.getPerson();
+		persons.add(eric);
+		persons.add(billy);
+		
+		when(fireStationDAO.findByStationNumber(2)).thenReturn(TestData.getTestFireStationMappingList());
 		when(personDAO.findAll()).thenReturn(persons);
-		when(medicalRecordService.isChild(anyString(), anyString())).thenReturn(false);
+		when(medicalRecordService.getMedicalRecordOf(eric.getFirstName(), eric.getLastName())).thenReturn(TestData.TestPerson.ERIC.getMedicalRecord());
+		when(medicalRecordService.getMedicalRecordOf(billy.getFirstName(), billy.getLastName())).thenReturn(TestData.TestPerson.BILLY.getMedicalRecord());
 		
-		FireStationCoverageDTO fireStationCoverage = fireStationService.getFireStationCoverageFor(1);
+		FireStationCoverageDTO fireStationCoverage = fireStationService.getFireStationCoverageFor(2);
 		
-		assertEquals(1, fireStationCoverage.getAdultCount());
+		assertEquals(2, fireStationCoverage.getAdultCount());
 		assertEquals(0, fireStationCoverage.getChildCount());
 		assertEquals("Eric", fireStationCoverage.getPersons().get(0).getFirstName());
 	}
 	
 	@Test
 	public void testPhoneListOfCoveragePerson() {
-		when(fireStationDAO.findByStationNumber(1)).thenReturn(fireStationMapping);
-		when(personDAO.findAll()).thenReturn(persons);
+		when(fireStationDAO.findByStationNumber(1)).thenReturn(TestData.getTestFireStationMappingList());
+		when(personDAO.findAll()).thenReturn(TestData.TestPerson.getPersonBySameAddress());
 		
 		List<String> phoneList = fireStationService.getPhoneOfAllPersonCoveredBy(1);
 		

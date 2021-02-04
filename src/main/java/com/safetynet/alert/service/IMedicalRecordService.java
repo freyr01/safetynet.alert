@@ -1,5 +1,6 @@
 package com.safetynet.alert.service;
 
+import com.safetynet.alert.exception.MedicalRecordNotFoundException;
 import com.safetynet.alert.model.MedicalRecord;
 
 public interface IMedicalRecordService {
@@ -11,8 +12,9 @@ public interface IMedicalRecordService {
 	 * @return Should return age in years or -1 if no medical record is found for this person
 	 * @author Mathias Lauer
 	 * 22 janv. 2021
+	 * @throws MedicalRecordNotFoundException 
 	 */
-	public int getAgeOf(String firstName, String lastName);
+	public int getAgeOf(String firstName, String lastName) throws MedicalRecordNotFoundException;
 	
 	public int getAgeOf(MedicalRecord medicalRecord);
 	
@@ -23,8 +25,9 @@ public interface IMedicalRecordService {
 	 * @return MedicalRecord
 	 * @author Mathias Lauer
 	 * 28 janv. 2021
+	 * @throws MedicalRecordNotFoundException 
 	 */
-	public MedicalRecord getMedicalRecordOf(String firstName, String lastName);
+	public MedicalRecord getMedicalRecordOf(String firstName, String lastName) throws MedicalRecordNotFoundException;
 	
 	/**
 	 * Should return true if the person given is 18 years or under
@@ -34,6 +37,6 @@ public interface IMedicalRecordService {
 	 * @author Mathias Lauer
 	 * 31 janv. 2021
 	 */
-	public boolean isChild(String firstName, String lastName);
+	public boolean isChild(MedicalRecord medicalRecord);
 
 }

@@ -55,11 +55,17 @@ public class TestData {
 		}
 	}
 	
-	public static FireStationMapping getTestFireStationMapping() {
-		FireStationMapping fireStationMapping = new FireStationMapping();
-		fireStationMapping.setAddress("123 Gare st Lazare");
-		fireStationMapping.setStation(1);
-		
-		return fireStationMapping;
+	private static FireStationMapping fireStationMapping1 = new FireStationMapping("123 Gare st Lazare", 1);
+	private static FireStationMapping fireStationMapping2 = new FireStationMapping("5 Ch de Vaugrenier", 2);
+	
+	public static FireStationMapping getTestFireStationMapping1() {
+		return fireStationMapping1;
+	}
+	
+	public static List<FireStationMapping> getTestFireStationMappingList(){
+		List<FireStationMapping> fireStationMappingList = new ArrayList<FireStationMapping>();
+		fireStationMappingList.add(fireStationMapping1);
+		fireStationMappingList.add(fireStationMapping2);
+		return fireStationMappingList;
 	}
 }

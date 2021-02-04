@@ -73,7 +73,7 @@ public interface IPersonService {
 	/**
 	 * Should return an AddressReport object containing information of persons who lives at and fire station covering
 	 * @param address
-	 * @return AddressReport
+	 * @return AddressReport or null if address is not found
 	 * @author Mathias Lauer
 	 * 2 févr. 2021
 	 */

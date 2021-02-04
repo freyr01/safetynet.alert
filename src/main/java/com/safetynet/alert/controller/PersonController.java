@@ -112,12 +112,16 @@ public class PersonController {
 	}
 	
 	@GetMapping(value="fire")
-	public AddressReportDTO getAddressReport(@RequestParam String address) {
+	public ResponseEntity<AddressReportDTO> getAddressReport(@RequestParam String address) {
 		log.info("GET request /fire with param: address: {}", address);
 		AddressReportDTO addressReport = personService.getAddressReport(address);
+		if(addressReport == null) {
+			log.error("No result found for address: {}", address);
+			return ResponseEntity.notFound().build();
+		}
 		
 		log.info("Return AddressReport object: {}", addressReport);
-		return addressReport;
+		return ResponseEntity.ok(addressReport);
 		
 	}
 	

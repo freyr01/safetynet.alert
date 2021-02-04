@@ -40,7 +40,7 @@ public class PersonControllerIT {
 	
 	@Test
 	public void testEndpointGetAddressReport_shouldReturnStatusIsOk() throws Exception {
-		mockMvc.perform(get("/fire?address=?")).andExpect(status().isOk());
+		mockMvc.perform(get("/fire?address=951 LoneTree Rd")).andExpect(status().isOk());
 	}
 	
 	@Test

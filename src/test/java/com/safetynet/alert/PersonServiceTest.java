@@ -22,8 +22,10 @@ import com.safetynet.alert.dao.IFireStationDAO;
 import com.safetynet.alert.dao.IPersonDAO;
 import com.safetynet.alert.dto.AddressReportDTO;
 import com.safetynet.alert.dto.ChildInfoDTO;
+import com.safetynet.alert.exception.MedicalRecordNotFoundException;
 import com.safetynet.alert.model.FireStationMapping;
 import com.safetynet.alert.model.Person;
+import com.safetynet.alert.model.MedicalRecord;
 import com.safetynet.alert.service.IMedicalRecordService;
 import com.safetynet.alert.service.IPersonService;
 import com.safetynet.alert.service.PersonServiceImpl;
@@ -60,20 +62,29 @@ public class PersonServiceTest {
 	}
 	
 	@Test
-	public void testGetChildByAddress_shouldReturnAtLeastOneObject() {
-		when(personDao.findByAddress(anyString())).thenReturn(TestData.TestPerson.getBySameCity());
-		when(medicalRecordService.getAgeOf(anyString(), anyString())).thenReturn(12);
+	public void testGetChildByAddress_shouldReturnAtLeastOneObject() throws MedicalRecordNotFoundException {
+		List<Person> person = new ArrayList<Person>();
+		Person eric = TestData.TestPerson.ERIC.getPerson();
+		Person samantha = TestData.TestPerson.SAMANTHA.getPerson();
+		person.add(eric);
+		person.add(samantha);
+		when(personDao.findByAddress(anyString())).thenReturn(person);
+		when(medicalRecordService.getMedicalRecordOf(eric.getFirstName(), eric.getLastName())).thenReturn(TestData.TestPerson.ERIC.getMedicalRecord());
+		when(medicalRecordService.getMedicalRecordOf(samantha.getFirstName(), samantha.getLastName())).thenReturn(TestData.TestPerson.SAMANTHA.getMedicalRecord());
+		when(medicalRecordService.getAgeOf(any(MedicalRecord.class))).thenReturn(12);
+		when(medicalRecordService.isChild(any(MedicalRecord.class))).thenReturn(true);
 		
 		
 		List<ChildInfoDTO> childsInfo = personService.getChildByAddress("123 Gare st Lazare");
 		
-		verify(medicalRecordService, Mockito.times(3)).getAgeOf(anyString(), anyString());
+		verify(medicalRecordService, Mockito.times(2)).getAgeOf(any(MedicalRecord.class));
 		verify(personDao, Mockito.times(1)).findByAddress(anyString());
-		assertEquals(3, childsInfo.size());
+		
+		assertEquals(2, childsInfo.size());
 	}
 	
 	@Test
-	public void testGetAddressReport_shouldReturnAddressReportCorrectlyFilled() {
+	public void testGetAddressReport_shouldReturnAddressReportCorrectlyFilled() throws MedicalRecordNotFoundException {
 		List<Person> personsWithSameAddress = new ArrayList<Person>();
 		Person eric = TestData.TestPerson.ERIC.getPerson();
 		Person billy = TestData.TestPerson.BILLY.getPerson();
@@ -83,7 +94,7 @@ public class PersonServiceTest {
 		personsWithSameAddress.add(billy);
 		
 		when(personDao.findByAddress(anyString())).thenReturn(personsWithSameAddress);
-		when(fireStationDAO.findByAddress(anyString())).thenReturn(TestData.getTestFireStationMapping());
+		when(fireStationDAO.findByAddress(anyString())).thenReturn(TestData.getTestFireStationMapping1());
 		when(medicalRecordService.getMedicalRecordOf(eric.getFirstName(), eric.getLastName())).thenReturn(TestData.TestPerson.ERIC.getMedicalRecord());
 		when(medicalRecordService.getMedicalRecordOf(billy.getFirstName(), billy.getLastName())).thenReturn(TestData.TestPerson.BILLY.getMedicalRecord());
 		when(medicalRecordService.getAgeOf(TestData.TestPerson.ERIC.getMedicalRecord())).thenReturn(12);

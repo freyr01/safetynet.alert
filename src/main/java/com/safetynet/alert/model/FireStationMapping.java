@@ -15,6 +15,14 @@ public class FireStationMapping {
 	private int station;
 	
 	
+	public FireStationMapping(@NotNull @Min(5) String address, @NotNull @Min(1) int station) {
+		this.address = address;
+		this.station = station;
+	}
+	
+	public FireStationMapping() {
+		
+	}
 	public String getAddress() {
 		return address;
 	}

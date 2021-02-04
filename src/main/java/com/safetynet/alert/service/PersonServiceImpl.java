@@ -14,6 +14,8 @@ import com.safetynet.alert.dto.AddressReportDTO;
 import com.safetynet.alert.dto.AddressReportPersonDTO;
 import com.safetynet.alert.dto.ChildInfoDTO;
 import com.safetynet.alert.dto.PersonInfoDTO;
+import com.safetynet.alert.exception.MedicalRecordNotFoundException;
+import com.safetynet.alert.model.FireStationMapping;
 import com.safetynet.alert.model.MedicalRecord;
 import com.safetynet.alert.model.Person;
 
@@ -39,16 +41,29 @@ public class PersonServiceImpl implements IPersonService{
 		
 		for(Person p : persons) {
 			PersonInfoDTO personInfo = new PersonInfoDTO();
-			MedicalRecord medicalRecord = medicalRecordService.getMedicalRecordOf(p.getFirstName(), p.getLastName());
-			int age = medicalRecordService.getAgeOf(medicalRecord);
+			MedicalRecord medicalRecord = null;
+			int age;
+			List<String> allergies;
+			List<String> medications;
+			try {
+				medicalRecord = medicalRecordService.getMedicalRecordOf(p.getFirstName(), p.getLastName());
+				age = medicalRecordService.getAgeOf(medicalRecord);
+				allergies = medicalRecord.getAllergies();
+				medications = medicalRecord.getMedications();
+			} catch (MedicalRecordNotFoundException e) {
+				log.error("No medical record found for person: {} {}, age is set to -1, allergies and medication set to empty", p.getFirstName(), p.getLastName());
+				age = -1;
+				allergies = new ArrayList<String>();
+				medications = new ArrayList<String>();
+			}
 			
 			personInfo.setFirstName(p.getFirstName());
 			personInfo.setLastName(p.getLastName());
 			personInfo.setAge(age);
 			personInfo.setAddress(p.getAddress());
 			personInfo.setEmail(p.getEmail());
-			personInfo.setAllergies(medicalRecord.getAllergies());
-			personInfo.setMedications(medicalRecord.getMedications());
+			personInfo.setAllergies(allergies);
+			personInfo.setMedications(medications);
 			
 			personInfoList.add(personInfo);
 		}
@@ -82,8 +97,18 @@ public class PersonServiceImpl implements IPersonService{
 		List<ChildInfoDTO> childsInfo = new ArrayList<ChildInfoDTO>();
 
 		for(Person p : personsByAddress) {
-			int personAge = medicalRecordService.getAgeOf(p.getFirstName(), p.getLastName());
-			if(personAge > -1 && personAge <= 18) {
+			MedicalRecord medicalRecord = null;
+			try {
+				medicalRecord = medicalRecordService.getMedicalRecordOf(p.getFirstName(), p.getLastName());
+			} catch (MedicalRecordNotFoundException e) {
+				log.error("No medical record found for person: {} {}, skip this person", p.getFirstName(), p.getLastName());
+				continue;
+			}
+			int personAge;
+	
+			personAge = medicalRecordService.getAgeOf(medicalRecord);
+
+			if(medicalRecordService.isChild(medicalRecord)) {
 				List<Person> famillyMember = new ArrayList<Person>(personsByAddress);
 				famillyMember.remove(p);
 				
@@ -117,21 +142,39 @@ public class PersonServiceImpl implements IPersonService{
 		AddressReportDTO addressReportDTO = new AddressReportDTO();
 		List<AddressReportPersonDTO> listAddressReportPersonDTO = new ArrayList<AddressReportPersonDTO>();
 		
-
-		int stationNumber = fireStationDAO.findByAddress(address).getStation();
-		addressReportDTO.setStationNumber(stationNumber);
+		FireStationMapping fireStationMapping = fireStationDAO.findByAddress(address);
+		if(fireStationMapping == null) {
+			return null;
+		}
+		
+		addressReportDTO.setStationNumber(fireStationMapping.getStation());
 		
 		List<Person> personsByAddress = personDao.findByAddress(address);
 		for(Person person : personsByAddress) {
 			AddressReportPersonDTO addressReportPersonDTO = new AddressReportPersonDTO();
-			MedicalRecord medicalRecord = medicalRecordService.getMedicalRecordOf(person.getFirstName(), person.getLastName());
+			MedicalRecord medicalRecord;
+			int age;
+			List<String> allergies;
+			List<String> medications;
+			
+			try {
+				medicalRecord = medicalRecordService.getMedicalRecordOf(person.getFirstName(), person.getLastName());
+				age = medicalRecordService.getAgeOf(medicalRecord);
+				allergies = medicalRecord.getAllergies();
+				medications = medicalRecord.getMedications();
+			} catch (MedicalRecordNotFoundException e) {
+				log.error("No medical record found for person: {} {}, age is set to -1, allergies and medication set to empty", person.getFirstName(), person.getLastName());
+				age = -1;
+				allergies = new ArrayList<String>();
+				medications = new ArrayList<String>();
+			}
 			
 			addressReportPersonDTO.setFirstName(person.getFirstName());
 			addressReportPersonDTO.setLastName(person.getLastName());
-			addressReportPersonDTO.setAge(medicalRecordService.getAgeOf(medicalRecord));
+			addressReportPersonDTO.setAge(age);
 			addressReportPersonDTO.setPhone(person.getPhone());
-			addressReportPersonDTO.setAllergies(medicalRecord.getAllergies());
-			addressReportPersonDTO.setMedications(medicalRecord.getMedications());
+			addressReportPersonDTO.setAllergies(allergies);
+			addressReportPersonDTO.setMedications(medications);
 			
 			listAddressReportPersonDTO.add(addressReportPersonDTO);
 		}

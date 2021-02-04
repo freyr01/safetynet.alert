@@ -11,7 +11,9 @@ import com.safetynet.alert.dao.IFireStationDAO;
 import com.safetynet.alert.dao.IPersonDAO;
 import com.safetynet.alert.dto.FireStationCoverageDTO;
 import com.safetynet.alert.dto.FireStationCoveragePersonDTO;
+import com.safetynet.alert.exception.MedicalRecordNotFoundException;
 import com.safetynet.alert.model.FireStationMapping;
+import com.safetynet.alert.model.MedicalRecord;
 import com.safetynet.alert.model.Person;
 
 import java.util.List;
@@ -35,7 +37,7 @@ public class FireStationServiceImpl implements IFireStationService {
 	public FireStationCoverageDTO getFireStationCoverageFor(int stationNumber) {
 		FireStationCoverageDTO fireStationCoverage = new FireStationCoverageDTO();
 		List<FireStationCoveragePersonDTO> fireStationCoveredPersonDTO = new ArrayList<FireStationCoveragePersonDTO>();
-		List<Person> personsCovered = getCoveredPersonOf(stationNumber);
+		List<Person> personsCovered = this.getCoveredPersonOf(stationNumber);
 		int adultCount = 0;
 		int childCount = 0;
 		
@@ -46,11 +48,19 @@ public class FireStationServiceImpl implements IFireStationService {
 			personDTO.setAddress(person.getAddress());
 			personDTO.setPhone(person.getPhone());
 			fireStationCoveredPersonDTO.add(personDTO);
-			if(medicalRecordService.isChild(person.getFirstName(), person.getLastName())) {
-				childCount++;
-			} else {
+			MedicalRecord medicalRecord;
+			try {
+				medicalRecord = medicalRecordService.getMedicalRecordOf(person.getFirstName(), person.getLastName());
+				if(medicalRecordService.isChild(medicalRecord)) {
+					childCount++;
+				} else {
+					adultCount++;
+				}
+			} catch (MedicalRecordNotFoundException e) {
+				log.error("No medical record found for person: {} {}, it will be count as an adult", person.getFirstName(), person.getLastName());
 				adultCount++;
 			}
+
 		}
 		
 		fireStationCoverage.setPersons(fireStationCoveredPersonDTO);
