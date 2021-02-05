@@ -9,6 +9,9 @@ import org.springframework.stereotype.Service;
 
 import com.safetynet.alert.dao.IFireStationDAO;
 import com.safetynet.alert.dao.IPersonDAO;
+import com.safetynet.alert.dao.MedicalRecordDAOImpl;
+import com.safetynet.alert.dto.AddressReportDTO;
+import com.safetynet.alert.dto.AddressReportPersonDTO;
 import com.safetynet.alert.dto.FireStationCoverageDTO;
 import com.safetynet.alert.dto.FireStationCoveragePersonDTO;
 import com.safetynet.alert.dto.FloodStationCoverageDTO;
@@ -27,11 +30,16 @@ public class FireStationServiceImpl implements IFireStationService {
 	private IFireStationDAO fireStationDAO;
 	private IPersonDAO personDAO;
 	private IMedicalRecordService medicalRecordService;
+	private IPersonService personService;
 	
-	public FireStationServiceImpl(@Autowired IFireStationDAO fireStationDAO, @Autowired IPersonDAO p_personDAO, @Autowired IMedicalRecordService p_medicalRecordService) {
+	public FireStationServiceImpl(@Autowired IFireStationDAO fireStationDAO,
+			@Autowired IPersonDAO p_personDAO,
+			@Autowired IMedicalRecordService p_medicalRecordService,
+			@Autowired IPersonService p_personService) {
 		this.fireStationDAO = fireStationDAO;
 		this.personDAO = p_personDAO;
 		this.medicalRecordService = p_medicalRecordService;
+		this.personService = p_personService;
 	}
 	
 	@Override
@@ -74,7 +82,7 @@ public class FireStationServiceImpl implements IFireStationService {
 	@Override
 	public List<Person> getCoveredPersonOf(int stationNumber) {
 		List<Person> personsCovered = new ArrayList<Person>();
-		List<FireStationMapping> fireStationMappingList = fireStationDAO.findByStationNumber(stationNumber);
+		List<FireStationMapping> fireStationMappingList = fireStationDAO.findByStationsNumber(new int[] {stationNumber});
 		for(Person person : personDAO.findAll()) {
 			for(FireStationMapping fsMap : fireStationMappingList) {
 				if(person.getAddress().equals(fsMap.getAddress())) {
@@ -101,8 +109,22 @@ public class FireStationServiceImpl implements IFireStationService {
 
 	@Override
 	public FloodStationCoverageDTO getFloodStationCoverageFor(int[] stationsNumber) {
+		List<FireStationMapping> fireStationMappingList = fireStationDAO.findByStationsNumber(stationsNumber);
+		List<AddressReportDTO> addressReportList = new ArrayList<AddressReportDTO>();
+		FloodStationCoverageDTO floodStationCoverageDTO = new FloodStationCoverageDTO();
 		
-		return null;
+		for(FireStationMapping fireStationMap : fireStationMappingList) {
+			AddressReportDTO addressReportDTO = new AddressReportDTO();
+			int fireStationNumber = fireStationMap.getStation();
+			String address = fireStationMap.getAddress();
+			addressReportDTO.setStationNumber(fireStationNumber);
+			addressReportDTO.setPerson(personService.getAddressReportPersonDTO(address));
+			addressReportList.add(addressReportDTO);
+		}
+		
+		floodStationCoverageDTO.setAddressReportListDTO(addressReportList);
+		
+		return floodStationCoverageDTO;
 	}
 
 }

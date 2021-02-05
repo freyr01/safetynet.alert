@@ -21,7 +21,7 @@ public interface IFireStationDAO {
 	 * @author Mathias Lauer
 	 * 31 janv. 2021
 	 */
-	public List<FireStationMapping> findByStationNumber(int stationNumber);
+	public List<FireStationMapping> findByStationsNumber(int[] stationsNumber);
 	
 	/**
 	 * Should return the FireStationMapping of the station covering address given

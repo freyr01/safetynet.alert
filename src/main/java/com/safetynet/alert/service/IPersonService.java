@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.safetynet.alert.dto.AddressReportDTO;
+import com.safetynet.alert.dto.AddressReportPersonDTO;
 import com.safetynet.alert.dto.ChildInfoDTO;
 import com.safetynet.alert.dto.PersonInfoDTO;
 import com.safetynet.alert.model.Person;
@@ -78,5 +79,14 @@ public interface IPersonService {
 	 * 2 févr. 2021
 	 */
 	public AddressReportDTO getAddressReport(String address);
+	
+	/**
+	 * Should return a list of AddressReportPersonDTO of all person living in address given
+	 * @param address
+	 * @return List<AddressReportPersonDTO>
+	 * @author Mathias Lauer
+	 * 5 févr. 2021
+	 */
+	public List<AddressReportPersonDTO> getAddressReportPersonDTO(String address);
 
 }

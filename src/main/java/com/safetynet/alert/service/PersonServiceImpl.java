@@ -140,15 +140,20 @@ public class PersonServiceImpl implements IPersonService{
 	@Override
 	public AddressReportDTO getAddressReport(String address) {
 		AddressReportDTO addressReportDTO = new AddressReportDTO();
-		List<AddressReportPersonDTO> listAddressReportPersonDTO = new ArrayList<AddressReportPersonDTO>();
-		
+
 		FireStationMapping fireStationMapping = fireStationDAO.findByAddress(address);
 		if(fireStationMapping == null) {
 			return null;
 		}
 		
 		addressReportDTO.setStationNumber(fireStationMapping.getStation());
+		addressReportDTO.setPerson(getAddressReportPersonDTO(address));
 		
+		return addressReportDTO;
+	}
+	
+	public List<AddressReportPersonDTO> getAddressReportPersonDTO(String address){
+		List<AddressReportPersonDTO> listAddressReportPersonDTO = new ArrayList<AddressReportPersonDTO>();
 		List<Person> personsByAddress = personDao.findByAddress(address);
 		for(Person person : personsByAddress) {
 			AddressReportPersonDTO addressReportPersonDTO = new AddressReportPersonDTO();
@@ -179,9 +184,8 @@ public class PersonServiceImpl implements IPersonService{
 			listAddressReportPersonDTO.add(addressReportPersonDTO);
 		}
 		
-		addressReportDTO.setPerson(listAddressReportPersonDTO);
 		
-		return addressReportDTO;
+		return listAddressReportPersonDTO;
 	}
 	
 }

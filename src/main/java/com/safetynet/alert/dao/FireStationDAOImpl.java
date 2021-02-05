@@ -24,16 +24,18 @@ public class FireStationDAOImpl implements IFireStationDAO {
 	}
 
 	@Override
-	public List<FireStationMapping> findByStationNumber(int stationNumber) {
+	public List<FireStationMapping> findByStationsNumber(int[] stationsNumber) {
 		List<FireStationMapping> fireStationMapping = databaseDAO.getDb().getFireStations();
-		List<FireStationMapping> fireStationFiltered = new ArrayList<FireStationMapping>();
+		List<FireStationMapping> fireStationsFiltered = new ArrayList<FireStationMapping>();
 		
 		for(FireStationMapping mapping : fireStationMapping) {
-			if(mapping.getStation() == stationNumber) {
-				fireStationFiltered.add(mapping);
+			for(int i : stationsNumber) {
+				if(mapping.getStation() == i) {
+					fireStationsFiltered.add(mapping);
+				}
 			}
 		}
-		return fireStationFiltered;
+		return fireStationsFiltered;
 	}
 
 	@Override

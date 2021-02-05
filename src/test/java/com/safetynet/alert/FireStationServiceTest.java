@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -24,6 +25,7 @@ import com.safetynet.alert.model.Person;
 import com.safetynet.alert.service.FireStationServiceImpl;
 import com.safetynet.alert.service.IFireStationService;
 import com.safetynet.alert.service.IMedicalRecordService;
+import com.safetynet.alert.service.IPersonService;
 
 @ExtendWith(MockitoExtension.class)
 public class FireStationServiceTest {
@@ -37,11 +39,14 @@ public class FireStationServiceTest {
 	@Mock
 	private IFireStationDAO fireStationDAO;
 	
+	@Mock
+	private IPersonService personService;
+	
 	private IFireStationService fireStationService;
 	
 	@BeforeEach
 	public void setUpPerTest() {
-		fireStationService = new FireStationServiceImpl(fireStationDAO, personDAO, medicalRecordService);
+		fireStationService = new FireStationServiceImpl(fireStationDAO, personDAO, medicalRecordService, personService);
 	}
 	
 	@Test
@@ -52,7 +57,7 @@ public class FireStationServiceTest {
 		persons.add(eric);
 		persons.add(billy);
 		
-		when(fireStationDAO.findByStationNumber(2)).thenReturn(TestData.getTestFireStationMappingList());
+		when(fireStationDAO.findByStationsNumber(new int[]{2})).thenReturn(TestData.getTestFireStationMappingList());
 		when(personDAO.findAll()).thenReturn(persons);
 		when(medicalRecordService.getMedicalRecordOf(eric.getFirstName(), eric.getLastName())).thenReturn(TestData.TestPerson.ERIC.getMedicalRecord());
 		when(medicalRecordService.getMedicalRecordOf(billy.getFirstName(), billy.getLastName())).thenReturn(TestData.TestPerson.BILLY.getMedicalRecord());
@@ -66,12 +71,18 @@ public class FireStationServiceTest {
 	
 	@Test
 	public void testPhoneListOfCoveragePerson() {
-		when(fireStationDAO.findByStationNumber(1)).thenReturn(TestData.getTestFireStationMappingList());
+		when(fireStationDAO.findByStationsNumber(new int[] {1})).thenReturn(TestData.getTestFireStationMappingList());
 		when(personDAO.findAll()).thenReturn(TestData.TestPerson.getPersonBySameAddress());
 		
 		List<String> phoneList = fireStationService.getPhoneOfAllPersonCoveredBy(1);
 		
 		assertEquals("0401010101", phoneList.get(0));
+	}
+	
+	@Test
+	@Disabled
+	public void testFloodStationCoverage() {
+		when(fireStationDAO.findByStationsNumber(new int[] {1,2})).thenReturn(TestData.getTestFireStationMappingList());
 	}
 
 }
