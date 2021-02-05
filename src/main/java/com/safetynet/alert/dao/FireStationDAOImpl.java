@@ -24,7 +24,7 @@ public class FireStationDAOImpl implements IFireStationDAO {
 	}
 
 	@Override
-	public List<FireStationMapping> findByStationsNumber(int[] stationsNumber) {
+	public List<FireStationMapping> findByStationsNumber(List<Integer> stationsNumber) {
 		List<FireStationMapping> fireStationMapping = databaseDAO.getDb().getFireStations();
 		List<FireStationMapping> fireStationsFiltered = new ArrayList<FireStationMapping>();
 		

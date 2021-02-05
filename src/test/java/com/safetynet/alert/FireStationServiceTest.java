@@ -6,6 +6,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -57,7 +58,7 @@ public class FireStationServiceTest {
 		persons.add(eric);
 		persons.add(billy);
 		
-		when(fireStationDAO.findByStationsNumber(new int[]{2})).thenReturn(TestData.getTestFireStationMappingList());
+		when(fireStationDAO.findByStationsNumber(Arrays.asList(2))).thenReturn(TestData.getTestFireStationMappingList());
 		when(personDAO.findAll()).thenReturn(persons);
 		when(medicalRecordService.getMedicalRecordOf(eric.getFirstName(), eric.getLastName())).thenReturn(TestData.TestPerson.ERIC.getMedicalRecord());
 		when(medicalRecordService.getMedicalRecordOf(billy.getFirstName(), billy.getLastName())).thenReturn(TestData.TestPerson.BILLY.getMedicalRecord());
@@ -71,7 +72,7 @@ public class FireStationServiceTest {
 	
 	@Test
 	public void testPhoneListOfCoveragePerson() {
-		when(fireStationDAO.findByStationsNumber(new int[] {1})).thenReturn(TestData.getTestFireStationMappingList());
+		when(fireStationDAO.findByStationsNumber(Arrays.asList(1))).thenReturn(TestData.getTestFireStationMappingList());
 		when(personDAO.findAll()).thenReturn(TestData.TestPerson.getPersonBySameAddress());
 		
 		List<String> phoneList = fireStationService.getPhoneOfAllPersonCoveredBy(1);
@@ -82,7 +83,7 @@ public class FireStationServiceTest {
 	@Test
 	@Disabled
 	public void testFloodStationCoverage() {
-		when(fireStationDAO.findByStationsNumber(new int[] {1,2})).thenReturn(TestData.getTestFireStationMappingList());
+		when(fireStationDAO.findByStationsNumber(Arrays.asList(1,2))).thenReturn(TestData.getTestFireStationMappingList());
 	}
 
 }

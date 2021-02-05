@@ -21,6 +21,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import com.safetynet.alert.dao.IFireStationDAO;
 import com.safetynet.alert.dao.IPersonDAO;
 import com.safetynet.alert.dto.AddressReportDTO;
+import com.safetynet.alert.dto.AddressReportPersonDTO;
 import com.safetynet.alert.dto.ChildInfoDTO;
 import com.safetynet.alert.exception.MedicalRecordNotFoundException;
 import com.safetynet.alert.model.FireStationMapping;
@@ -85,11 +86,12 @@ public class PersonServiceTest {
 	
 	@Test
 	public void testGetAddressReport_shouldReturnAddressReportCorrectlyFilled() throws MedicalRecordNotFoundException {
+		final String ADDRESS = "123 Gare st Lazare";
 		List<Person> personsWithSameAddress = new ArrayList<Person>();
 		Person eric = TestData.TestPerson.ERIC.getPerson();
 		Person billy = TestData.TestPerson.BILLY.getPerson();
-		eric.setAddress("123 Gare st Lazare");
-		billy.setAddress("123 Gare st Lazare");
+		eric.setAddress(ADDRESS);
+		billy.setAddress(ADDRESS);
 		personsWithSameAddress.add(eric);
 		personsWithSameAddress.add(billy);
 		
@@ -100,10 +102,35 @@ public class PersonServiceTest {
 		when(medicalRecordService.getAgeOf(TestData.TestPerson.ERIC.getMedicalRecord())).thenReturn(12);
 		when(medicalRecordService.getAgeOf(TestData.TestPerson.BILLY.getMedicalRecord())).thenReturn(21);
 		
-		AddressReportDTO addressReport = personService.getAddressReport("123 Gare st Lazare");
+		AddressReportDTO addressReport = personService.getAddressReport(ADDRESS);
 		
 		assertEquals(1, addressReport.getStationNumber());
 		assertEquals(2, addressReport.getPerson().size());
+	}
+	
+	@Test
+	public void testGetAddressReportPersonDTO_shouldReturnCorrectlyFilledDTO() throws MedicalRecordNotFoundException {
+		List<Person> personsWithSameAddress = new ArrayList<Person>();
+		final String ADDRESS = "123 Gare st Lazare";
+		Person eric = TestData.TestPerson.ERIC.getPerson();
+		Person billy = TestData.TestPerson.BILLY.getPerson();
+		eric.setAddress(ADDRESS);
+		billy.setAddress(ADDRESS);
+		personsWithSameAddress.add(eric);
+		personsWithSameAddress.add(billy);
+		
+		when(personDao.findByAddress(anyString())).thenReturn(personsWithSameAddress);
+		when(medicalRecordService.getMedicalRecordOf(eric.getFirstName(), eric.getLastName())).thenReturn(TestData.TestPerson.ERIC.getMedicalRecord());
+		when(medicalRecordService.getMedicalRecordOf(billy.getFirstName(), billy.getLastName())).thenReturn(TestData.TestPerson.BILLY.getMedicalRecord());
+		when(medicalRecordService.getAgeOf(TestData.TestPerson.ERIC.getMedicalRecord())).thenReturn(12);
+		when(medicalRecordService.getAgeOf(TestData.TestPerson.BILLY.getMedicalRecord())).thenReturn(21);
+		
+		List<AddressReportPersonDTO> arpDTOlist = personService.getAddressReportPersonDTO(ADDRESS);
+
+		assertEquals(eric.getFirstName(), arpDTOlist.get(0).getFirstName());
+		assertEquals(eric.getLastName(), arpDTOlist.get(0).getLastName());
+		assertEquals(12, arpDTOlist.get(0).getAge());
+		assertEquals(2, arpDTOlist.get(0).getMedications().size());
 	}
 
 }

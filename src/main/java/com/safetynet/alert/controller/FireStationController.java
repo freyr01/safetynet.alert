@@ -43,9 +43,9 @@ public class FireStationController {
 	}
 	
 	@GetMapping(value="/flood/stations")
-	public FloodStationCoverageDTO getFloodStationCoverage(@RequestParam int[] stationsNumber) {
-		log.info("GET request /flood/stations with param: stationsNumber: {}", stationsNumber);
-		FloodStationCoverageDTO floodStationCoverageDTO = fireStationService.getFloodStationCoverageFor(stationsNumber);
+	public FloodStationCoverageDTO getFloodStationCoverage(@RequestParam List<Integer> stations) {
+		log.info("GET request /flood/stations with param: stationsNumber: {}", stations);
+		FloodStationCoverageDTO floodStationCoverageDTO = fireStationService.getFloodStationCoverageFor(stations);
 		log.info("Return FloodStationCoverageDTO: {}", floodStationCoverageDTO);
 		return floodStationCoverageDTO;
 	}

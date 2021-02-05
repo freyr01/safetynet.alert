@@ -2,17 +2,17 @@ package com.safetynet.alert;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Arrays;
 
 import com.safetynet.alert.model.FireStationMapping;
 import com.safetynet.alert.model.MedicalRecord;
 import com.safetynet.alert.model.Person;
 
 public class TestData {
-	
 	public enum TestPerson {
 		
 		ERIC(new Person("Eric", "Jori", "5 Ch de Vaugrenier", "Antibes", "06600" , "0401010101", "eric.jori@gmail.com"),
-				new MedicalRecord("Eric", "Jori", "02/18/1934", null, null)),
+				new MedicalRecord("Eric", "Jori", "02/18/1934", Arrays.asList("tetracyclaz:650mg", "terazine:10mg"), null)),
 		SAMANTHA(new Person("Samantha", "Carson", "123 Gare st Lazare", "Paris", "92000", "0102030405", "samantha.carson@gmail.com"),
 				new MedicalRecord("Samantha", "Carson", "02/18/2012", null, null)),
 		JOHN( new Person("John", "Watson", "5 Blv de la Mer", "Antibes", "06600", "0403232311", "ejohn.watson@gmail.com"),

@@ -42,6 +42,6 @@ public interface IFireStationService {
 	 * @author Mathias Lauer
 	 * 4 févr. 2021
 	 */
-	public FloodStationCoverageDTO getFloodStationCoverageFor(int[] stationsNumber);
+	public FloodStationCoverageDTO getFloodStationCoverageFor(List<Integer> stationsNumber);
 
 }

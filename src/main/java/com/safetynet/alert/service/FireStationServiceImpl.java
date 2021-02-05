@@ -1,6 +1,7 @@
 package com.safetynet.alert.service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -82,7 +83,7 @@ public class FireStationServiceImpl implements IFireStationService {
 	@Override
 	public List<Person> getCoveredPersonOf(int stationNumber) {
 		List<Person> personsCovered = new ArrayList<Person>();
-		List<FireStationMapping> fireStationMappingList = fireStationDAO.findByStationsNumber(new int[] {stationNumber});
+		List<FireStationMapping> fireStationMappingList = fireStationDAO.findByStationsNumber(Arrays.asList(stationNumber));
 		for(Person person : personDAO.findAll()) {
 			for(FireStationMapping fsMap : fireStationMappingList) {
 				if(person.getAddress().equals(fsMap.getAddress())) {
@@ -108,7 +109,8 @@ public class FireStationServiceImpl implements IFireStationService {
 	}
 
 	@Override
-	public FloodStationCoverageDTO getFloodStationCoverageFor(int[] stationsNumber) {
+	public FloodStationCoverageDTO getFloodStationCoverageFor(List<Integer> stationsNumber) {
+		//TODO output format is not good, need logic replacement here
 		List<FireStationMapping> fireStationMappingList = fireStationDAO.findByStationsNumber(stationsNumber);
 		List<AddressReportDTO> addressReportList = new ArrayList<AddressReportDTO>();
 		FloodStationCoverageDTO floodStationCoverageDTO = new FloodStationCoverageDTO();
