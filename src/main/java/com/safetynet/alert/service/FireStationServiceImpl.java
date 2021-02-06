@@ -117,7 +117,7 @@ public class FireStationServiceImpl implements IFireStationService {
 		for(int stationNumber : stationsNumber) {								//Create an AddressReportDTO for each stations given
 			AddressReportDTO addressReportDTO = new AddressReportDTO();
 			addressReportDTO.setStationNumber(stationNumber);
-			addressReportDTO.setPerson(new ArrayList<AddressReportPersonDTO>());	//With empty list of person
+			addressReportDTO.setPerson(new ArrayList<AddressReportPersonDTO>());	//With an empty list of person represented by AddressReportPersonDTO
 			addressReportDTOList.add(addressReportDTO);
 			
 		}

@@ -4,6 +4,11 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
+/**
+ * Represent a person in database, fields are firstName, lastName, address, city, zip, phone, email
+ * @author Mathias Lauer
+ * 6 févr. 2021
+ */
 public class Person {
 	
 	@NotNull @Min(3)

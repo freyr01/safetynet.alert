@@ -1,12 +1,10 @@
 package com.safetynet.alert.service;
 
+import java.util.List;
+
 import com.safetynet.alert.dto.AddressReportDTO;
-import com.safetynet.alert.dto.AddressReportPersonDTO;
 import com.safetynet.alert.dto.FireStationCoverageDTO;
 import com.safetynet.alert.model.Person;
-
-import java.util.List;
-import java.util.Map;
 
 public interface IFireStationService {
 

@@ -2,6 +2,11 @@ package com.safetynet.alert.dto;
 
 import java.util.List;
 
+/**
+ * Represent a person, his first name, last name, age, address, mail, medications and allergies
+ * @author Mathias Lauer
+ * 6 févr. 2021
+ */
 public class PersonInfoDTO {
 	
 	private String firstName;

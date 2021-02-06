@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Arrays;
 
+import com.safetynet.alert.dto.AddressReportPersonDTO;
 import com.safetynet.alert.model.FireStationMapping;
 import com.safetynet.alert.model.MedicalRecord;
 import com.safetynet.alert.model.Person;
@@ -67,5 +68,46 @@ public class TestData {
 		fireStationMappingList.add(fireStationMapping1);
 		fireStationMappingList.add(fireStationMapping2);
 		return fireStationMappingList;
+	}
+	
+	public static List<AddressReportPersonDTO> getAddressReportPersonDTOList() {
+		List<AddressReportPersonDTO> list = new ArrayList<AddressReportPersonDTO>();
+		
+		AddressReportPersonDTO ericDTO = new AddressReportPersonDTO();
+		Person eric = TestPerson.ERIC.getPerson();
+		
+		ericDTO.setFirstName(eric.getFirstName());
+		ericDTO.setLastName(eric.getLastName());
+		ericDTO.setAge(20);
+		ericDTO.setPhone(eric.getPhone());
+		ericDTO.setMedications(TestPerson.ERIC.getMedicalRecord().getMedications());
+		ericDTO.setAllergies(TestPerson.ERIC.getMedicalRecord().getMedications());
+		
+		Person alex = TestPerson.ALEX.getPerson();
+		AddressReportPersonDTO alexDTO = new AddressReportPersonDTO();
+		
+		alexDTO.setFirstName(alex.getFirstName());
+		alexDTO.setLastName(alex.getLastName());
+		alexDTO.setAge(30);
+		alexDTO.setPhone(alex.getPhone());
+		alexDTO.setMedications(TestPerson.ALEX.getMedicalRecord().getMedications());
+		alexDTO.setAllergies(TestPerson.ALEX.getMedicalRecord().getMedications());
+		
+		Person samantha = TestPerson.SAMANTHA.getPerson();
+		AddressReportPersonDTO samanthaDTO = new AddressReportPersonDTO();
+		
+		samanthaDTO.setFirstName(samantha.getFirstName());
+		samanthaDTO.setLastName(samantha.getLastName());
+		samanthaDTO.setAge(30);
+		samanthaDTO.setPhone(samantha.getPhone());
+		samanthaDTO.setMedications(TestPerson.SAMANTHA.getMedicalRecord().getMedications());
+		samanthaDTO.setAllergies(TestPerson.SAMANTHA.getMedicalRecord().getMedications());
+		
+		list.add(ericDTO);
+		list.add(alexDTO);
+		list.add(samanthaDTO);
+		
+		return list;
+		
 	}
 }

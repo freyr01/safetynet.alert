@@ -2,7 +2,6 @@ package com.safetynet.alert;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
@@ -10,7 +9,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -18,10 +16,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.safetynet.alert.dao.IFireStationDAO;
 import com.safetynet.alert.dao.IPersonDAO;
+import com.safetynet.alert.dto.AddressReportDTO;
 import com.safetynet.alert.dto.FireStationCoverageDTO;
 import com.safetynet.alert.exception.MedicalRecordNotFoundException;
-import com.safetynet.alert.model.FireStationMapping;
-import com.safetynet.alert.model.MedicalRecord;
 import com.safetynet.alert.model.Person;
 import com.safetynet.alert.service.FireStationServiceImpl;
 import com.safetynet.alert.service.IFireStationService;
@@ -81,9 +78,16 @@ public class FireStationServiceTest {
 	}
 	
 	@Test
-	@Disabled
-	public void testFloodStationCoverage() {
+	public void testFloodStationCoverage_shouldReturnCorreclyFilledListOfAddressReportDTO() {
 		when(fireStationDAO.findByStationsNumber(Arrays.asList(1,2))).thenReturn(TestData.getTestFireStationMappingList());
+		when(personService.getAddressReportPersonDTO(anyString())).thenReturn(TestData.getAddressReportPersonDTOList());
+		
+		List<AddressReportDTO> addressReportDTOList = fireStationService.getFloodStationCoverageFor(Arrays.asList(1,2));
+		
+		assertEquals(1, addressReportDTOList.get(0).getStationNumber());
+		
+		assertEquals(2, addressReportDTOList.get(1).getStationNumber());
+		assertEquals("Eric", addressReportDTOList.get(1).getPerson().get(0).getFirstName());
 	}
 
 }

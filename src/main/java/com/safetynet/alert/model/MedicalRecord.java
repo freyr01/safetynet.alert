@@ -8,7 +8,11 @@ import javax.validation.constraints.Past;
 
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 
-@EntityScan
+/**
+ * Represent a medical record in database, fields are firstName, lastName, birth date, medications and allergies
+ * @author Mathias Lauer
+ * 6 févr. 2021
+ */
 public class MedicalRecord {
 	
 	@NotNull @Min(3)

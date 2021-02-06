@@ -3,9 +3,11 @@ package com.safetynet.alert.model;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
-import org.springframework.boot.autoconfigure.domain.EntityScan;
-
-@EntityScan
+/**
+ * Represent a fire station mapping in database
+ * @author Mathias Lauer
+ * 6 févr. 2021
+ */
 public class FireStationMapping {
 	
 	@NotNull @Min(5)

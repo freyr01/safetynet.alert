@@ -1,5 +1,10 @@
 package com.safetynet.alert.dto;
 
+/**
+ * Represent a person covered by a fire station in FireStationCoverageDTO by his first name, last name, address and phone
+ * @author Mathias Lauer
+ * 6 févr. 2021
+ */
 public class FireStationCoveragePersonDTO {
 	
 	private String firstName;

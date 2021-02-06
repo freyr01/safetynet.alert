@@ -2,6 +2,11 @@ package com.safetynet.alert.dto;
 
 import java.util.List;
 
+/**
+ * Represent a list of person covered by a fire station with a count of adult and child number
+ * @author Mathias Lauer
+ * 6 févr. 2021
+ */
 public class FireStationCoverageDTO {
 	
 	private int adultCount;
