@@ -111,22 +111,22 @@ public class FireStationServiceImpl implements IFireStationService {
 
 	@Override
 	public List<AddressReportDTO> getFloodStationCoverageFor(List<Integer> stationsNumber) {
-		List<FireStationMapping> fireStationMappingList = fireStationDAO.findByStationsNumber(stationsNumber);
+		List<FireStationMapping> fireStationMappingList = fireStationDAO.findByStationsNumber(stationsNumber); //Get the mapping of stations given by stationsNumber 
 		List<AddressReportDTO> addressReportDTOList = new ArrayList<AddressReportDTO>();
 	
-		for(int stationNumber : stationsNumber) {
+		for(int stationNumber : stationsNumber) {								//Create an AddressReportDTO for each stations given
 			AddressReportDTO addressReportDTO = new AddressReportDTO();
 			addressReportDTO.setStationNumber(stationNumber);
-			addressReportDTO.setPerson(new ArrayList<AddressReportPersonDTO>());
+			addressReportDTO.setPerson(new ArrayList<AddressReportPersonDTO>());	//With empty list of person
 			addressReportDTOList.add(addressReportDTO);
 			
 		}
-		for(FireStationMapping fireStationMap : fireStationMappingList) {
+		for(FireStationMapping fireStationMap : fireStationMappingList) {	//Browse list of fire station mapping
 			int fireStationNumber = fireStationMap.getStation();
 			String address = fireStationMap.getAddress();
-			for(AddressReportDTO addressReportDTO : addressReportDTOList) {
-				if(addressReportDTO.getStationNumber() == fireStationNumber) {
-					addressReportDTO.getPerson().addAll(personService.getAddressReportPersonDTO(address));
+			for(AddressReportDTO addressReportDTO : addressReportDTOList) {		
+				if(addressReportDTO.getStationNumber() == fireStationNumber) {	//Search in list of AddressReportDTO with one is for the station we are iterate
+					addressReportDTO.getPerson().addAll(personService.getAddressReportPersonDTO(address)); //Add the list of person to it
 				}
 			}
 		}
