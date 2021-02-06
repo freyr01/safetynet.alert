@@ -37,5 +37,11 @@ public class FireStationControllerIT {
 		.andExpect(status().isOk())
 		.andExpect(jsonPath("$[0]", is("841-874-6512")));
 	}
+	
+	@Test
+	public void testEndpointFloodStation_shouldReturnStatusOk() throws Exception {
+		mockMvc.perform(get("/flood/stations?stations=1"))
+		.andExpect(status().isOk());
+	}
 
 }
