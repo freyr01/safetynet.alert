@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.safetynet.alert.dto.AddressReportDTO;
 import com.safetynet.alert.dto.FireStationCoverageDTO;
-import com.safetynet.alert.dto.FloodStationCoverageDTO;
 import com.safetynet.alert.service.IFireStationService;
 @RestController
 public class FireStationController {
@@ -43,11 +43,11 @@ public class FireStationController {
 	}
 	
 	@GetMapping(value="/flood/stations")
-	public FloodStationCoverageDTO getFloodStationCoverage(@RequestParam List<Integer> stations) {
+	public List<AddressReportDTO> getFloodStationCoverage(@RequestParam List<Integer> stations) {
 		log.info("GET request /flood/stations with param: stationsNumber: {}", stations);
-		FloodStationCoverageDTO floodStationCoverageDTO = fireStationService.getFloodStationCoverageFor(stations);
-		log.info("Return FloodStationCoverageDTO: {}", floodStationCoverageDTO);
-		return floodStationCoverageDTO;
+		List<AddressReportDTO> addressReportDTOList = fireStationService.getFloodStationCoverageFor(stations);
+		log.info("Return List<AddressReportDTO>: {}", addressReportDTOList);
+		return addressReportDTOList;
 	}
 
 }

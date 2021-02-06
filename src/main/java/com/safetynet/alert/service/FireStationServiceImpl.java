@@ -2,6 +2,7 @@ package com.safetynet.alert.service;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,13 +16,13 @@ import com.safetynet.alert.dto.AddressReportDTO;
 import com.safetynet.alert.dto.AddressReportPersonDTO;
 import com.safetynet.alert.dto.FireStationCoverageDTO;
 import com.safetynet.alert.dto.FireStationCoveragePersonDTO;
-import com.safetynet.alert.dto.FloodStationCoverageDTO;
 import com.safetynet.alert.exception.MedicalRecordNotFoundException;
 import com.safetynet.alert.model.FireStationMapping;
 import com.safetynet.alert.model.MedicalRecord;
 import com.safetynet.alert.model.Person;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class FireStationServiceImpl implements IFireStationService {
@@ -109,24 +110,28 @@ public class FireStationServiceImpl implements IFireStationService {
 	}
 
 	@Override
-	public FloodStationCoverageDTO getFloodStationCoverageFor(List<Integer> stationsNumber) {
-		//TODO output format is not good, need logic replacement here
+	public List<AddressReportDTO> getFloodStationCoverageFor(List<Integer> stationsNumber) {
 		List<FireStationMapping> fireStationMappingList = fireStationDAO.findByStationsNumber(stationsNumber);
-		List<AddressReportDTO> addressReportList = new ArrayList<AddressReportDTO>();
-		FloodStationCoverageDTO floodStationCoverageDTO = new FloodStationCoverageDTO();
-		
-		for(FireStationMapping fireStationMap : fireStationMappingList) {
+		List<AddressReportDTO> addressReportDTOList = new ArrayList<AddressReportDTO>();
+	
+		for(int stationNumber : stationsNumber) {
 			AddressReportDTO addressReportDTO = new AddressReportDTO();
+			addressReportDTO.setStationNumber(stationNumber);
+			addressReportDTO.setPerson(new ArrayList<AddressReportPersonDTO>());
+			addressReportDTOList.add(addressReportDTO);
+			
+		}
+		for(FireStationMapping fireStationMap : fireStationMappingList) {
 			int fireStationNumber = fireStationMap.getStation();
 			String address = fireStationMap.getAddress();
-			addressReportDTO.setStationNumber(fireStationNumber);
-			addressReportDTO.setPerson(personService.getAddressReportPersonDTO(address));
-			addressReportList.add(addressReportDTO);
+			for(AddressReportDTO addressReportDTO : addressReportDTOList) {
+				if(addressReportDTO.getStationNumber() == fireStationNumber) {
+					addressReportDTO.getPerson().addAll(personService.getAddressReportPersonDTO(address));
+				}
+			}
 		}
 		
-		floodStationCoverageDTO.setAddressReportListDTO(addressReportList);
-		
-		return floodStationCoverageDTO;
+		return addressReportDTOList;
 	}
 
 }

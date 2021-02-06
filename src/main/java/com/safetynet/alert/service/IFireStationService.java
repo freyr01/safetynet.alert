@@ -1,10 +1,12 @@
 package com.safetynet.alert.service;
 
+import com.safetynet.alert.dto.AddressReportDTO;
+import com.safetynet.alert.dto.AddressReportPersonDTO;
 import com.safetynet.alert.dto.FireStationCoverageDTO;
-import com.safetynet.alert.dto.FloodStationCoverageDTO;
 import com.safetynet.alert.model.Person;
 
 import java.util.List;
+import java.util.Map;
 
 public interface IFireStationService {
 
@@ -42,6 +44,6 @@ public interface IFireStationService {
 	 * @author Mathias Lauer
 	 * 4 févr. 2021
 	 */
-	public FloodStationCoverageDTO getFloodStationCoverageFor(List<Integer> stationsNumber);
+	public List<AddressReportDTO> getFloodStationCoverageFor(List<Integer> stationsNumber);
 
 }
