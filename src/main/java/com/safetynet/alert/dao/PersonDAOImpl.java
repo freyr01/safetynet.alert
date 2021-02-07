@@ -58,6 +58,17 @@ public class PersonDAOImpl implements IPersonDAO {
 		return personByFullName;
 	} 
 	
+	@Override
+	public List<Person> findByLastName(String lastName) {
+		List<Person> persons = new ArrayList<Person>();
+		for(Person p : findAll()) {
+			if(p.getLastName().equals(lastName)) {
+				persons.add(p);
+			}
+		}
+		return persons;
+	}
+	
 	public Person save(Person person) {
 		db.getDb().getPersons().add(person);
 		return person;
@@ -107,5 +118,7 @@ public class PersonDAOImpl implements IPersonDAO {
 		log.error("Not found person: {} {}", firstName, lastName);
 		return null;
 	}
+
+
 
 }

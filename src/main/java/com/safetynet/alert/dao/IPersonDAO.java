@@ -25,6 +25,15 @@ public interface IPersonDAO {
 	public List<Person> findByFullName(String firstName, String lastName);
 	
 	/**
+	 * Get a list of person named as requested
+	 * @param lastName
+	 * @return Should return a List<Person> for given last name, return an empty list if nobody founded
+	 * @author Mathias Lauer
+	 * 26 janv. 2021
+	 */
+	public List<Person> findByLastName(String lastName);
+	
+	/**
 	 * Get a list of person from an address
 	 * @param address
 	 * @return Should return a List<Person> for given address, return an empty list if nobody founded at this address

@@ -34,14 +34,14 @@ public class PersonController {
 	}
 	
 	@GetMapping(value="/personInfo")
-	public List<PersonInfoDTO> getPersonByFullName(@RequestParam String firstName, @RequestParam String lastName) {
+	public List<PersonInfoDTO> getPersonByFullName(@RequestParam(required=false) String firstName, @RequestParam String lastName) {
 		log.info("GET request /personInfo with param: firstName:{} lastName:{}", firstName, lastName);
-		List<PersonInfoDTO> personsByFullName = personService.getPersonInfo(firstName, lastName);
-		if(personsByFullName == null || personsByFullName.size() < 1) {
-			log.error("Error getting person: {} {}", firstName, lastName);
+		List<PersonInfoDTO> persons = personService.getPersonInfo(firstName, lastName);
+		if(persons == null || persons.size() < 1) {
+			log.debug("Error getting person: {} {}", firstName, lastName);
 		}
-		log.info("Return person list by fullname: {}", personsByFullName);
-		return  personsByFullName;
+		log.info("Return person list by fullname: {}", persons);
+		return  persons;
 	}
 	
 	@GetMapping(value="/communityEmail")

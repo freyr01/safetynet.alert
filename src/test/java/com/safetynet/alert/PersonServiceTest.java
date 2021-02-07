@@ -1,7 +1,6 @@
 package com.safetynet.alert;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.verify;
@@ -11,7 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -24,17 +22,14 @@ import com.safetynet.alert.dto.AddressReportDTO;
 import com.safetynet.alert.dto.AddressReportPersonDTO;
 import com.safetynet.alert.dto.ChildInfoDTO;
 import com.safetynet.alert.exception.MedicalRecordNotFoundException;
-import com.safetynet.alert.model.FireStationMapping;
-import com.safetynet.alert.model.Person;
 import com.safetynet.alert.model.MedicalRecord;
+import com.safetynet.alert.model.Person;
 import com.safetynet.alert.service.IMedicalRecordService;
 import com.safetynet.alert.service.IPersonService;
 import com.safetynet.alert.service.PersonServiceImpl;
 
 @ExtendWith(MockitoExtension.class)
 public class PersonServiceTest {
-	
-
 	
 	@Mock
 	private IPersonDAO personDao;

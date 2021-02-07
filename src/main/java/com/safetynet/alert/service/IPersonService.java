@@ -24,6 +24,15 @@ public interface IPersonService {
 	public List<PersonInfoDTO> getPersonInfo(String firstName, String lastName);
 	
 	/**
+	 * Should return a list of PersonInfo for given person lastName
+	 * @param lastName
+	 * @return List<PersonInfo>
+	 * @author Mathias Lauer
+	 * 2 févr. 2021
+	 */
+	public List<PersonInfoDTO> getPersonInfo(String lastName);
+	
+	/**
 	 * Should return a list a mail of all persons from given city
 	 * @param city
 	 * @return List<String>

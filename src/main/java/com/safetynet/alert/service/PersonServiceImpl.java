@@ -37,8 +37,12 @@ public class PersonServiceImpl implements IPersonService{
 	
 	public List<PersonInfoDTO> getPersonInfo(String firstName, String lastName) {
 		List<PersonInfoDTO> personInfoList = new ArrayList<PersonInfoDTO>();
-		List<Person> persons = personDao.findByFullName(firstName, lastName);
-		
+		List<Person> persons;
+		if(firstName == null) {
+			persons = personDao.findByLastName(lastName);
+		} else {
+			persons = personDao.findByFullName(firstName, lastName);
+		}
 		for(Person p : persons) {
 			PersonInfoDTO personInfo = new PersonInfoDTO();
 			MedicalRecord medicalRecord = null;
@@ -69,6 +73,12 @@ public class PersonServiceImpl implements IPersonService{
 		}
 		
 		return personInfoList;
+	}
+	
+	@Override
+	public List<PersonInfoDTO> getPersonInfo(String lastName) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 	public List<String> getPersonEmailByCity(String city) {
@@ -187,5 +197,7 @@ public class PersonServiceImpl implements IPersonService{
 		
 		return listAddressReportPersonDTO;
 	}
+
+
 	
 }
