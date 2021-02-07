@@ -49,4 +49,37 @@ public class FireStationDAOImpl implements IFireStationDAO {
 		return null;
 	}
 
+	@Override
+	public FireStationMapping post(FireStationMapping fireStation) {
+		if(findAll().add(fireStation)) {
+			return fireStation;
+		}
+		
+		return null;
+	}
+
+	@Override
+	public FireStationMapping update(FireStationMapping fireStation) {
+		for(FireStationMapping fsm : findAll()) {
+			if(fsm.getAddress().equals(fireStation.getAddress())) {
+				fsm.setStation(fireStation.getStation());
+				return fsm;
+			}
+		}
+		
+		return null;
+	}
+
+	@Override
+	public FireStationMapping delete(FireStationMapping fireStation) {
+		for(FireStationMapping fsm : findAll()) {
+			if(fsm.getAddress().equals(fireStation.getAddress())) {
+				if(findAll().remove(fsm)) {
+					return fsm;
+				}
+			}
+		}
+		return null;
+	}
+
 }

@@ -2,7 +2,7 @@ package com.safetynet.alert.service;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 
 import com.safetynet.alert.dao.IFireStationDAO;
 import com.safetynet.alert.dao.IPersonDAO;
-import com.safetynet.alert.dao.MedicalRecordDAOImpl;
 import com.safetynet.alert.dto.AddressReportDTO;
 import com.safetynet.alert.dto.AddressReportPersonDTO;
 import com.safetynet.alert.dto.FireStationCoverageDTO;
@@ -20,9 +19,6 @@ import com.safetynet.alert.exception.MedicalRecordNotFoundException;
 import com.safetynet.alert.model.FireStationMapping;
 import com.safetynet.alert.model.MedicalRecord;
 import com.safetynet.alert.model.Person;
-
-import java.util.List;
-import java.util.Map;
 
 @Service
 public class FireStationServiceImpl implements IFireStationService {
@@ -132,6 +128,22 @@ public class FireStationServiceImpl implements IFireStationService {
 		}
 		
 		return addressReportDTOList;
+	}
+
+	@Override
+	public FireStationMapping post(FireStationMapping fireStation) {
+		
+		return fireStationDAO.post(fireStation);
+	}
+
+	@Override
+	public FireStationMapping put(FireStationMapping firestation) {
+		return fireStationDAO.update(firestation);
+	}
+
+	@Override
+	public FireStationMapping delete(FireStationMapping firestation) {
+		return fireStationDAO.delete(firestation);
 	}
 
 }

@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.safetynet.alert.dto.AddressReportDTO;
 import com.safetynet.alert.dto.FireStationCoverageDTO;
+import com.safetynet.alert.model.FireStationMapping;
 import com.safetynet.alert.model.Person;
 
 public interface IFireStationService {
@@ -43,5 +44,35 @@ public interface IFireStationService {
 	 * 4 févr. 2021
 	 */
 	public List<AddressReportDTO> getFloodStationCoverageFor(List<Integer> stationsNumber);
+
+	/**
+	 * Add a new FireStationMapping in data base
+	 * Can do some treatments here before adding in database
+	 * @param fireStation will be added
+	 * @return fireStation added or null if something goes wrong
+	 * @author Mathias Lauer
+	 * 7 févr. 2021
+	 */
+	public FireStationMapping post(FireStationMapping fireStation);
+
+	/**
+	 * Update a fire station mapping in database
+	 * Can do some treatments here before updating database
+	 * @param fireStation to update, address in the object is used to found the target fire station mapping to update
+	 * @return FireStationMapping was updated or null if something goes wrong
+	 * @author Mathias Lauer
+	 * 7 févr. 2021
+	 */
+	public FireStationMapping put(FireStationMapping firestation);
+	
+	/**
+	 * Delete a fire station mapping in database
+	 * Can do some treatments here before deleting
+	 * @param firestation to delete, the address field in the object is used to found the object to delete
+	 * @return FireStationMapping object deleted or null if something goes wrong
+	 * @author Mathias Lauer
+	 * 7 févr. 2021
+	 */
+	public FireStationMapping delete(FireStationMapping firestation);
 
 }

@@ -32,4 +32,33 @@ public interface IFireStationDAO {
 	 */
 	public FireStationMapping findByAddress(String address);
 
+	/**
+	 * Should add a new FireStationMapping in data base
+	 * @param fireStation
+	 * @return FireStationMapping added or null if something goes wrong
+	 * @author Mathias Lauer
+	 * 7 févr. 2021
+	 */
+	public FireStationMapping post(FireStationMapping fireStation);
+	
+	/**
+	 * Should update the FireStationMapping given in param,
+	 * only the station number field can be updated,
+	 * existing mapping is found based on the address present in the object
+	 * @param fireStation
+	 * @return FireStationMapping updated or null if something goes wrong
+	 * @author Mathias Lauer
+	 * 7 févr. 2021
+	 */
+	public FireStationMapping update(FireStationMapping fireStation);
+	
+	/**
+	 * Should delete the FireStationMapping given in param based on the address contained in the object
+	 * @param fireStation will be deleted
+	 * @return FireStationMapping deleted or null if something goes wrong
+	 * @author Mathias Lauer
+	 * 7 févr. 2021
+	 */
+	public FireStationMapping delete(FireStationMapping fireStation);
+
 }
