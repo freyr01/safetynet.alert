@@ -61,4 +61,19 @@ public class MedicalRecordServiceImpl implements IMedicalRecordService {
 		return false;
 	}
 
+	@Override
+	public MedicalRecord post(MedicalRecord medicalRecord) {
+		return medicalRecordDAO.post(medicalRecord);
+	}
+
+	@Override
+	public MedicalRecord put(MedicalRecord medicalRecord) {
+		return medicalRecordDAO.put(medicalRecord);
+	}
+
+	@Override
+	public MedicalRecord delete(String firstName, String lastName) {
+		return medicalRecordDAO.delete(firstName, lastName);
+	}
+
 }

@@ -1,6 +1,5 @@
 package com.safetynet.alert.controller;
 
-import java.net.URI;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -14,7 +13,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.safetynet.alert.dto.AddressReportDTO;
 import com.safetynet.alert.dto.FireStationCoverageDTO;

@@ -39,4 +39,32 @@ public interface IMedicalRecordService {
 	 */
 	public boolean isChild(MedicalRecord medicalRecord);
 
+	/**
+	 * Can do some treatments before calling DAO to post a new medical record
+	 * @param medicalRecord
+	 * @return MedicalRecord was posted, null if something goes wrong
+	 * @author Mathias Lauer
+	 * 8 févr. 2021
+	 */
+	public MedicalRecord post(MedicalRecord medicalRecord);
+
+	/**
+	 * Can do some treatments before calling DAO to update a medical record
+	 * @param medicalRecord, fields MedicalRecord.firstName and MedicalRecord.lastName are used to find the medical record to update, these fields are not updatable
+	 * @return MedicalRecord was updated, null if something goes wrong
+	 * @author Mathias Lauer
+	 * 8 févr. 2021
+	 */
+	public MedicalRecord put(MedicalRecord medicalRecord);
+
+	/**
+	 * Can do some treatments before calling DAO to delete a medical record
+	 * @param firstName
+	 * @param lastName
+	 * @return MedicalRecord was deleted, null if something goes wrong
+	 * @author Mathias Lauer
+	 * 8 févr. 2021
+	 */
+	public MedicalRecord delete(String firstName, String lastName);
+
 }
