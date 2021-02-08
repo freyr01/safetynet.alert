@@ -142,8 +142,8 @@ public class FireStationServiceImpl implements IFireStationService {
 	}
 
 	@Override
-	public FireStationMapping delete(FireStationMapping firestation) {
-		return fireStationDAO.delete(firestation);
+	public FireStationMapping delete(String address) {
+		return fireStationDAO.delete(address);
 	}
 
 }

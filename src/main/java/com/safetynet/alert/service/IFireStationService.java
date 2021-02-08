@@ -68,11 +68,11 @@ public interface IFireStationService {
 	/**
 	 * Delete a fire station mapping in database
 	 * Can do some treatments here before deleting
-	 * @param firestation to delete, the address field in the object is used to found the object to delete
+	 * @param address of fire station to delete, the address field is used as unique field to find mapping to delete
 	 * @return FireStationMapping object deleted or null if something goes wrong
 	 * @author Mathias Lauer
 	 * 7 févr. 2021
 	 */
-	public FireStationMapping delete(FireStationMapping firestation);
+	public FireStationMapping delete(String address);
 
 }

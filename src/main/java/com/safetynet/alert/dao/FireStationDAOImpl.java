@@ -73,9 +73,9 @@ public class FireStationDAOImpl implements IFireStationDAO {
 	}
 
 	@Override
-	public FireStationMapping delete(FireStationMapping fireStation) {
+	public FireStationMapping delete(String address) {
 		for(FireStationMapping fsm : findAll()) {
-			if(fsm.getAddress().equals(fireStation.getAddress())) {
+			if(fsm.getAddress().equals(address)) {
 				if(findAll().remove(fsm)) {
 					return fsm;
 				}

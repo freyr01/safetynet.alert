@@ -53,12 +53,12 @@ public interface IFireStationDAO {
 	public FireStationMapping update(FireStationMapping fireStation);
 	
 	/**
-	 * Should delete the FireStationMapping given in param based on the address contained in the object
-	 * @param fireStation will be deleted
+	 * Should delete the FireStationMapping found by the address given
+	 * @param address is used as unique field to find the mapping to delete
 	 * @return FireStationMapping deleted or null if something goes wrong
 	 * @author Mathias Lauer
 	 * 7 févr. 2021
 	 */
-	public FireStationMapping delete(FireStationMapping fireStation);
+	public FireStationMapping delete(String address);
 
 }

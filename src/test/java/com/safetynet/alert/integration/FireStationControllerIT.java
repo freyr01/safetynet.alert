@@ -82,10 +82,8 @@ public class FireStationControllerIT {
 	
 	@Test
 	public void testDeleteFireStation_shouldReturnStatusOk() throws Exception {
-		FireStationMapping deleteStationMapping = new FireStationMapping("1509 Culver St", 2);
 		mockMvc.perform(MockMvcRequestBuilders
-				.delete("/firestation")
-				.content(asJsonString(deleteStationMapping))
+				.delete("/firestation").param("address", "1509 Culver St")
 				.contentType(MediaType.APPLICATION_JSON)
 				.accept(MediaType.APPLICATION_JSON)
 				).andExpect(status().isOk());	
@@ -93,10 +91,8 @@ public class FireStationControllerIT {
 	
 	@Test
 	public void testDeleteUnknownFireStation_shouldReturnStatusNotFound() throws Exception {
-		FireStationMapping deleteStationMapping = new FireStationMapping("1509 Culvazeazeer St", 2);
 		mockMvc.perform(MockMvcRequestBuilders
-				.delete("/firestation")
-				.content(asJsonString(deleteStationMapping))
+				.delete("/firestation").param("address", "1509 Culvazeazeazeer St")
 				.contentType(MediaType.APPLICATION_JSON)
 				.accept(MediaType.APPLICATION_JSON)
 				).andExpect(status().isNotFound());	
