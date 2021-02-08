@@ -55,10 +55,10 @@ public class PersonControllerIT {
 	
 	@Test
 	public void testGetPersonInfo_shouldReturnPersonInfo() throws Exception {
-		mockMvc.perform(get("/personInfo?firstName=John&lastName=Boyd"))
+		mockMvc.perform(get("/personInfo?firstName=Jonanathan&lastName=Marrack"))
 		.andExpect(status().isOk())
-		.andExpect(jsonPath("$[0].address", is("1509 Culver St")))
-		.andExpect(jsonPath("$[0].age", is(36)));
+		.andExpect(jsonPath("$[0].address", is("29 15th St")))
+		.andExpect(jsonPath("$[0].age", is(32)));
 		
 	}
 	

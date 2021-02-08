@@ -3,6 +3,8 @@ package com.safetynet.alert.dao;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -11,6 +13,7 @@ import com.safetynet.alert.model.FireStationMapping;
 @Repository
 public class FireStationDAOImpl implements IFireStationDAO {
 	
+	static Logger log = LoggerFactory.getLogger(FireStationDAOImpl.class);
 	private DatabaseDAO databaseDAO;
 	
 	public FireStationDAOImpl(@Autowired DatabaseDAO p_databaseDAO) {
@@ -51,6 +54,12 @@ public class FireStationDAOImpl implements IFireStationDAO {
 
 	@Override
 	public FireStationMapping post(FireStationMapping fireStation) {
+		for(FireStationMapping fsm : findAll()) {
+			if(fsm.getAddress().equals(fireStation.getAddress())) {
+				log.error("A mapping is already present in database with this address: {}", fsm);
+				return null;
+			}
+		}
 		if(findAll().add(fireStation)) {
 			return fireStation;
 		}

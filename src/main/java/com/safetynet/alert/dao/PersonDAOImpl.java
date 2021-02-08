@@ -70,8 +70,18 @@ public class PersonDAOImpl implements IPersonDAO {
 	}
 	
 	public Person save(Person person) {
-		db.getDb().getPersons().add(person);
-		return person;
+		for(Person p : findAll()) {
+			if(p.getFirstName().equals(person.getFirstName()) && p.getLastName().equals(person.getLastName())) {
+				log.error("Cannot post new person: {}, there is already someone named like this in data", person);
+				return null;
+			}
+		}
+		if(db.getDb().getPersons().add(person)) {
+			return person;
+		}
+		
+		return null;
+		
 	}
 	
 	public Person update(Person newPersonDatas) {
