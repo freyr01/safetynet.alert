@@ -138,8 +138,8 @@ public class PersonServiceImpl implements IPersonService{
 	}
 
 	@Override
-	public Person update(String firstName, String lastName, Person newPersonDatas) {
-		return personDao.update(firstName, lastName, newPersonDatas);
+	public Person update(Person newPersonDatas) {
+		return personDao.update(newPersonDatas);
 	}
 
 	@Override

@@ -60,15 +60,13 @@ public interface IPersonService {
 	public Person add(Person person);
 	
 	/**
-	 * Update the first person found in database with the lastName and firstName given
-	 * @param lastName
-	 * @param firstName
-	 * @param person new data of the person, firstName and lastName are not required in the object since the research is did with args firstName and lastName
+	 * Do some treatment here before update the first person found in database with the lastName and firstName given in the object
+	 * @param person new data, Person.firstName and Person.lastName is used to find the person object in database, these field cannot be modified
 	 * @return Person the edited object if editing succeed, null otherwise
 	 * @author Mathias Lauer
 	 * 26 janv. 2021
 	 */
-	public Person update(String firstName, String lastName, Person person);
+	public Person update(Person person);
 	
 	/**
 	 * Should delete the person named by given arguments

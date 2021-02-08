@@ -62,14 +62,13 @@ public interface IPersonDAO {
 	
 	/**
 	 * Update a person in database
-	 * @param lastName
-	 * @param fistName
+	 * Person.firstName and Person.lastName are used to find the object to update, these field cannot be modified
 	 * @param newPersonDatas
 	 * @return Should return the modified person Object if succeed, null otherwise
 	 * @author Mathias Lauer
 	 * 26 janv. 2021
 	 */
-	public Person update(String lastName, String firstName, Person newPersonDatas);
+	public Person update(Person newPersonDatas);
 	
 	/**
 	 * Delete a person in database

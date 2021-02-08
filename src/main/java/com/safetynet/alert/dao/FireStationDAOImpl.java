@@ -62,8 +62,10 @@ public class FireStationDAOImpl implements IFireStationDAO {
 	public FireStationMapping update(FireStationMapping fireStation) {
 		for(FireStationMapping fsm : findAll()) {
 			if(fsm.getAddress().equals(fireStation.getAddress())) {
-				fsm.setStation(fireStation.getStation());
-				return fsm;
+				if(fireStation.getStation() != 0) {
+					fsm.setStation(fireStation.getStation());
+					return fsm;
+				}
 			}
 		}
 		

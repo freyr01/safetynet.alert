@@ -66,9 +66,11 @@ public class PersonControllerIT {
 	public void testUpdatingPerson_shouldReturnStatusOk() throws Exception {
 
 		Person newData = new Person();
+		newData.setFirstName("John");
+		newData.setLastName("Boyd");
 		newData.setPhone("0102030405");
 		mockMvc.perform(MockMvcRequestBuilders
-				.put("/person").param("firstName", "John").param("lastName", "Boyd")
+				.put("/person")
 				.content(asJsonString(newData))
 				.contentType(MediaType.APPLICATION_JSON)
 				.accept(MediaType.APPLICATION_JSON)

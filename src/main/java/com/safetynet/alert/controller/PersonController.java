@@ -81,13 +81,11 @@ public class PersonController {
 	}
 	
 	@PutMapping(value="/person")
-	public ResponseEntity<Person> updatePerson(@RequestParam(value = "firstName") String firstName,
-											@RequestParam(value = "lastName") String lastName,
-											@RequestBody Person person) {
-		log.info("PUT request /person with param: firstName: {}, lastName: {}, Object: {}", firstName, lastName, person);
-		Person editedPerson = personService.update(firstName, lastName, person);
+	public ResponseEntity<Person> updatePerson(@RequestBody Person person) {
+		log.info("PUT request /person with Person object: {}",  person);
+		Person editedPerson = personService.update(person);
 		if(editedPerson == null) {
-			log.error("No person found for full name: {} {}", firstName, lastName);
+			log.error("No person found for full name: {} {}", person.getFirstName(), person.getLastName());
 			return ResponseEntity.notFound().build();	
 		}
 		
@@ -97,8 +95,7 @@ public class PersonController {
 	}
 	
 	@DeleteMapping(value="/person")
-	public ResponseEntity<Person> deletePerson(@RequestParam(value = "firstName") String firstName,
-												@RequestParam(value = "lastName") String lastName) { 
+	public ResponseEntity<Person> deletePerson(@RequestParam String firstName, @RequestParam String lastName) { 
 		log.info("DELETE request /person with param: firstName: {}, lastName: {}", firstName, lastName);
 		Person deletedPerson = personService.delete(firstName, lastName);
 		if(deletedPerson == null) {

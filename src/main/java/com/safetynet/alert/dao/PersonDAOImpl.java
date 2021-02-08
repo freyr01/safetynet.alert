@@ -74,10 +74,10 @@ public class PersonDAOImpl implements IPersonDAO {
 		return person;
 	}
 	
-	public Person update(String firstName, String lastName, Person newPersonDatas) {
-		List<Person> persons = findByFullName(firstName, lastName);
+	public Person update(Person newPersonDatas) {
+		List<Person> persons = findByFullName(newPersonDatas.getFirstName(), newPersonDatas.getLastName());
 		if(persons.size() < 1) {
-			log.error("Cannot found anybody named: {} {}", firstName, lastName);
+			log.error("Cannot found anybody named: {} {}", newPersonDatas.getFirstName(), newPersonDatas.getLastName());
 			return null;
 		}
 		
