@@ -2,12 +2,6 @@ package com.safetynet.alert.model;
 
 import java.util.List;
 
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Past;
-
-import org.springframework.boot.autoconfigure.domain.EntityScan;
-
 /**
  * Represent a medical record in database, fields are firstName, lastName, birth date, medications and allergies
  * @author Mathias Lauer
@@ -15,23 +9,13 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
  */
 public class MedicalRecord {
 	
-	@NotNull @Min(3)
 	private String firstName;
-	
-	@NotNull @Min(3)
 	private String lastName;
-	
-	@NotNull @Past
 	private String birthdate;
-	
 	private List<String> medications;
-	
 	private List<String> allergies;
-	
 
-	
-	public MedicalRecord(@NotNull @Min(3) String firstName, @NotNull @Min(3) String lastName,
-			@NotNull @Past String birthdate, List<String> medications, List<String> allergies) {
+	public MedicalRecord(String firstName,String lastName,String birthdate, List<String> medications, List<String> allergies) {
 		setFirstName(firstName);
 		setLastName(lastName);
 		setBirthdate(birthdate);
