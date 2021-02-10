@@ -31,4 +31,10 @@ public class FireStationMapping {
 		this.station = station;
 	}
 
+	@Override
+	public String toString() {
+		return "FireStationMapping [address=" + address + ", station=" + station + "]";
+	}
+
+	
 }

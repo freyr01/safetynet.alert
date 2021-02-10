@@ -66,4 +66,12 @@ public class PersonInfoDTO {
 		this.email = email;
 	}
 
+	@Override
+	public String toString() {
+		return "PersonInfoDTO [firstName=" + firstName + ", lastName=" + lastName + ", age=" + age + ", address="
+				+ address + ", email=" + email + ", medications=" + medications + ", allergies=" + allergies + "]";
+	}
+	
+	
+
 }

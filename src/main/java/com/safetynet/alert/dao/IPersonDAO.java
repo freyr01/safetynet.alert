@@ -54,7 +54,7 @@ public interface IPersonDAO {
 	/**
 	 * Add a new person in data base
 	 * @param person will be added
-	 * @return Should return the person object if adding was a success
+	 * @return Should return the person object if adding was a success or null if something goes wrong
 	 * @author Mathias Lauer
 	 * 26 janv. 2021
 	 */

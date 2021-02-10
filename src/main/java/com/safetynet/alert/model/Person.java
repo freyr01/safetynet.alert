@@ -74,9 +74,8 @@ public class Person {
 	
 	@Override
 	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append(String.format("First name: %s\n", this.firstName));
-		builder.append(String.format("Last name: %s\n", this.lastName));
-		return builder.toString();
+		return "Person [firstName=" + firstName + ", lastName=" + lastName + ", address=" + address + ", city=" + city
+				+ ", zip=" + zip + ", phone=" + phone + ", email=" + email + "]";
 	}
+	
 }
