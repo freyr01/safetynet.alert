@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.json.MappingJacksonValue;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,6 +17,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.fasterxml.jackson.databind.ser.FilterProvider;
+import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
+import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
 import com.safetynet.alert.dto.AddressReportDTO;
 import com.safetynet.alert.dto.ChildInfoDTO;
 import com.safetynet.alert.dto.PersonInfoDTO;
@@ -34,14 +38,14 @@ public class PersonController {
 	}
 	
 	@GetMapping(value="/personInfo")
-	public List<PersonInfoDTO> getPersonByFullName(@RequestParam(required=false) String firstName, @RequestParam String lastName) {
+	public MappingJacksonValue getPersonByFullName(@RequestParam(required=false) String firstName, @RequestParam String lastName) {
 		log.info("GET request /personInfo with param: firstName:{} lastName:{}", firstName, lastName);
 		List<PersonInfoDTO> persons = personService.getPersonInfo(firstName, lastName);
 		if(persons == null || persons.size() < 1) {
 			log.debug("Error getting person: {} {}", firstName, lastName);
 		}
 		log.info("Return person list by fullname: {}", persons);
-		return  persons;
+		return applyPersoninfoExcludeFilter(persons, "phone");
 	}
 	
 	@GetMapping(value="/communityEmail")
@@ -120,6 +124,18 @@ public class PersonController {
 		log.info("Return AddressReport object: {}", addressReport);
 		return ResponseEntity.ok(addressReport);
 		
+	}
+	
+	public static MappingJacksonValue applyPersoninfoExcludeFilter(Object object, String... fieldExclude) {
+		
+		 SimpleBeanPropertyFilter personInfoFilter = SimpleBeanPropertyFilter.serializeAllExcept(fieldExclude);
+	     FilterProvider filterList = new SimpleFilterProvider().addFilter("personInfoFilter", personInfoFilter);
+
+	     MappingJacksonValue objectFiltered = new MappingJacksonValue(object);
+
+	     objectFiltered.setFilters(filterList);
+	     
+	     return objectFiltered;
 	}
 	
 

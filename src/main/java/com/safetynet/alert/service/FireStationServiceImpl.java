@@ -13,7 +13,7 @@ import com.safetynet.alert.dao.IFireStationDAO;
 import com.safetynet.alert.dao.IPersonDAO;
 import com.safetynet.alert.dto.AddressReportDTO;
 import com.safetynet.alert.dto.AddressReportPersonDTO;
-import com.safetynet.alert.dto.FireStationCoverageDTO;
+import com.safetynet.alert.dto.FirestationDTO;
 import com.safetynet.alert.dto.FireStationCoveragePersonDTO;
 import com.safetynet.alert.exception.MedicalRecordNotFoundException;
 import com.safetynet.alert.model.FireStationMapping;
@@ -41,8 +41,8 @@ public class FireStationServiceImpl implements IFireStationService {
 	}
 	
 	@Override
-	public FireStationCoverageDTO getFireStationCoverageFor(int stationNumber) {
-		FireStationCoverageDTO fireStationCoverage = new FireStationCoverageDTO();
+	public FirestationDTO getFireStationCoverageFor(int stationNumber) {
+		FirestationDTO fireStationCoverage = new FirestationDTO();
 		List<FireStationCoveragePersonDTO> fireStationCoveredPersonDTO = new ArrayList<FireStationCoveragePersonDTO>();
 		List<Person> personsCovered = this.getCoveredPersonOf(stationNumber);
 		int adultCount = 0;

@@ -7,7 +7,7 @@ import java.util.List;
  * @author Mathias Lauer
  * 6 févr. 2021
  */
-public class FireStationCoverageDTO {
+public class FirestationDTO {
 	
 	private int adultCount;
 	private int childCount;

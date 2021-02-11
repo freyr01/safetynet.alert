@@ -2,11 +2,15 @@ package com.safetynet.alert.dto;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonFilter;
+
 /**
  * Represent a person, his first name, last name, age, address, mail, medications and allergies
  * @author Mathias Lauer
  * 6 févr. 2021
  */
+
+@JsonFilter("personInfoFilter")
 public class PersonInfoDTO {
 	
 	private String firstName;
@@ -14,6 +18,7 @@ public class PersonInfoDTO {
 	private int age;
 	private String address;
 	private String email;
+	private String phone;
 	private List<String> medications;
 	private List<String> allergies;
 	
@@ -70,6 +75,14 @@ public class PersonInfoDTO {
 	public String toString() {
 		return "PersonInfoDTO [firstName=" + firstName + ", lastName=" + lastName + ", age=" + age + ", address="
 				+ address + ", email=" + email + ", medications=" + medications + ", allergies=" + allergies + "]";
+	}
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
 	}
 	
 	

@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.json.MappingJacksonValue;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.safetynet.alert.dto.AddressReportDTO;
-import com.safetynet.alert.dto.FireStationCoverageDTO;
+import com.safetynet.alert.dto.FirestationDTO;
 import com.safetynet.alert.model.FireStationMapping;
 import com.safetynet.alert.service.IFireStationService;
 @RestController
@@ -30,10 +31,10 @@ public class FireStationController {
 	}
 	
 	@GetMapping(value="/firestation")
-	public FireStationCoverageDTO getCoveredPersonOf(@RequestParam int stationNumber) {
+	public FirestationDTO getCoveredPersonOf(@RequestParam int stationNumber) {
 		log.info("GET request /firestation with param: stationNumber: {}", stationNumber);
 		
-		FireStationCoverageDTO fireStationCoverage = fireStationService.getFireStationCoverageFor(stationNumber);
+		FirestationDTO fireStationCoverage = fireStationService.getFireStationCoverageFor(stationNumber);
 
 		log.info("Return object: {}", fireStationCoverage);
 		
@@ -100,4 +101,6 @@ public class FireStationController {
 		
 		return ResponseEntity.ok(deleted);
 	}
+	
+
 }
