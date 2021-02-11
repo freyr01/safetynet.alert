@@ -14,7 +14,7 @@ import com.safetynet.alert.dao.IPersonDAO;
 import com.safetynet.alert.dto.AddressReportDTO;
 import com.safetynet.alert.dto.AddressReportPersonDTO;
 import com.safetynet.alert.dto.FirestationDTO;
-import com.safetynet.alert.dto.FireStationCoveragePersonDTO;
+import com.safetynet.alert.dto.PersonInfoDTO;
 import com.safetynet.alert.exception.MedicalRecordNotFoundException;
 import com.safetynet.alert.model.FireStationMapping;
 import com.safetynet.alert.model.MedicalRecord;
@@ -43,18 +43,21 @@ public class FireStationServiceImpl implements IFireStationService {
 	@Override
 	public FirestationDTO getFireStationCoverageFor(int stationNumber) {
 		FirestationDTO fireStationCoverage = new FirestationDTO();
-		List<FireStationCoveragePersonDTO> fireStationCoveredPersonDTO = new ArrayList<FireStationCoveragePersonDTO>();
+		//List<FireStationCoveragePersonDTO> fireStationCoveredPersonDTO = new ArrayList<FireStationCoveragePersonDTO>();
+		List<PersonInfoDTO> personInfoDTOList = new ArrayList<PersonInfoDTO>();
 		List<Person> personsCovered = this.getCoveredPersonOf(stationNumber);
 		int adultCount = 0;
 		int childCount = 0;
 		
 		for(Person person : personsCovered) {
-			FireStationCoveragePersonDTO personDTO = new FireStationCoveragePersonDTO();
-			personDTO.setFirstName(person.getFirstName());
-			personDTO.setLastName(person.getLastName());
-			personDTO.setAddress(person.getAddress());
-			personDTO.setPhone(person.getPhone());
-			fireStationCoveredPersonDTO.add(personDTO);
+			
+			PersonInfoDTO personInfoDTO = new PersonInfoDTO();
+			personInfoDTO.setFirstName(person.getFirstName());
+			personInfoDTO.setLastName(person.getLastName());
+			personInfoDTO.setAddress(person.getAddress());
+			personInfoDTO.setPhone(person.getPhone());
+			personInfoDTOList.add(personInfoDTO);
+			
 			MedicalRecord medicalRecord;
 			try {
 				medicalRecord = medicalRecordService.getMedicalRecordOf(person.getFirstName(), person.getLastName());
@@ -70,7 +73,7 @@ public class FireStationServiceImpl implements IFireStationService {
 
 		}
 		
-		fireStationCoverage.setPersons(fireStationCoveredPersonDTO);
+		fireStationCoverage.setPersons(personInfoDTOList);
 		fireStationCoverage.setChildCount(childCount);
 		fireStationCoverage.setAdultCount(adultCount);
 		

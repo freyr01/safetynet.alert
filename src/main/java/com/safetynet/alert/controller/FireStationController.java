@@ -31,14 +31,14 @@ public class FireStationController {
 	}
 	
 	@GetMapping(value="/firestation")
-	public FirestationDTO getCoveredPersonOf(@RequestParam int stationNumber) {
+	public MappingJacksonValue getCoveredPersonOf(@RequestParam int stationNumber) {
 		log.info("GET request /firestation with param: stationNumber: {}", stationNumber);
 		
 		FirestationDTO fireStationCoverage = fireStationService.getFireStationCoverageFor(stationNumber);
 
 		log.info("Return object: {}", fireStationCoverage);
 		
-		return fireStationCoverage;
+		return PersonController.applyPersoninfoExcludeFilter(fireStationCoverage, "age", "email", "medications", "allergies");
 	}
 	
 	@GetMapping(value="/phoneAlert")

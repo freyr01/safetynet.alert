@@ -12,15 +12,7 @@ public class FirestationDTO {
 	private int adultCount;
 	private int childCount;
 	
-	private List<FireStationCoveragePersonDTO> persons;
-
-	public List<FireStationCoveragePersonDTO> getPersons() {
-		return persons;
-	}
-
-	public void setPersons(List<FireStationCoveragePersonDTO> persons) {
-		this.persons = persons;
-	}
+	private List<PersonInfoDTO> persons;
 
 	public int getAdultCount() {
 		return adultCount;
@@ -36,6 +28,14 @@ public class FirestationDTO {
 
 	public void setChildCount(int childCount) {
 		this.childCount = childCount;
+	}
+
+	public List<PersonInfoDTO> getPersons() {
+		return persons;
+	}
+
+	public void setPersons(List<PersonInfoDTO> persons) {
+		this.persons = persons;
 	}
 
 }
