@@ -18,8 +18,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.safetynet.alert.dao.IFireStationDAO;
 import com.safetynet.alert.dao.IPersonDAO;
-import com.safetynet.alert.dto.AddressReportDTO;
-import com.safetynet.alert.dto.AddressReportPersonDTO;
+import com.safetynet.alert.dto.FireDTO;
+import com.safetynet.alert.dto.PersonInfoDTO;
 import com.safetynet.alert.dto.ChildInfoDTO;
 import com.safetynet.alert.exception.MedicalRecordNotFoundException;
 import com.safetynet.alert.model.MedicalRecord;
@@ -97,7 +97,7 @@ public class PersonServiceTest {
 		when(medicalRecordService.getAgeOf(TestData.TestPerson.ERIC.getMedicalRecord())).thenReturn(12);
 		when(medicalRecordService.getAgeOf(TestData.TestPerson.BILLY.getMedicalRecord())).thenReturn(21);
 		
-		AddressReportDTO addressReport = personService.getAddressReport(ADDRESS);
+		FireDTO addressReport = personService.getFireDTO(ADDRESS);
 		
 		assertEquals(1, addressReport.getStationNumber());
 		assertEquals(2, addressReport.getPerson().size());
@@ -120,7 +120,7 @@ public class PersonServiceTest {
 		when(medicalRecordService.getAgeOf(TestData.TestPerson.ERIC.getMedicalRecord())).thenReturn(12);
 		when(medicalRecordService.getAgeOf(TestData.TestPerson.BILLY.getMedicalRecord())).thenReturn(21);
 		
-		List<AddressReportPersonDTO> arpDTOlist = personService.getAddressReportPersonDTO(ADDRESS);
+		List<PersonInfoDTO> arpDTOlist = personService.getPersonInfoListByAddress(ADDRESS);
 
 		assertEquals(eric.getFirstName(), arpDTOlist.get(0).getFirstName());
 		assertEquals(eric.getLastName(), arpDTOlist.get(0).getLastName());

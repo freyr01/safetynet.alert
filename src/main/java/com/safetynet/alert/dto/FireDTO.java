@@ -7,10 +7,11 @@ import java.util.List;
  * @author Mathias Lauer
  * 6 févr. 2021
  */
-public class AddressReportDTO {
+public class FireDTO {
 	
 	private int stationNumber;
-	private List<AddressReportPersonDTO> person;
+	
+	private List<PersonInfoDTO> person;
 	
 	public int getStationNumber() {
 		return stationNumber;
@@ -19,13 +20,14 @@ public class AddressReportDTO {
 	public void setStationNumber(int stationNumber) {
 		this.stationNumber = stationNumber;
 	}
-	
-	public List<AddressReportPersonDTO> getPerson() {
+
+	public List<PersonInfoDTO> getPerson() {
 		return person;
 	}
-	
-	public void setPerson(List<AddressReportPersonDTO> person) {
+
+	public void setPerson(List<PersonInfoDTO> person) {
 		this.person = person;
 	}
+
 
 }

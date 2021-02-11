@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Arrays;
 
-import com.safetynet.alert.dto.AddressReportPersonDTO;
+import com.safetynet.alert.dto.PersonInfoDTO;
 import com.safetynet.alert.model.FireStationMapping;
 import com.safetynet.alert.model.MedicalRecord;
 import com.safetynet.alert.model.Person;
@@ -70,10 +70,10 @@ public class TestData {
 		return fireStationMappingList;
 	}
 	
-	public static List<AddressReportPersonDTO> getAddressReportPersonDTOList() {
-		List<AddressReportPersonDTO> list = new ArrayList<AddressReportPersonDTO>();
+	public static List<PersonInfoDTO> getPersonInfoDTOByAddressList() {
+		List<PersonInfoDTO> list = new ArrayList<PersonInfoDTO>();
 		
-		AddressReportPersonDTO ericDTO = new AddressReportPersonDTO();
+		PersonInfoDTO ericDTO = new PersonInfoDTO();
 		Person eric = TestPerson.ERIC.getPerson();
 		
 		ericDTO.setFirstName(eric.getFirstName());
@@ -84,7 +84,7 @@ public class TestData {
 		ericDTO.setAllergies(TestPerson.ERIC.getMedicalRecord().getMedications());
 		
 		Person alex = TestPerson.ALEX.getPerson();
-		AddressReportPersonDTO alexDTO = new AddressReportPersonDTO();
+		PersonInfoDTO alexDTO = new PersonInfoDTO();
 		
 		alexDTO.setFirstName(alex.getFirstName());
 		alexDTO.setLastName(alex.getLastName());
@@ -94,7 +94,7 @@ public class TestData {
 		alexDTO.setAllergies(TestPerson.ALEX.getMedicalRecord().getMedications());
 		
 		Person samantha = TestPerson.SAMANTHA.getPerson();
-		AddressReportPersonDTO samanthaDTO = new AddressReportPersonDTO();
+		PersonInfoDTO samanthaDTO = new PersonInfoDTO();
 		
 		samanthaDTO.setFirstName(samantha.getFirstName());
 		samanthaDTO.setLastName(samantha.getLastName());

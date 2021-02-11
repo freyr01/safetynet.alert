@@ -11,8 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.safetynet.alert.dao.IFireStationDAO;
 import com.safetynet.alert.dao.IPersonDAO;
-import com.safetynet.alert.dto.AddressReportDTO;
-import com.safetynet.alert.dto.AddressReportPersonDTO;
+import com.safetynet.alert.dto.FireDTO;
 import com.safetynet.alert.dto.FirestationDTO;
 import com.safetynet.alert.dto.PersonInfoDTO;
 import com.safetynet.alert.exception.MedicalRecordNotFoundException;
@@ -109,23 +108,23 @@ public class FireStationServiceImpl implements IFireStationService {
 	}
 
 	@Override
-	public List<AddressReportDTO> getFloodStationCoverageFor(List<Integer> stationsNumber) {
+	public List<FireDTO> getFloodStationCoverageFor(List<Integer> stationsNumber) {
 		List<FireStationMapping> fireStationMappingList = fireStationDAO.findByStationsNumber(stationsNumber); //Get the mapping of stations given by stationsNumber 
-		List<AddressReportDTO> addressReportDTOList = new ArrayList<AddressReportDTO>();
+		List<FireDTO> addressReportDTOList = new ArrayList<FireDTO>();
 	
 		for(int stationNumber : stationsNumber) {								//Create an AddressReportDTO for each stations given
-			AddressReportDTO addressReportDTO = new AddressReportDTO();
+			FireDTO addressReportDTO = new FireDTO();
 			addressReportDTO.setStationNumber(stationNumber);
-			addressReportDTO.setPerson(new ArrayList<AddressReportPersonDTO>());	//With an empty list of person represented by AddressReportPersonDTO
+			addressReportDTO.setPerson(new ArrayList<PersonInfoDTO>());	//With an empty list of person represented by AddressReportPersonDTO
 			addressReportDTOList.add(addressReportDTO);
 			
 		}
 		for(FireStationMapping fireStationMap : fireStationMappingList) {	//Browse list of fire station mapping
 			int fireStationNumber = fireStationMap.getStation();
 			String address = fireStationMap.getAddress();
-			for(AddressReportDTO addressReportDTO : addressReportDTOList) {		
+			for(FireDTO addressReportDTO : addressReportDTOList) {		
 				if(addressReportDTO.getStationNumber() == fireStationNumber) {	//Search in list of AddressReportDTO with one is for the station we are iterate
-					addressReportDTO.getPerson().addAll(personService.getAddressReportPersonDTO(address)); //Add the list of person to it
+					addressReportDTO.getPerson().addAll(personService.getPersonInfoListByAddress(address)); //Add the list of person to it
 				}
 			}
 		}

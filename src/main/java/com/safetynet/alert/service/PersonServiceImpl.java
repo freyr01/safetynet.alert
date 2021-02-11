@@ -10,8 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.safetynet.alert.dao.IFireStationDAO;
 import com.safetynet.alert.dao.IPersonDAO;
-import com.safetynet.alert.dto.AddressReportDTO;
-import com.safetynet.alert.dto.AddressReportPersonDTO;
+import com.safetynet.alert.dto.FireDTO;
 import com.safetynet.alert.dto.ChildInfoDTO;
 import com.safetynet.alert.dto.PersonInfoDTO;
 import com.safetynet.alert.exception.MedicalRecordNotFoundException;
@@ -73,12 +72,6 @@ public class PersonServiceImpl implements IPersonService{
 		}
 		
 		return personInfoList;
-	}
-	
-	@Override
-	public List<PersonInfoDTO> getPersonInfo(String lastName) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 	
 	public List<String> getPersonEmailByCity(String city) {
@@ -148,8 +141,8 @@ public class PersonServiceImpl implements IPersonService{
 	}
 
 	@Override
-	public AddressReportDTO getAddressReport(String address) {
-		AddressReportDTO addressReportDTO = new AddressReportDTO();
+	public FireDTO getFireDTO(String address) {
+		FireDTO addressReportDTO = new FireDTO();
 
 		FireStationMapping fireStationMapping = fireStationDAO.findByAddress(address);
 		if(fireStationMapping == null) {
@@ -157,16 +150,16 @@ public class PersonServiceImpl implements IPersonService{
 		}
 		
 		addressReportDTO.setStationNumber(fireStationMapping.getStation());
-		addressReportDTO.setPerson(getAddressReportPersonDTO(address));
+		addressReportDTO.setPerson(getPersonInfoListByAddress(address));
 		
 		return addressReportDTO;
 	}
 	
-	public List<AddressReportPersonDTO> getAddressReportPersonDTO(String address){
-		List<AddressReportPersonDTO> listAddressReportPersonDTO = new ArrayList<AddressReportPersonDTO>();
+	public List<PersonInfoDTO> getPersonInfoListByAddress(String address){
+		List<PersonInfoDTO> listPersonInfoDTO = new ArrayList<PersonInfoDTO>();
 		List<Person> personsByAddress = personDao.findByAddress(address);
 		for(Person person : personsByAddress) {
-			AddressReportPersonDTO addressReportPersonDTO = new AddressReportPersonDTO();
+			PersonInfoDTO personInfoDTO = new PersonInfoDTO();
 			MedicalRecord medicalRecord;
 			int age;
 			List<String> allergies;
@@ -184,18 +177,18 @@ public class PersonServiceImpl implements IPersonService{
 				medications = new ArrayList<String>();
 			}
 			
-			addressReportPersonDTO.setFirstName(person.getFirstName());
-			addressReportPersonDTO.setLastName(person.getLastName());
-			addressReportPersonDTO.setAge(age);
-			addressReportPersonDTO.setPhone(person.getPhone());
-			addressReportPersonDTO.setAllergies(allergies);
-			addressReportPersonDTO.setMedications(medications);
+			personInfoDTO.setFirstName(person.getFirstName());
+			personInfoDTO.setLastName(person.getLastName());
+			personInfoDTO.setAge(age);
+			personInfoDTO.setPhone(person.getPhone());
+			personInfoDTO.setAllergies(allergies);
+			personInfoDTO.setMedications(medications);
 			
-			listAddressReportPersonDTO.add(addressReportPersonDTO);
+			listPersonInfoDTO.add(personInfoDTO);
 		}
 		
 		
-		return listAddressReportPersonDTO;
+		return listPersonInfoDTO;
 	}
 
 

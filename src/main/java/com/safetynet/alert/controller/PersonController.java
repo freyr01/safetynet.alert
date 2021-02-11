@@ -20,7 +20,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import com.fasterxml.jackson.databind.ser.FilterProvider;
 import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
 import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
-import com.safetynet.alert.dto.AddressReportDTO;
+import com.safetynet.alert.dto.FireDTO;
 import com.safetynet.alert.dto.ChildInfoDTO;
 import com.safetynet.alert.dto.PersonInfoDTO;
 import com.safetynet.alert.model.Person;
@@ -64,6 +64,35 @@ public class PersonController {
 		return childByAddress; 
 	}
 	
+
+	
+	@GetMapping(value="fire")
+	public ResponseEntity<MappingJacksonValue> getAddressReport(@RequestParam String address) {
+		log.info("GET request /fire with param: address: {}", address);
+		FireDTO fireDTO = personService.getFireDTO(address);
+		if(fireDTO == null) {
+			log.error("No result found for address: {}", address);
+			return ResponseEntity.notFound().build();
+		}
+		
+		log.info("Return fireDTO object: {}", fireDTO);
+		return ResponseEntity.ok(applyPersoninfoExcludeFilter(fireDTO, "address", "email"));
+		
+	}
+	
+	public static MappingJacksonValue applyPersoninfoExcludeFilter(Object object, String... fieldExclude) {
+		
+		 SimpleBeanPropertyFilter personInfoFilter = SimpleBeanPropertyFilter.serializeAllExcept(fieldExclude);
+	     FilterProvider filterList = new SimpleFilterProvider().addFilter("personInfoFilter", personInfoFilter);
+
+	     MappingJacksonValue objectFiltered = new MappingJacksonValue(object);
+
+	     objectFiltered.setFilters(filterList);
+	     
+	     return objectFiltered;
+	}
+	
+	//------- CRUD PART -----------
 	@PostMapping(value = "/person")
 	public ResponseEntity<Person> addPerson(@RequestBody Person person) {
 		log.info("POST request /person with param: {}", person);
@@ -110,32 +139,6 @@ public class PersonController {
 		log.info("Return response code OK");
 		return ResponseEntity.ok().body(deletedPerson);
 		
-	}
-	
-	@GetMapping(value="fire")
-	public ResponseEntity<AddressReportDTO> getAddressReport(@RequestParam String address) {
-		log.info("GET request /fire with param: address: {}", address);
-		AddressReportDTO addressReport = personService.getAddressReport(address);
-		if(addressReport == null) {
-			log.error("No result found for address: {}", address);
-			return ResponseEntity.notFound().build();
-		}
-		
-		log.info("Return AddressReport object: {}", addressReport);
-		return ResponseEntity.ok(addressReport);
-		
-	}
-	
-	public static MappingJacksonValue applyPersoninfoExcludeFilter(Object object, String... fieldExclude) {
-		
-		 SimpleBeanPropertyFilter personInfoFilter = SimpleBeanPropertyFilter.serializeAllExcept(fieldExclude);
-	     FilterProvider filterList = new SimpleFilterProvider().addFilter("personInfoFilter", personInfoFilter);
-
-	     MappingJacksonValue objectFiltered = new MappingJacksonValue(object);
-
-	     objectFiltered.setFilters(filterList);
-	     
-	     return objectFiltered;
 	}
 	
 

@@ -16,7 +16,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.safetynet.alert.dao.IFireStationDAO;
 import com.safetynet.alert.dao.IPersonDAO;
-import com.safetynet.alert.dto.AddressReportDTO;
+import com.safetynet.alert.dto.FireDTO;
 import com.safetynet.alert.dto.FirestationDTO;
 import com.safetynet.alert.exception.MedicalRecordNotFoundException;
 import com.safetynet.alert.model.Person;
@@ -80,9 +80,9 @@ public class FireStationServiceTest {
 	@Test
 	public void testFloodStationCoverage_shouldReturnCorreclyFilledListOfAddressReportDTO() {
 		when(fireStationDAO.findByStationsNumber(Arrays.asList(1,2))).thenReturn(TestData.getTestFireStationMappingList());
-		when(personService.getAddressReportPersonDTO(anyString())).thenReturn(TestData.getAddressReportPersonDTOList());
+		when(personService.getPersonInfoListByAddress(anyString())).thenReturn(TestData.getPersonInfoDTOByAddressList());
 		
-		List<AddressReportDTO> addressReportDTOList = fireStationService.getFloodStationCoverageFor(Arrays.asList(1,2));
+		List<FireDTO> addressReportDTOList = fireStationService.getFloodStationCoverageFor(Arrays.asList(1,2));
 		
 		assertEquals(1, addressReportDTOList.get(0).getStationNumber());
 		
