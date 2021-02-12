@@ -29,7 +29,7 @@ public interface IFireStationService {
 	public FirestationDTO getFireStationCoverageFor(int stationNumber);
 	
 	/**
-	 * Should return a list of phone number of persons covered by station given in param
+	 * Should return a list of phone number of persons covered by station given, there should be no duplicate
 	 * @param stationNumber
 	 * @return List<String>
 	 * @author Mathias Lauer

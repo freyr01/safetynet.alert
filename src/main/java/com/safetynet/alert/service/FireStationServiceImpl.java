@@ -44,7 +44,6 @@ public class FireStationServiceImpl implements IFireStationService {
 	@Override
 	public FirestationDTO getFireStationCoverageFor(int stationNumber) {
 		FirestationDTO fireStationCoverage = new FirestationDTO();
-		//List<FireStationCoveragePersonDTO> fireStationCoveredPersonDTO = new ArrayList<FireStationCoveragePersonDTO>();
 		List<PersonInfoDTO> personInfoDTOList = new ArrayList<PersonInfoDTO>();
 		List<Person> personsCovered = this.getCoveredPersonOf(stationNumber);
 		int adultCount = 0;
@@ -103,6 +102,7 @@ public class FireStationServiceImpl implements IFireStationService {
 		for(Person person : personsCovered) {
 			if( ! phoneList.contains(person.getPhone())) {
 				phoneList.add(person.getPhone());
+				
 			}
 		}
 		

@@ -3,6 +3,7 @@ package com.safetynet.alert;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.when;
 
 import java.time.LocalDate;
 import java.time.Period;
@@ -27,6 +28,8 @@ public class MedicalRecordServiceTest {
 	
 	private IMedicalRecordService medicalRecordService;
 	
+	private static TestData testData = new TestData();
+	
 	@BeforeEach
 	public void setUpPerTest() {
 		medicalRecordService = new MedicalRecordServiceImpl(medicalRecordDAO);
@@ -34,26 +37,27 @@ public class MedicalRecordServiceTest {
 	
 	@Test
 	public void getAgeTest_shouldReturnAgeInInteger() {
-		LocalDate birthDateMr1 = LocalDate.parse("02/18/2012", DateTimeFormatter.ofPattern("MM/dd/yyyy"));
-		Period expectedAgeMr1 = Period.between(birthDateMr1, LocalDate.now());
+		MedicalRecord firstMedicalRecord = testData.getMedicalRecords().get(0);
+		LocalDate birthDatePerson1 = LocalDate.parse(firstMedicalRecord.getBirthdate(), DateTimeFormatter.ofPattern("MM/dd/yyyy"));
+		Period expectedAge = Period.between(birthDatePerson1, LocalDate.now());
 
-		int ageMr1 = medicalRecordService.getAgeOf(TestData.TestPerson.SAMANTHA.getMedicalRecord());
+		int ageMr1 = medicalRecordService.getAgeOf(firstMedicalRecord);
 		
-		assertEquals(expectedAgeMr1.getYears(), ageMr1);
+		assertEquals(expectedAge.getYears(), ageMr1);
 		
 	}
 	
 	@Test
 	public void testIsChild() {
-		MedicalRecord samanthaMedicalRecord = TestData.TestPerson.SAMANTHA.getMedicalRecord();
+		MedicalRecord childMedicalRecord = testData.getMedicalRecords().get(3);
 		
-		assertTrue(medicalRecordService.isChild(samanthaMedicalRecord));
+		assertTrue(medicalRecordService.isChild(childMedicalRecord));
 	}
 	
 	@Test
 	public void testIsNotChild() {
-		MedicalRecord johnMedicalRecord = TestData.TestPerson.JOHN.getMedicalRecord();
+		MedicalRecord adultMedicalRecord = testData.getMedicalRecords().get(1);
 		
-		assertFalse(medicalRecordService.isChild(johnMedicalRecord));
+		assertFalse(medicalRecordService.isChild(adultMedicalRecord));
 	}
 }
