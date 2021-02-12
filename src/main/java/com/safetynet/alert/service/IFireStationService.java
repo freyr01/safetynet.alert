@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.safetynet.alert.dto.FireDTO;
 import com.safetynet.alert.dto.FirestationDTO;
+import com.safetynet.alert.dto.FloodStationDTO;
 import com.safetynet.alert.model.FireStationMapping;
 import com.safetynet.alert.model.Person;
 
@@ -43,7 +44,7 @@ public interface IFireStationService {
 	 * @author Mathias Lauer
 	 * 4 févr. 2021
 	 */
-	public List<FireDTO> getFloodStationCoverageFor(List<Integer> stationsNumber);
+	public List<FloodStationDTO> getFloodStationCoverageFor(List<Integer> stationsNumber);
 
 	/**
 	 * Add a new FireStationMapping in data base

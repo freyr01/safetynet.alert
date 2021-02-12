@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.safetynet.alert.dto.FireDTO;
 import com.safetynet.alert.dto.FirestationDTO;
+import com.safetynet.alert.dto.FloodStationDTO;
 import com.safetynet.alert.model.FireStationMapping;
 import com.safetynet.alert.service.IFireStationService;
 @RestController
@@ -52,7 +53,7 @@ public class FireStationController {
 	@GetMapping(value="/flood/stations")
 	public MappingJacksonValue getFloodStationCoverage(@RequestParam List<Integer> stations) {
 		log.info("GET request /flood/stations with param: stationsNumber: {}", stations);
-		List<FireDTO> addressReportDTOList = fireStationService.getFloodStationCoverageFor(stations);
+		List<FloodStationDTO> addressReportDTOList = fireStationService.getFloodStationCoverageFor(stations);
 		log.info("Return List<AddressReportDTO>: {}", addressReportDTOList);
 		return PersonController.applyPersoninfoExcludeFilter(addressReportDTOList, "address", "email");
 	}

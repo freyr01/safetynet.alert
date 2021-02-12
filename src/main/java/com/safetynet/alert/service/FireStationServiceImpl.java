@@ -3,6 +3,7 @@ package com.safetynet.alert.service;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,6 +14,7 @@ import com.safetynet.alert.dao.IFireStationDAO;
 import com.safetynet.alert.dao.IPersonDAO;
 import com.safetynet.alert.dto.FireDTO;
 import com.safetynet.alert.dto.FirestationDTO;
+import com.safetynet.alert.dto.FloodStationDTO;
 import com.safetynet.alert.dto.PersonInfoDTO;
 import com.safetynet.alert.exception.MedicalRecordNotFoundException;
 import com.safetynet.alert.model.FireStationMapping;
@@ -108,28 +110,33 @@ public class FireStationServiceImpl implements IFireStationService {
 	}
 
 	@Override
-	public List<FireDTO> getFloodStationCoverageFor(List<Integer> stationsNumber) {
+	public List<FloodStationDTO> getFloodStationCoverageFor(List<Integer> stationsNumber) {
 		List<FireStationMapping> fireStationMappingList = fireStationDAO.findByStationsNumber(stationsNumber); //Get the mapping of stations given by stationsNumber 
-		List<FireDTO> addressReportDTOList = new ArrayList<FireDTO>();
-	
-		for(int stationNumber : stationsNumber) {								//Create an AddressReportDTO for each stations given
-			FireDTO addressReportDTO = new FireDTO();
-			addressReportDTO.setStationNumber(stationNumber);
-			addressReportDTO.setPerson(new ArrayList<PersonInfoDTO>());	//With an empty list of person represented by AddressReportPersonDTO
-			addressReportDTOList.add(addressReportDTO);
-			
+		List<FloodStationDTO> listFloodStationDTO = new ArrayList<FloodStationDTO>();
+		
+		for(int station : stationsNumber) {
+			FloodStationDTO floodStationDTO = new FloodStationDTO();
+			floodStationDTO.setStation(station);
+			listFloodStationDTO.add(floodStationDTO);
 		}
-		for(FireStationMapping fireStationMap : fireStationMappingList) {	//Browse list of fire station mapping
-			int fireStationNumber = fireStationMap.getStation();
-			String address = fireStationMap.getAddress();
-			for(FireDTO addressReportDTO : addressReportDTOList) {		
-				if(addressReportDTO.getStationNumber() == fireStationNumber) {	//Search in list of AddressReportDTO with one is for the station we are iterate
-					addressReportDTO.getPerson().addAll(personService.getPersonInfoListByAddress(address)); //Add the list of person to it
-				}
+		
+		for(FireStationMapping stationMapping : fireStationMappingList) {
+			FloodStationDTO floodStationDTO = getFloodStationDTOByStationId(listFloodStationDTO, stationMapping.getStation());
+			Map<String, List<PersonInfoDTO>> personMap = floodStationDTO.getAddress();
+			personMap.put(stationMapping.getAddress(), personService.getPersonInfoListByAddress(stationMapping.getAddress()));
+		}
+
+		return listFloodStationDTO;
+	}
+	
+	private FloodStationDTO getFloodStationDTOByStationId(List<FloodStationDTO> list, int stationId) {
+		for(FloodStationDTO floodStationDTO : list) {
+			if(floodStationDTO.getStation() == stationId) {
+				return floodStationDTO;
 			}
 		}
 		
-		return addressReportDTOList;
+		return null;
 	}
 
 	@Override
