@@ -9,7 +9,6 @@ import static org.mockito.Mockito.when;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.assertj.core.util.Arrays;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -19,14 +18,12 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.safetynet.alert.dao.IFireStationDAO;
 import com.safetynet.alert.dao.IPersonDAO;
+import com.safetynet.alert.dto.ChildInfoDTO;
 import com.safetynet.alert.dto.FireDTO;
 import com.safetynet.alert.dto.PersonInfoDTO;
-import com.safetynet.alert.dto.ChildInfoDTO;
 import com.safetynet.alert.exception.MedicalRecordNotFoundException;
-import com.safetynet.alert.model.FireStationMapping;
 import com.safetynet.alert.model.MedicalRecord;
 import com.safetynet.alert.model.Person;
-import com.safetynet.alert.service.IFireStationService;
 import com.safetynet.alert.service.IMedicalRecordService;
 import com.safetynet.alert.service.IPersonService;
 import com.safetynet.alert.service.PersonServiceImpl;
@@ -53,17 +50,45 @@ public class PersonServiceTest {
 	}
 	
 	@Test
+	public void testGetPersonInfoDTO_shouldReturnCorrectlyFilledPersonInfoDTO() throws MedicalRecordNotFoundException {
+		List<Person> persons = new ArrayList<Person>();
+		persons.add(testData.getPersons().get(0));
+		
+		when(personDao.findByFullName("John", "Boyd")).thenReturn(persons);
+		when(medicalRecordService.getMedicalRecordOf("John", "Boyd")).thenReturn(testData.getMedicalRecords().get(0));
+		when(medicalRecordService.getAgeOf(testData.getMedicalRecords().get(0))).thenReturn(36);
+		
+		List<PersonInfoDTO> personInfoList = personService.getPersonInfo("John", "Boyd");
+		
+		verify(personDao, Mockito.times(1)).findByFullName("John", "Boyd");
+		verify(medicalRecordService, Mockito.times(1)).getMedicalRecordOf("John", "Boyd");
+		verify(medicalRecordService, Mockito.times(1)).getAgeOf(testData.getMedicalRecords().get(0));
+		
+		assertEquals("John", personInfoList.get(0).getFirstName());
+		assertEquals("Boyd", personInfoList.get(0).getLastName());
+		assertEquals("1509 Culver St", personInfoList.get(0).getAddress());
+		assertEquals("jaboyd@email.com", personInfoList.get(0).getEmail());
+		assertEquals(36, personInfoList.get(0).getAge());
+		assertEquals("nillacilan", personInfoList.get(0).getAllergies().get(0));
+		assertEquals("aznol:350mg", personInfoList.get(0).getMedications().get(0));
+		//{ "firstName":"John", "lastName":"Boyd", "address":"1509 Culver St", "city":"Culver", "zip":"97451", "phone":"841-874-6512", "email":"jaboyd@email.com" },
+		//{ "firstName":"John", "lastName":"Boyd", "birthdate":"03/06/1984", "medications":["aznol:350mg", "hydrapermazol:100mg"], "allergies":["nillacilan"] },
+	}
+	
+	@Test
 	public void testGetListOfMailByCity_shouldReturnListOfAllCulverMails() {
 		when(personDao.findByCity(anyString())).thenReturn(testData.getPersons());
 		
 		List<String> mails = personService.getPersonEmailByCity(anyString());
 		
 		verify(personDao, Mockito.times(1)).findByCity(anyString());
+		
 		assertEquals(15, mails.size());
+		assertEquals("jaboyd@email.com", mails.get(0));
 	}
 	
 	@Test
-	public void testGetChildByAddress_shouldReturnAtLeastOneObject() throws MedicalRecordNotFoundException {
+	public void testChildInfoDTO_shouldReturnCorreclyFilledDTO() throws MedicalRecordNotFoundException {
 		Person child = testData.getPersons().get(3);
 		MedicalRecord childMedicalRecord = testData.getMedicalRecords().get(3);
 		List<Person> persons = new ArrayList<Person>();
@@ -77,21 +102,28 @@ public class PersonServiceTest {
 		
 		List<ChildInfoDTO> childsInfo = personService.getChildByAddress("");
 		
+		verify(medicalRecordService, Mockito.times(1)).getMedicalRecordOf(child.getFirstName(), child.getLastName());
+		verify(medicalRecordService, Mockito.times(1)).isChild(any(MedicalRecord.class));
 		verify(medicalRecordService, Mockito.times(1)).getAgeOf(any(MedicalRecord.class));
 		verify(personDao, Mockito.times(1)).findByAddress(anyString());
 		
+		
 		assertEquals(1, childsInfo.size());
+		assertEquals("Roger", childsInfo.get(0).getFirstName());
+		assertEquals("Boyd", childsInfo.get(0).getLastName());
+		assertEquals(12, childsInfo.get(0).getAge());
+		//persons.add(new Person("Roger", "Boyd", "1509 Culver St", "Culver", "97451", "841-874-6512", "jaboyd@email.com")); //3
 	}
 	
 	@Test
-	public void testGetAddressReport_shouldReturnAddressReportCorrectlyFilled() throws MedicalRecordNotFoundException {
+	public void testGetFireDto_shouldReturnCorreclyFilledDTO() throws MedicalRecordNotFoundException {
 		final String ADDRESS = "1509 Culver St";
 
 		when(fireStationDao.findByAddress(anyString())).thenReturn(testData.getFireStationsCovering1509CulverSt());
 		
-		FireDTO addressReport = personService.getFireDTO(ADDRESS);
+		FireDTO fireDto = personService.getFireDTO(ADDRESS);
 		
-		assertEquals(3, addressReport.getStationNumber().get(0));
+		assertEquals(3, fireDto.getStationNumber().get(0));
 	}
 	
 	@Test

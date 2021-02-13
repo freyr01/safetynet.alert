@@ -142,7 +142,7 @@ public class PersonServiceImpl implements IPersonService{
 
 	@Override
 	public FireDTO getFireDTO(String address) {
-		FireDTO addressReportDTO = new FireDTO();
+		FireDTO fireDTO = new FireDTO();
 		List<Integer> stationList = new ArrayList<Integer>();
 
 		List<FireStationMapping> fireStationMappingList = fireStationDao.findByAddress(address);
@@ -151,10 +151,10 @@ public class PersonServiceImpl implements IPersonService{
 				stationList.add(stationMap.getStation());
 			}
 		}
-		addressReportDTO.setStationNumber(stationList);
-		addressReportDTO.setPerson(getPersonInfoListByAddress(address));
+		fireDTO.setStationNumber(stationList);
+		fireDTO.setPerson(getPersonInfoListByAddress(address));
 		
-		return addressReportDTO;
+		return fireDTO;
 	}
 	
 	public List<PersonInfoDTO> getPersonInfoListByAddress(String address){
