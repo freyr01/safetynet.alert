@@ -23,8 +23,10 @@ import com.safetynet.alert.dto.FireDTO;
 import com.safetynet.alert.dto.PersonInfoDTO;
 import com.safetynet.alert.dto.ChildInfoDTO;
 import com.safetynet.alert.exception.MedicalRecordNotFoundException;
+import com.safetynet.alert.model.FireStationMapping;
 import com.safetynet.alert.model.MedicalRecord;
 import com.safetynet.alert.model.Person;
+import com.safetynet.alert.service.IFireStationService;
 import com.safetynet.alert.service.IMedicalRecordService;
 import com.safetynet.alert.service.IPersonService;
 import com.safetynet.alert.service.PersonServiceImpl;
@@ -39,7 +41,7 @@ public class PersonServiceTest {
 	private IMedicalRecordService medicalRecordService;
 	
 	@Mock
-	private IFireStationDAO fireStationDAO;
+	private IFireStationDAO fireStationDao;
 	
 	private IPersonService personService;
 	
@@ -47,7 +49,7 @@ public class PersonServiceTest {
 	
 	@BeforeEach
 	public void setUpPerTest() {
-		personService = new PersonServiceImpl(personDao, medicalRecordService, fireStationDAO);
+		personService = new PersonServiceImpl(personDao, medicalRecordService, fireStationDao);
 	}
 	
 	@Test
@@ -84,11 +86,12 @@ public class PersonServiceTest {
 	@Test
 	public void testGetAddressReport_shouldReturnAddressReportCorrectlyFilled() throws MedicalRecordNotFoundException {
 		final String ADDRESS = "1509 Culver St";
-		when(fireStationDAO.findByAddress(anyString())).thenReturn(testData.getFireStations().get(0));
+
+		when(fireStationDao.findByAddress(anyString())).thenReturn(testData.getFireStationsCovering1509CulverSt());
 		
 		FireDTO addressReport = personService.getFireDTO(ADDRESS);
 		
-		assertEquals(3, addressReport.getStationNumber());
+		assertEquals(3, addressReport.getStationNumber().get(0));
 	}
 	
 	@Test

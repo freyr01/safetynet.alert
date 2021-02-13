@@ -3,21 +3,21 @@ package com.safetynet.alert.dto;
 import java.util.List;
 
 /**
- * Represent information of an address, the fire station that cover it and a list of person as AddressReportPersonDTO that lived 
+ * Represent information of an address, the fire stations that cover it and a list of person living at this address
  * @author Mathias Lauer
  * 6 févr. 2021
  */
 public class FireDTO {
 	
-	private int stationNumber;
+	private List<Integer> stationNumber;
 	
 	private List<PersonInfoDTO> person;
 	
-	public int getStationNumber() {
+	public List<Integer> getStationNumber() {
 		return stationNumber;
 	}
 	
-	public void setStationNumber(int stationNumber) {
+	public void setStationNumber(List<Integer> stationNumber) {
 		this.stationNumber = stationNumber;
 	}
 

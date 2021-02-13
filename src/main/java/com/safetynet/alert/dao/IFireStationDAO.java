@@ -24,13 +24,13 @@ public interface IFireStationDAO {
 	public List<FireStationMapping> findByStationsNumber(List<Integer> stationsNumber);
 	
 	/**
-	 * Should return the FireStationMapping of the station covering address given
+	 * Should return a list of FireStationMapping of stations covering address given
 	 * @param address
-	 * @return FireStationMapping found, null if not found
+	 * @return List<FireStationMapping> found, can be empty if no result was found
 	 * @author Mathias Lauer
 	 * 2 févr. 2021
 	 */
-	public FireStationMapping findByAddress(String address);
+	public List<FireStationMapping> findByAddress(String address);
 
 	/**
 	 * Should add a new FireStationMapping in data base

@@ -145,6 +145,13 @@ public class TestData {
 		return personInfo;
 	}
 	
+	public List<FireStationMapping> getFireStationsCovering1509CulverSt(){
+		List<FireStationMapping> fireStationMappingList = new ArrayList<FireStationMapping>();
+		fireStationMappingList.add(fireStations.get(0));
+		
+		return fireStationMappingList;
+	}
+	
 
 	
 }

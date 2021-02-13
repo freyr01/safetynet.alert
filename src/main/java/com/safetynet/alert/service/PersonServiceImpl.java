@@ -10,8 +10,8 @@ import org.springframework.stereotype.Service;
 
 import com.safetynet.alert.dao.IFireStationDAO;
 import com.safetynet.alert.dao.IPersonDAO;
-import com.safetynet.alert.dto.FireDTO;
 import com.safetynet.alert.dto.ChildInfoDTO;
+import com.safetynet.alert.dto.FireDTO;
 import com.safetynet.alert.dto.PersonInfoDTO;
 import com.safetynet.alert.exception.MedicalRecordNotFoundException;
 import com.safetynet.alert.model.FireStationMapping;
@@ -26,12 +26,12 @@ public class PersonServiceImpl implements IPersonService{
 	
 	private IPersonDAO personDao;
 	private IMedicalRecordService medicalRecordService;
-	private IFireStationDAO fireStationDAO;
+	private IFireStationDAO fireStationDao;
 	
-	public PersonServiceImpl(@Autowired IPersonDAO p_personDao, @Autowired IMedicalRecordService p_medicalRecordService, @Autowired IFireStationDAO p_fireStationDAO) {
+	public PersonServiceImpl(@Autowired IPersonDAO p_personDao, @Autowired IMedicalRecordService p_medicalRecordService, @Autowired IFireStationDAO p_fireStationDao) {
 		personDao = p_personDao;
 		medicalRecordService = p_medicalRecordService;
-		fireStationDAO = p_fireStationDAO;
+		fireStationDao = p_fireStationDao;
 	}
 	
 	public List<PersonInfoDTO> getPersonInfo(String firstName, String lastName) {
@@ -143,13 +143,15 @@ public class PersonServiceImpl implements IPersonService{
 	@Override
 	public FireDTO getFireDTO(String address) {
 		FireDTO addressReportDTO = new FireDTO();
+		List<Integer> stationList = new ArrayList<Integer>();
 
-		FireStationMapping fireStationMapping = fireStationDAO.findByAddress(address);
-		if(fireStationMapping == null) {
-			return null;
+		List<FireStationMapping> fireStationMappingList = fireStationDao.findByAddress(address);
+		for(FireStationMapping stationMap : fireStationMappingList) {
+			if( ! stationList.contains(stationMap.getStation())) {
+				stationList.add(stationMap.getStation());
+			}
 		}
-		
-		addressReportDTO.setStationNumber(fireStationMapping.getStation());
+		addressReportDTO.setStationNumber(stationList);
 		addressReportDTO.setPerson(getPersonInfoListByAddress(address));
 		
 		return addressReportDTO;
@@ -189,6 +191,11 @@ public class PersonServiceImpl implements IPersonService{
 		
 		
 		return listPersonInfoDTO;
+	}
+
+	@Override
+	public List<Person> getAllPerson() {
+		return personDao.findAll();
 	}
 
 

@@ -42,14 +42,14 @@ public class FireStationDAOImpl implements IFireStationDAO {
 	}
 
 	@Override
-	public FireStationMapping findByAddress(String address) {
-		
+	public List<FireStationMapping> findByAddress(String address) {
+		List<FireStationMapping> fireStationMappingList = new ArrayList<FireStationMapping>();
 		for(FireStationMapping fireStationMapping : findAll()) {
 			if(fireStationMapping.getAddress().equals(address)) {
-				return fireStationMapping;
+				fireStationMappingList.add(fireStationMapping);
 			}
 		}
-		return null;
+		return fireStationMappingList;
 	}
 
 	@Override

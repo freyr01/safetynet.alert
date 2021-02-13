@@ -13,6 +13,13 @@ import com.safetynet.alert.model.Person;
 public interface IPersonService {
 	
 	/**
+	 * Should return list of all Person in database
+	 * @return List<Person>
+	 * @author Mathias Lauer
+	 * 13 févr. 2021
+	 */
+	public List<Person> getAllPerson();
+	/**
 	 * Should return a list of PersonInfo for given person firstName and lastName given
 	 * @param firstName
 	 * @param lastName
@@ -69,7 +76,7 @@ public interface IPersonService {
 	public Person delete(String firstName, String lastName);
 	
 	/**
-	 * Should return an AddressReport object containing information of persons who lives at and fire station covering
+	 * Should return an FireDTO containing information of persons living at the address given
 	 * @param address
 	 * @return AddressReport or null if address is not found
 	 * @author Mathias Lauer

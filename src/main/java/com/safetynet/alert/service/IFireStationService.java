@@ -2,7 +2,6 @@ package com.safetynet.alert.service;
 
 import java.util.List;
 
-import com.safetynet.alert.dto.FireDTO;
 import com.safetynet.alert.dto.FirestationDTO;
 import com.safetynet.alert.dto.FloodStationDTO;
 import com.safetynet.alert.model.FireStationMapping;
@@ -10,6 +9,14 @@ import com.safetynet.alert.model.Person;
 
 public interface IFireStationService {
 
+	/**
+	 * Should return all Fire Station Mapping for address given
+	 * @param address
+	 * @return List<FireStationMapping>
+	 * @author Mathias Lauer
+	 * 13 févr. 2021
+	 */
+	public List<FireStationMapping> getByAddress(String address);
 	/**
 	 * Should return all persons that address is covered by the given station
 	 * @param stationNumber
