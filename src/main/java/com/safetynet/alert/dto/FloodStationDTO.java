@@ -7,10 +7,10 @@ import java.util.TreeMap;
 public class FloodStationDTO {
 	
 	private int station;
-	private SortedMap<String, List<PersonInfoDTO>> address;
+	private SortedMap<String, List<PersonInfoDTO>> addresses;
 	
 	public FloodStationDTO() {
-		setAddress(new TreeMap<String, List<PersonInfoDTO>>());
+		setAddresses(new TreeMap<String, List<PersonInfoDTO>>());
 	}
 	
 	public int getStation() {
@@ -20,12 +20,12 @@ public class FloodStationDTO {
 		this.station = station;
 	}
 
-	public SortedMap<String, List<PersonInfoDTO>> getAddress() {
-		return address;
+	public SortedMap<String, List<PersonInfoDTO>> getAddresses() {
+		return addresses;
 	}
 
-	public void setAddress(SortedMap<String, List<PersonInfoDTO>> address) {
-		this.address = address;
+	public void setAddresses(SortedMap<String, List<PersonInfoDTO>> addresses) {
+		this.addresses = addresses;
 	}
 
 

@@ -118,7 +118,7 @@ public class FireStationServiceImpl implements IFireStationService {
 		
 		for(FireStationMapping stationMapping : fireStationMappingList) {
 			FloodStationDTO floodStationDTO = getFloodStationDTOByStationId(listFloodStationDTO, stationMapping.getStation());
-			Map<String, List<PersonInfoDTO>> personMap = floodStationDTO.getAddress();
+			Map<String, List<PersonInfoDTO>> personMap = floodStationDTO.getAddresses();
 			personMap.put(stationMapping.getAddress(), personService.getPersonInfoListByAddress(stationMapping.getAddress()));
 		}
 

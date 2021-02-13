@@ -91,19 +91,19 @@ public class TestData {
 		
 		return station2List;
 	}
-	public List<PersonInfoDTO> getPersonForAddress2915thSt(){
+	public List<PersonInfoDTO> getPersonInfoForAddress2915thSt(){
 		List<PersonInfoDTO> personsByAddress = new ArrayList<PersonInfoDTO>();
 		personsByAddress.add(toPersonInfoDTO(persons.get(5)));
 		return personsByAddress;
 	}
-	public List<PersonInfoDTO> getPersonForAddress892DowningCt(){
+	public List<PersonInfoDTO> getPersonInfoForAddress892DowningCt(){
 		List<PersonInfoDTO> personsByAddress = new ArrayList<PersonInfoDTO>();
 		personsByAddress.add(toPersonInfoDTO(persons.get(11)));
 		personsByAddress.add(toPersonInfoDTO(persons.get(12)));
 		personsByAddress.add(toPersonInfoDTO(persons.get(13)));
 		return personsByAddress;
 	}
-	public List<PersonInfoDTO> getPersonForAddress951LoneTreeRd(){
+	public List<PersonInfoDTO> getPersonInfoForAddress951LoneTreeRd(){
 		List<PersonInfoDTO> personsByAddress = new ArrayList<PersonInfoDTO>();
 		personsByAddress.add(toPersonInfoDTO(persons.get(22)));
 		return personsByAddress;

@@ -20,6 +20,7 @@ import com.safetynet.alert.dao.IFireStationDAO;
 import com.safetynet.alert.dao.IPersonDAO;
 import com.safetynet.alert.dto.FirestationDTO;
 import com.safetynet.alert.dto.FloodStationDTO;
+import com.safetynet.alert.dto.PersonInfoDTO;
 import com.safetynet.alert.exception.MedicalRecordNotFoundException;
 import com.safetynet.alert.model.MedicalRecord;
 import com.safetynet.alert.service.FireStationServiceImpl;
@@ -68,6 +69,10 @@ public class FireStationServiceTest {
 		
 		assertEquals(0, fireStationCoverage.getAdultCount());
 		assertEquals(5, fireStationCoverage.getChildCount());
+		assertEquals("Jonanathan", fireStationCoverage.getPersons().get(0).getFirstName());
+		assertEquals("Marrack", fireStationCoverage.getPersons().get(0).getLastName());
+		assertEquals("29 15th St", fireStationCoverage.getPersons().get(0).getAddress());
+		assertEquals("841-874-6513", fireStationCoverage.getPersons().get(0).getPhone());
 	}
 	
 	@Test
@@ -81,19 +86,25 @@ public class FireStationServiceTest {
 		verify(personService, Mockito.times(1)).getAllPerson();
 		
 		assertEquals(4, phoneList.size());
+		assertEquals("841-874-6513", phoneList.get(0));
 	}
 	
 	@Test
 	public void testFloodStationDTO_shouldCorreclyFilled() {
 		when(fireStationDAO.findByStationsNumber(Arrays.asList(2))).thenReturn(testData.getFireStationMappingForStation2());
-		when(personService.getPersonInfoListByAddress("29 15th St")).thenReturn(testData.getPersonForAddress2915thSt());
-		when(personService.getPersonInfoListByAddress("892 Downing Ct")).thenReturn(testData.getPersonForAddress892DowningCt());
-		when(personService.getPersonInfoListByAddress("951 LoneTree Rd")).thenReturn(testData.getPersonForAddress951LoneTreeRd());
+		when(personService.getPersonInfoListByAddress("29 15th St")).thenReturn(testData.getPersonInfoForAddress2915thSt());
+		when(personService.getPersonInfoListByAddress("892 Downing Ct")).thenReturn(testData.getPersonInfoForAddress892DowningCt());
+		when(personService.getPersonInfoListByAddress("951 LoneTree Rd")).thenReturn(testData.getPersonInfoForAddress951LoneTreeRd());
 		
 		List<FloodStationDTO> floodStationList = fireStationService.getFloodStationCoverageFor(Arrays.asList(2));
 		
-		assertEquals(1, floodStationList.size());
-		assertEquals(2, floodStationList.get(0).getStation());
+		verify(fireStationDAO, Mockito.times(1)).findByStationsNumber(Arrays.asList(2));
+		verify(personService, Mockito.times(3)).getPersonInfoListByAddress(anyString());
+		
+		PersonInfoDTO firstPerson = floodStationList.get(0).getAddresses().get("29 15th St").get(0);
+		assertEquals("Jonanathan", firstPerson.getFirstName());
+		assertEquals("Marrack", firstPerson.getLastName());
+		assertEquals("841-874-6513", firstPerson.getPhone());
 	}
 
 }
