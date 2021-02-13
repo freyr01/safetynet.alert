@@ -119,15 +119,32 @@ public class PersonServiceTest {
 	public void testGetFireDto_shouldReturnCorreclyFilledDTO() throws MedicalRecordNotFoundException {
 		final String ADDRESS = "1509 Culver St";
 
-		when(fireStationDao.findByAddress(anyString())).thenReturn(testData.getFireStationsCovering1509CulverSt());
+		when(fireStationDao.findByAddress(ADDRESS)).thenReturn(testData.getFireStationsCovering1509CulverSt());
+		when(personDao.findByAddress(ADDRESS)).thenReturn(testData.getFamillyAt1509CulverSt());
+		when(medicalRecordService.getMedicalRecordOf(anyString(), anyString())).thenReturn(new MedicalRecord());
+		when(medicalRecordService.getAgeOf(any(MedicalRecord.class))).thenReturn(20);
 		
 		FireDTO fireDto = personService.getFireDTO(ADDRESS);
 		
+		verify(fireStationDao, Mockito.times(1)).findByAddress(ADDRESS);
+		verify(medicalRecordService, Mockito.times(5)).getAgeOf(any(MedicalRecord.class));
+		verify(personDao, Mockito.times(1)).findByAddress(ADDRESS);
+		
 		assertEquals(3, fireDto.getStationNumber().get(0));
+		assertEquals("John", fireDto.getPerson().get(0).getFirstName());
+		assertEquals("Boyd", fireDto.getPerson().get(0).getLastName());
+		
+		/*
+        { "firstName":"John", "lastName":"Boyd", "address":"1509 Culver St", "city":"Culver", "zip":"97451", "phone":"841-874-6512", "email":"jaboyd@email.com" },
+        { "firstName":"Jacob", "lastName":"Boyd", "address":"1509 Culver St", "city":"Culver", "zip":"97451", "phone":"841-874-6513", "email":"drk@email.com" },
+        { "firstName":"Tenley", "lastName":"Boyd", "address":"1509 Culver St", "city":"Culver", "zip":"97451", "phone":"841-874-6512", "email":"tenz@email.com" },
+        { "firstName":"Roger", "lastName":"Boyd", "address":"1509 Culver St", "city":"Culver", "zip":"97451", "phone":"841-874-6512", "email":"jaboyd@email.com" },
+        { "firstName":"Felicia", "lastName":"Boyd", "address":"1509 Culver St", "city":"Culver", "zip":"97451", "phone":"841-874-6544", "email":"jaboyd@email.com" },
+        */
 	}
 	
 	@Test
-	public void testGetAddressReportPersonDTO_shouldReturnCorrectlyFilledDTO() throws MedicalRecordNotFoundException {
+	public void testGetPersonInfoDTOListAtAddress_shouldReturnCorrectlyFilledDTOList() throws MedicalRecordNotFoundException {
 		final String ADDRESS = "1509 Culver St";
 		List<Person> personsWithSameAddress = testData.getFamillyAt1509CulverSt();
 		
