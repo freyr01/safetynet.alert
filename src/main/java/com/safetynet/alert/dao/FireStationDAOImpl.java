@@ -55,7 +55,7 @@ public class FireStationDAOImpl implements IFireStationDAO {
 	@Override
 	public FireStationMapping post(FireStationMapping fireStation) {
 		for(FireStationMapping fsm : findAll()) {
-			if(fsm.getAddress().equals(fireStation.getAddress())) {
+			if(fsm.getAddress().equals(fireStation.getAddress()) && fsm.getStation() == fireStation.getStation()) {
 				log.error("A mapping is already present in database with this address: {}", fsm);
 				return null;
 			}
@@ -82,9 +82,9 @@ public class FireStationDAOImpl implements IFireStationDAO {
 	}
 
 	@Override
-	public FireStationMapping delete(String address) {
+	public FireStationMapping delete(String address, int stationId) {
 		for(FireStationMapping fsm : findAll()) {
-			if(fsm.getAddress().equals(address)) {
+			if(fsm.getAddress().equals(address) && fsm.getStation() == stationId) {
 				if(findAll().remove(fsm)) {
 					return fsm;
 				}

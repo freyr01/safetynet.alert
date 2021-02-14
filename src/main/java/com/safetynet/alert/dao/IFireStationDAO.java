@@ -59,6 +59,6 @@ public interface IFireStationDAO {
 	 * @author Mathias Lauer
 	 * 7 févr. 2021
 	 */
-	public FireStationMapping delete(String address);
+	public FireStationMapping delete(String address, int stationId);
 
 }

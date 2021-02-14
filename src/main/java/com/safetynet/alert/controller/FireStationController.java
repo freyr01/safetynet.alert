@@ -89,12 +89,12 @@ public class FireStationController {
 	}
 	
 	@DeleteMapping(value="/firestation")
-	public ResponseEntity<FireStationMapping> delete(@RequestParam String address) {
-		log.info("DELETE request /firestation with param: {}", address);
-		FireStationMapping deleted = fireStationService.delete(address);
+	public ResponseEntity<FireStationMapping> delete(@RequestParam String address, @RequestParam int stationId) {
+		log.info("DELETE request /firestation with param: {} id:", address, stationId);
+		FireStationMapping deleted = fireStationService.delete(address, stationId);
 		
 		if(deleted == null) {
-			log.error("Error while deleting firestation mapping with address: {}", address);
+			log.error("Error while deleting firestation mapping: {} - {}", address, stationId);
 			return ResponseEntity.notFound().build();
 		}
 		
