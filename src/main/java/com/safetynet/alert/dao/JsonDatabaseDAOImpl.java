@@ -13,12 +13,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.safetynet.alert.model.JsonDatabase;
 
 @Repository
-public class DatabaseDAO {
+public class JsonDatabaseDAOImpl implements IDatabaseDAO{
 	
-	private static final Logger log = org.slf4j.LoggerFactory.getLogger(DatabaseDAO.class);
+	private static final Logger log = org.slf4j.LoggerFactory.getLogger(JsonDatabaseDAOImpl.class);
 	private JsonDatabase db; 
 	
-	public DatabaseDAO() {
+	public JsonDatabaseDAOImpl() {
 		ObjectMapper objectMapper = new ObjectMapper();
 		
 		ResourceLoader resourceLoader = new DefaultResourceLoader();
@@ -46,7 +46,7 @@ public class DatabaseDAO {
 		}
 	}
 	
-	public JsonDatabase getDb() {
+	public JsonDatabase getConnection() {
 		return db;
 	}
 

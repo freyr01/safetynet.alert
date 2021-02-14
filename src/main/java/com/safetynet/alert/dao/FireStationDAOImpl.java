@@ -14,21 +14,21 @@ import com.safetynet.alert.model.FireStationMapping;
 public class FireStationDAOImpl implements IFireStationDAO {
 	
 	static Logger log = LoggerFactory.getLogger(FireStationDAOImpl.class);
-	private DatabaseDAO databaseDAO;
+	private JsonDatabaseDAOImpl databaseDAO;
 	
-	public FireStationDAOImpl(@Autowired DatabaseDAO p_databaseDAO) {
+	public FireStationDAOImpl(@Autowired JsonDatabaseDAOImpl p_databaseDAO) {
 		databaseDAO = p_databaseDAO;
 	}
 
 	@Override
 	public List<FireStationMapping> findAll() {
 		
-		return databaseDAO.getDb().getFireStations();
+		return databaseDAO.getConnection().getFireStations();
 	}
 
 	@Override
 	public List<FireStationMapping> findByStationsNumber(List<Integer> stationsNumber) {
-		List<FireStationMapping> fireStationMapping = databaseDAO.getDb().getFireStations();
+		List<FireStationMapping> fireStationMapping = databaseDAO.getConnection().getFireStations();
 		List<FireStationMapping> fireStationsFiltered = new ArrayList<FireStationMapping>();
 		
 		for(FireStationMapping mapping : fireStationMapping) {

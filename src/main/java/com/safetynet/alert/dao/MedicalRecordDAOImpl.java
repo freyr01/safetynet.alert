@@ -12,20 +12,20 @@ import com.safetynet.alert.model.MedicalRecord;
 @Repository
 public class MedicalRecordDAOImpl implements IMedicalRecordDAO {
 	static Logger log = LoggerFactory.getLogger(MedicalRecordDAOImpl.class);
-	private DatabaseDAO db;
+	private JsonDatabaseDAOImpl db;
 	
-	public MedicalRecordDAOImpl(@Autowired DatabaseDAO p_db) {
+	public MedicalRecordDAOImpl(@Autowired JsonDatabaseDAOImpl p_db) {
 		db = p_db;
 	}
 	
 	@Override
 	public List<MedicalRecord> findAll() {
-		return db.getDb().getMedicalRecords();
+		return db.getConnection().getMedicalRecords();
 	}
 
 	@Override
 	public MedicalRecord findByFullName(String firstName, String lastName) {
-		for(MedicalRecord mr : db.getDb().getMedicalRecords()) {
+		for(MedicalRecord mr : db.getConnection().getMedicalRecords()) {
 			if(mr.getFirstName().equals(firstName) && mr.getLastName().equals(lastName)) {
 				return mr;
 			}

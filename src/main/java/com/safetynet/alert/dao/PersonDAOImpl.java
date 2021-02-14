@@ -15,14 +15,14 @@ public class PersonDAOImpl implements IPersonDAO {
 	
 	static Logger log = LoggerFactory.getLogger(PersonDAOImpl.class);
 	
-	DatabaseDAO db;
+	JsonDatabaseDAOImpl db;
 	
-	public PersonDAOImpl(@Autowired DatabaseDAO p_db) {
+	public PersonDAOImpl(@Autowired JsonDatabaseDAOImpl p_db) {
 		db = p_db;
 	}
 	
 	public List<Person> findAll(){
-		return db.getDb().getPersons();
+		return db.getConnection().getPersons();
 	}
 	
 	public List<Person> findByCity(String city) {
@@ -76,7 +76,7 @@ public class PersonDAOImpl implements IPersonDAO {
 				return null;
 			}
 		}
-		if(db.getDb().getPersons().add(person)) {
+		if(db.getConnection().getPersons().add(person)) {
 			return person;
 		}
 		
