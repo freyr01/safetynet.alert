@@ -108,7 +108,7 @@ class AlertApplicationTests {
 				.param("lastName", LASTNAME))
 		.andExpect(status().isOk());
 		mockMvc.perform(MockMvcRequestBuilders
-				.delete("/firestation").param("address", "25 Ch du Gretor")
+				.delete("/firestation").param("address", "25 Ch du Gretor").param("stationId", "99")
 				.contentType(MediaType.APPLICATION_JSON)
 				.accept(MediaType.APPLICATION_JSON)
 				).andExpect(status().isOk());	
