@@ -17,8 +17,8 @@ public class PersonDAOImpl implements IPersonDAO {
 	
 	JsonDatabaseDAOImpl db;
 	
-	public PersonDAOImpl(@Autowired JsonDatabaseDAOImpl p_db) {
-		db = p_db;
+	public PersonDAOImpl(@Autowired IDatabaseDAO p_db) {
+		db = (JsonDatabaseDAOImpl)p_db;
 	}
 	
 	public List<Person> findAll(){

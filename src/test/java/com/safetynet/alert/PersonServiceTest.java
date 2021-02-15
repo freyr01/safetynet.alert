@@ -100,15 +100,13 @@ public class PersonServiceTest {
 		when(medicalRecordService.isChild(any(MedicalRecord.class))).thenReturn(true);
 		
 		
-		List<ChildInfoDTO> childsInfo = personService.getChildByAddress("");
+		List<ChildInfoDTO> childsInfo = personService.getChildByAddress("address given by mock");
 		
 		verify(medicalRecordService, Mockito.times(1)).getMedicalRecordOf(child.getFirstName(), child.getLastName());
 		verify(medicalRecordService, Mockito.times(1)).isChild(any(MedicalRecord.class));
 		verify(medicalRecordService, Mockito.times(1)).getAgeOf(any(MedicalRecord.class));
 		verify(personDao, Mockito.times(1)).findByAddress(anyString());
 		
-		
-		assertEquals(1, childsInfo.size());
 		assertEquals("Roger", childsInfo.get(0).getFirstName());
 		assertEquals("Boyd", childsInfo.get(0).getLastName());
 		assertEquals(12, childsInfo.get(0).getAge());

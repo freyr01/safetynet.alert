@@ -28,10 +28,45 @@ public class PersonServiceImpl implements IPersonService{
 	private IMedicalRecordService medicalRecordService;
 	private IFireStationDAO fireStationDao;
 	
-	public PersonServiceImpl(@Autowired IPersonDAO p_personDao, @Autowired IMedicalRecordService p_medicalRecordService, @Autowired IFireStationDAO p_fireStationDao) {
+	public PersonServiceImpl(@Autowired IPersonDAO p_personDao, 
+			@Autowired IMedicalRecordService p_medicalRecordService,
+			@Autowired IFireStationDAO p_fireStationDao) {
 		personDao = p_personDao;
 		medicalRecordService = p_medicalRecordService;
 		fireStationDao = p_fireStationDao;
+	}
+	//childAlert
+	public List<ChildInfoDTO> getChildByAddress(String address) {
+		if(address == null || address.isEmpty()) {
+			log.error("null arg not allowed");
+			return null;
+		}
+		
+		List<Person> personsByAddress = personDao.findByAddress(address);
+		List<ChildInfoDTO> childsInfo = new ArrayList<ChildInfoDTO>();
+
+		for(Person p : personsByAddress) {
+			MedicalRecord medicalRecord = null;
+			try {
+				medicalRecord = medicalRecordService.getMedicalRecordOf(p.getFirstName(), p.getLastName());
+			} catch (MedicalRecordNotFoundException e) {
+				log.error("No medical record found for person: {} {}, skip this person", p.getFirstName(), p.getLastName());
+				continue;
+			}
+			int personAge;
+	
+			personAge = medicalRecordService.getAgeOf(medicalRecord);
+
+			if(medicalRecordService.isChild(medicalRecord)) {
+				List<Person> famillyMember = new ArrayList<Person>(personsByAddress);
+				famillyMember.remove(p);
+				
+				ChildInfoDTO childInfo = new ChildInfoDTO(p.getFirstName(), p.getLastName(), personAge, famillyMember);
+				childsInfo.add(childInfo);
+			}
+		}
+		
+		return childsInfo;
 	}
 	
 	public List<PersonInfoDTO> getPersonInfo(String firstName, String lastName) {
@@ -90,38 +125,7 @@ public class PersonServiceImpl implements IPersonService{
 		return mails;
 	}
 	
-	public List<ChildInfoDTO> getChildByAddress(String address) {
-		if(address == null) {
-			log.error("null arg not allowed");
-			return null;
-		}
-		
-		List<Person> personsByAddress = personDao.findByAddress(address);
-		List<ChildInfoDTO> childsInfo = new ArrayList<ChildInfoDTO>();
-
-		for(Person p : personsByAddress) {
-			MedicalRecord medicalRecord = null;
-			try {
-				medicalRecord = medicalRecordService.getMedicalRecordOf(p.getFirstName(), p.getLastName());
-			} catch (MedicalRecordNotFoundException e) {
-				log.error("No medical record found for person: {} {}, skip this person", p.getFirstName(), p.getLastName());
-				continue;
-			}
-			int personAge;
 	
-			personAge = medicalRecordService.getAgeOf(medicalRecord);
-
-			if(medicalRecordService.isChild(medicalRecord)) {
-				List<Person> famillyMember = new ArrayList<Person>(personsByAddress);
-				famillyMember.remove(p);
-				
-				ChildInfoDTO childInfo = new ChildInfoDTO(p.getFirstName(), p.getLastName(), personAge, famillyMember);
-				childsInfo.add(childInfo);
-			}
-		}
-		
-		return childsInfo;
-	}
 
 	public Person add(Person person) {
 		for(Person p : personDao.findAll()) {
