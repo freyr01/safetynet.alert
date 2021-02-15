@@ -124,7 +124,12 @@ public class PersonServiceImpl implements IPersonService{
 	}
 
 	public Person add(Person person) {
-		
+		for(Person p : personDao.findAll()) {
+			if(p.getFirstName().equals(person.getFirstName()) && p.getLastName().equals(person.getLastName())) {
+				log.error("Cannot post new person: {}, there is already someone named like this", person);
+				return null;
+			}
+		}
 		personDao.save(person);
 		
 		return person;

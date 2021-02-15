@@ -70,12 +70,6 @@ public class PersonDAOImpl implements IPersonDAO {
 	}
 	
 	public Person save(Person person) {
-		for(Person p : findAll()) {
-			if(p.getFirstName().equals(person.getFirstName()) && p.getLastName().equals(person.getLastName())) {
-				log.error("Cannot post new person: {}, there is already someone named like this in data", person);
-				return null;
-			}
-		}
 		if(db.getConnection().getPersons().add(person)) {
 			return person;
 		}
@@ -93,23 +87,23 @@ public class PersonDAOImpl implements IPersonDAO {
 		
 		Person personToEdit = persons.get(0);
 		
-		if(newPersonDatas.getAddress() != null && ! newPersonDatas.getAddress().isEmpty()) {
+		if(newPersonDatas.getAddress() != null) {
 			personToEdit.setAddress(newPersonDatas.getAddress());
 		}
 		
-		if(newPersonDatas.getCity() != null && ! newPersonDatas.getCity().isEmpty()) {
+		if(newPersonDatas.getCity() != null) {
 			personToEdit.setCity(newPersonDatas.getCity());
 		}
 		
-		if(newPersonDatas.getEmail() != null && ! newPersonDatas.getEmail().isEmpty()) {
+		if(newPersonDatas.getEmail() != null) {
 			personToEdit.setEmail(newPersonDatas.getEmail());
 		}
 		
-		if(newPersonDatas.getZip() != null && ! newPersonDatas.getZip().isEmpty()) {
+		if(newPersonDatas.getZip() != null) {
 			personToEdit.setZip(newPersonDatas.getZip());
 		}
 		
-		if(newPersonDatas.getPhone() != null && ! newPersonDatas.getPhone().isEmpty()) {
+		if(newPersonDatas.getPhone() != null) {
 			personToEdit.setPhone(newPersonDatas.getPhone());
 		}
 		

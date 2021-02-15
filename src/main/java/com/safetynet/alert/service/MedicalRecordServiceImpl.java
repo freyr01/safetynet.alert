@@ -63,6 +63,12 @@ public class MedicalRecordServiceImpl implements IMedicalRecordService {
 
 	@Override
 	public MedicalRecord post(MedicalRecord medicalRecord) {
+		for(MedicalRecord mr : medicalRecordDAO.findAll()) {
+			if(mr.getFirstName().equals(medicalRecord.getFirstName()) && mr.getLastName().equals(medicalRecord.getLastName())) {
+				log.error("a medical record already exist for person: {} {}", medicalRecord.getFirstName(), medicalRecord.getLastName());
+				return null;
+			}
+		}
 		return medicalRecordDAO.post(medicalRecord);
 	}
 

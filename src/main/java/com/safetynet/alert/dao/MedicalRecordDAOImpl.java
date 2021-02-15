@@ -35,12 +35,7 @@ public class MedicalRecordDAOImpl implements IMedicalRecordDAO {
 
 	@Override
 	public MedicalRecord post(MedicalRecord medicalRecord) {
-		for(MedicalRecord mr : findAll()) {
-			if(mr.getFirstName().equals(medicalRecord.getFirstName()) && mr.getLastName().equals(medicalRecord.getLastName())) {
-				log.error("a medical record already exist for person: {} {}", medicalRecord.getFirstName(), medicalRecord.getLastName());
-				return null;
-			}
-		}
+
 		if(findAll().add(medicalRecord)) {
 			return medicalRecord;
 		}
