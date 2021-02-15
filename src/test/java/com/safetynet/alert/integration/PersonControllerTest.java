@@ -20,7 +20,7 @@ import com.safetynet.alert.service.IPersonService;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class PersonControllerIT {
+public class PersonControllerTest {
 	
 	@Autowired
 	private MockMvc mockMvc;

@@ -20,7 +20,7 @@ import com.safetynet.alert.service.IFireStationService;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class FireStationControllerIT {
+public class FireStationControllerTest {
 	
 	@Autowired
 	private MockMvc mockMvc;

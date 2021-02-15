@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import com.safetynet.alert.dao.JsonDatabaseDAOImpl;
 
-public class JsonDatabaseIT {
+public class JsonDatabaseTest {
 	
 	JsonDatabaseDAOImpl databaseDAO = new JsonDatabaseDAOImpl();
 	
