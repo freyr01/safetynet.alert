@@ -86,7 +86,7 @@ public class PersonController {
 	     FilterProvider filterList = new SimpleFilterProvider().addFilter("personInfoFilter", personInfoFilter);
 
 	     if(object == null) {
-	    	 log.error("Object given is null: {}", object);
+	    	 log.error("Object given is null");
 	    	 return null;
 	     }
 	     MappingJacksonValue objectFiltered = new MappingJacksonValue(object);

@@ -28,10 +28,6 @@ public class MedicalRecordServiceImpl implements IMedicalRecordService {
 	@Override
 	public int getAgeOf(String firstName, String lastName) throws MedicalRecordNotFoundException {
 		MedicalRecord medicalRecord = getMedicalRecordOf(firstName, lastName);
-		if(medicalRecord == null) {
-			log.error("No medical record found for person: {} {}", firstName, lastName);
-			throw new MedicalRecordNotFoundException("No medical record found");
-		}
 		return getAgeOf(medicalRecord);
 	}
 
