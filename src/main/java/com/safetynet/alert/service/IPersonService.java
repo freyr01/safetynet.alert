@@ -92,5 +92,13 @@ public interface IPersonService {
 	 * 5 févr. 2021
 	 */
 	public List<PersonInfoDTO> getPersonInfoListByAddress(String address);
+	
+	public static boolean isChild(int age) {
+		if(age <= 18) {
+			return true;
+		}
+		
+		return false;
+	}
 
 }

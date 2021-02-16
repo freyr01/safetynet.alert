@@ -97,13 +97,10 @@ public class PersonServiceTest {
 		when(personDao.findByAddress(anyString())).thenReturn(persons);
 		when(medicalRecordService.getMedicalRecordOf(child.getFirstName(), child.getLastName())).thenReturn(childMedicalRecord);
 		when(medicalRecordService.getAgeOf(childMedicalRecord)).thenReturn(12);
-		when(medicalRecordService.isChild(any(MedicalRecord.class))).thenReturn(true);
-		
 		
 		List<ChildInfoDTO> childsInfo = personService.getChildByAddress("address given by mock");
 		
 		verify(medicalRecordService, Mockito.times(1)).getMedicalRecordOf(child.getFirstName(), child.getLastName());
-		verify(medicalRecordService, Mockito.times(1)).isChild(any(MedicalRecord.class));
 		verify(medicalRecordService, Mockito.times(1)).getAgeOf(any(MedicalRecord.class));
 		verify(personDao, Mockito.times(1)).findByAddress(anyString());
 		

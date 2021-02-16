@@ -42,26 +42,20 @@ public class PersonServiceImpl implements IPersonService{
 			return null;
 		}
 		
-		List<Person> personsByAddress = personDao.findByAddress(address);
 		List<ChildInfoDTO> childsInfo = new ArrayList<ChildInfoDTO>();
+		List<PersonInfoDTO> personInfoByAddress = getPersonInfoListByAddress(address);
 
-		for(Person p : personsByAddress) {
-			MedicalRecord medicalRecord = null;
-			try {
-				medicalRecord = medicalRecordService.getMedicalRecordOf(p.getFirstName(), p.getLastName());
-			} catch (MedicalRecordNotFoundException e) {
-				log.error("No medical record found for person: {} {}, skip this person", p.getFirstName(), p.getLastName());
-				continue;
-			}
-			int personAge;
-	
-			personAge = medicalRecordService.getAgeOf(medicalRecord);
+		for(PersonInfoDTO p : personInfoByAddress) {
 
-			if(medicalRecordService.isChild(medicalRecord)) {
-				List<Person> famillyMember = new ArrayList<Person>(personsByAddress);
+			if(IPersonService.isChild(p.getAge())) {
+				List<PersonInfoDTO> famillyMember = new ArrayList<PersonInfoDTO>(personInfoByAddress);
 				famillyMember.remove(p);
 				
-				ChildInfoDTO childInfo = new ChildInfoDTO(p.getFirstName(), p.getLastName(), personAge, famillyMember);
+				ChildInfoDTO childInfo = new ChildInfoDTO();
+				childInfo.setFirstName(p.getFirstName());
+				childInfo.setLastName(p.getLastName());
+				childInfo.setAge(p.getAge());
+				childInfo.setFamillyMember(famillyMember);
 				childsInfo.add(childInfo);
 			}
 		}

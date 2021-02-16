@@ -51,11 +51,11 @@ public class PersonController {
 	}
 	
 	@GetMapping(value = "/childAlert")
-	public List<ChildInfoDTO> getChildByAddress(@RequestParam String address){
+	public MappingJacksonValue getChildByAddress(@RequestParam String address){
 		log.info("GET request /childAlert with param: address: {}", address);
 		List<ChildInfoDTO> childByAddress = personService.getChildByAddress(address);
 		log.info("Return child list by address: {}", childByAddress);
-		return childByAddress; 
+		return applyPersoninfoExcludeFilter(childByAddress, "address", "email", "allergies", "medications"); 
 	}
 	
 	@GetMapping(value="fire")
