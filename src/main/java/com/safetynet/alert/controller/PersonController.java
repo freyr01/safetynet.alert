@@ -25,6 +25,7 @@ import com.safetynet.alert.dto.ChildInfoDTO;
 import com.safetynet.alert.dto.PersonInfoDTO;
 import com.safetynet.alert.model.Person;
 import com.safetynet.alert.service.IPersonService;
+import com.safetynet.alert.utils.FilterUtils;
 
 @RestController
 public class PersonController {
@@ -49,7 +50,7 @@ public class PersonController {
 		}
 		
 		log.info("Return person list by fullname: {}", persons);
-		return ResponseEntity.ok(applyPersoninfoExcludeFilter(persons, "phone"));
+		return ResponseEntity.ok(FilterUtils.applyPersoninfoExcludeFilter(persons, "phone"));
 	}
 	
 	@GetMapping(value = "/childAlert")
@@ -63,7 +64,7 @@ public class PersonController {
 		}
 		
 		log.info("Return child list by address: {}", childByAddress);
-		return ResponseEntity.ok(applyPersoninfoExcludeFilter(childByAddress, "address", "email", "allergies", "medications")); 
+		return ResponseEntity.ok(FilterUtils.applyPersoninfoExcludeFilter(childByAddress, "address", "email", "allergies", "medications")); 
 	}
 	
 	@GetMapping(value="fire")
@@ -76,7 +77,7 @@ public class PersonController {
 		}
 		
 		log.info("Return fireDTO object: {}", fireDTO);
-		return ResponseEntity.ok(applyPersoninfoExcludeFilter(fireDTO, "address", "email"));
+		return ResponseEntity.ok(FilterUtils.applyPersoninfoExcludeFilter(fireDTO, "address", "email"));
 		
 	}
 	
@@ -91,22 +92,6 @@ public class PersonController {
 		
 		log.info("Return email list of person by city: {}", personsEmailByCity);
 		return ResponseEntity.ok(personsEmailByCity);
-	}
-	
-	public static MappingJacksonValue applyPersoninfoExcludeFilter(Object object, String... fieldExclude) {
-		
-		 SimpleBeanPropertyFilter personInfoFilter = SimpleBeanPropertyFilter.serializeAllExcept(fieldExclude);
-	     FilterProvider filterList = new SimpleFilterProvider().addFilter("personInfoFilter", personInfoFilter);
-
-	     if(object == null) {
-	    	 log.error("Object given is null");
-	    	 return null;
-	     }
-	     MappingJacksonValue objectFiltered = new MappingJacksonValue(object);
-
-	     objectFiltered.setFilters(filterList);
-	     
-	     return objectFiltered;
 	}
 	
 	//------- CRUD PART -----------

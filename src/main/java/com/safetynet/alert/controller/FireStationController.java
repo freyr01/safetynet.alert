@@ -15,11 +15,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.safetynet.alert.dto.FireDTO;
 import com.safetynet.alert.dto.FirestationDTO;
 import com.safetynet.alert.dto.FloodStationDTO;
 import com.safetynet.alert.model.FireStationMapping;
 import com.safetynet.alert.service.IFireStationService;
+import com.safetynet.alert.utils.FilterUtils;
 @RestController
 public class FireStationController {
 	
@@ -39,7 +39,7 @@ public class FireStationController {
 
 		log.info("Return object: {}", fireStationCoverage);
 		
-		return PersonController.applyPersoninfoExcludeFilter(fireStationCoverage, "age", "email", "medications", "allergies");
+		return FilterUtils.applyPersoninfoExcludeFilter(fireStationCoverage, "age", "email", "medications", "allergies");
 	}
 	
 	@GetMapping(value="/phoneAlert")
@@ -55,7 +55,7 @@ public class FireStationController {
 		log.info("GET request /flood/stations with param: stationsNumber: {}", stations);
 		List<FloodStationDTO> addressReportDTOList = fireStationService.getFloodStationCoverageFor(stations);
 		log.info("Return List<AddressReportDTO>: {}", addressReportDTOList);
-		return PersonController.applyPersoninfoExcludeFilter(addressReportDTOList, "address", "email");
+		return FilterUtils.applyPersoninfoExcludeFilter(addressReportDTOList, "address", "email");
 	}
 	
 	@PostMapping(value="/firestation")
