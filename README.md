@@ -13,9 +13,7 @@ What things you need to install the software and how to install them
 - Java 1.8
 - Maven 3.6.2
 
-### Installing
-
-A step by step series of examples that tell you how to get a development env running:
+### Installing environment
 
 1.Install Java:
 
@@ -25,22 +23,25 @@ https://docs.oracle.com/javase/8/docs/technotes/guides/install/install_overview.
 
 https://maven.apache.org/install.html
 
-### Install App
+### Installing App
 
-Install the app using maven
+1.Clone this project using git:
+`git clone <url>`
+
+2.Install the app using maven:
 `mvn install`
 
 ### Running Tests
 
-Run tests
+Run tests:
 `mvn test`
 
 ### Running App
 
-using java in command line.
+using java in command line:
 `java -jar <target/last_snapshot.jar>`
 
-using maven.
+using maven:
 `mvn spring-boot:run`
 
 ### Access Datas
