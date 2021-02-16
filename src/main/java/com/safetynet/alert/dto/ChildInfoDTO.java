@@ -3,7 +3,9 @@ package com.safetynet.alert.dto;
 import java.util.List;
 
 /**
- * Represent a child information, his first name, last name, age and other family member(s)
+ * Represent a child information, 
+ * his first name, last name,
+ * age and other family member(s)
  * @author Mathias Lauer
  * 6 févr. 2021
  */

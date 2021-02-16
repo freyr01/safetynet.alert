@@ -41,21 +41,29 @@ public class PersonController {
 	public ResponseEntity<MappingJacksonValue> getPersonByFullName(@RequestParam(required=false) String firstName,
 			@RequestParam String lastName) {
 		log.info("GET request /personInfo with param: firstName:{} lastName:{}", firstName, lastName);
+		
 		List<PersonInfoDTO> persons = personService.getPersonInfo(firstName, lastName);
 		if(persons.size() < 1) {
 			log.debug("Error getting person: {} {}", firstName, lastName);
 			return ResponseEntity.notFound().build();
 		}
+		
 		log.info("Return person list by fullname: {}", persons);
 		return ResponseEntity.ok(applyPersoninfoExcludeFilter(persons, "phone"));
 	}
 	
 	@GetMapping(value = "/childAlert")
-	public MappingJacksonValue getChildByAddress(@RequestParam String address){
+	public ResponseEntity<MappingJacksonValue> getChildByAddress(@RequestParam String address){
 		log.info("GET request /childAlert with param: address: {}", address);
+		
 		List<ChildInfoDTO> childByAddress = personService.getChildByAddress(address);
+		if(childByAddress == null) {
+			log.error("Error getting child for address: {}", address);
+			return ResponseEntity.notFound().build();
+		}
+		
 		log.info("Return child list by address: {}", childByAddress);
-		return applyPersoninfoExcludeFilter(childByAddress, "address", "email", "allergies", "medications"); 
+		return ResponseEntity.ok(applyPersoninfoExcludeFilter(childByAddress, "address", "email", "allergies", "medications")); 
 	}
 	
 	@GetMapping(value="fire")
@@ -73,11 +81,16 @@ public class PersonController {
 	}
 	
 	@GetMapping(value="/communityEmail")
-	public List<String> getPersonsEmailByCity(@RequestParam String city){
+	public ResponseEntity<List<String>> getPersonsEmailByCity(@RequestParam String city){
 		log.info("GET request /communityEmail with param: city: {}", city);
+		
 		List<String> personsEmailByCity = personService.getPersonEmailByCity(city);
+		if(personsEmailByCity == null) {
+			return ResponseEntity.notFound().build();
+		}
+		
 		log.info("Return email list of person by city: {}", personsEmailByCity);
-		return personsEmailByCity;
+		return ResponseEntity.ok(personsEmailByCity);
 	}
 	
 	public static MappingJacksonValue applyPersoninfoExcludeFilter(Object object, String... fieldExclude) {
