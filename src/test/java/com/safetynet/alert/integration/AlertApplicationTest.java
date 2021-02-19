@@ -6,6 +6,9 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 
 import org.junit.jupiter.api.Test;
@@ -79,13 +82,18 @@ class AlertApplicationTest {
 				.accept(MediaType.APPLICATION_JSON)
 				).andExpect(status().isOk());
 		
+		
 		//Get the person informations, check some data like age depending of his medical record
+		
+		LocalDate birthDatePerson1 = LocalDate.parse("02/18/1982", DateTimeFormatter.ofPattern("MM/dd/yyyy"));
+		Period expectedAge = Period.between(birthDatePerson1, LocalDate.now());
+		
 		mockMvc.perform(get("/personInfo?firstName=" + FIRSTNAME + "&lastName=" + LASTNAME))
 		.andExpect(status().isOk())
 		.andExpect(jsonPath("$[0].address", is("25 Ch du Gretor")))
 		.andExpect(jsonPath("$[0].allergies[0]", is("peanut")))
 		.andExpect(jsonPath("$[0].medications[0]", is("tetracyclaz:650mg")))
-		.andExpect(jsonPath("$[0].age", is(38)));
+		.andExpect(jsonPath("$[0].age", is(expectedAge.getYears())));
 		
 		//Get a the fire station coverage and check number of adult covered
 		mockMvc.perform(get("/firestation?stationNumber=99"))
