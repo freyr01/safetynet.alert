@@ -47,3 +47,7 @@ using maven:
 ### Access Datas
 The web server listen on port 9000.
 More information about accessing datas are available in the full documentation.
+
+### Documentation
+
+[Documentation.pdf](https://github.com/mlau01/OC-5-SafetyNet/files/6874006/SafetyNet_Alert-Documentation.pdf)
